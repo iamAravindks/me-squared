@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server":"npx nodemon  backend/server.js"
+    "server": "npx nodemon  backend/server.js",
+    "data:import": "node backend/seeder.js",
+    "data:destroy": "node backend/seeder.js -d"
   },
   "author": "iamAravindks",
   "license": "MIT",
