@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import { mentorRouter } from "./routes/mentorRoutes.js";
+import { errorHandler, notFound } from "./middleware/errorHanlder.js";
 
 
 
@@ -21,6 +22,9 @@ app.use(
 
 app.use("/api/mentors", mentorRouter);
 // app.get("/", (req, res) => res.send("Hello World!"));
+
+app.use(notFound)
+app.use(errorHandler)
 
 
 app.listen(PORT,()=>console.log(`app running on http://localhost:${PORT}/`))

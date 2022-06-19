@@ -27,7 +27,7 @@ Currently helping mentees in react and nodejs express framework and helping them
       { instagram: "https://github.com/iamAravindks/" },
     ],
     watNum: 9745372810,
-    eMail: "test@test.com",
+    email: "sumitkapoor@test.com",
   },
   {
     name: "jane doe",
@@ -45,7 +45,7 @@ Currently helping mentees in react and nodejs express framework and helping them
       { instagram: "https://github.com/iamAravindks/" },
     ],
     watNum: 9745372810,
-    eMail: "test@test.com",
+    email: "janedoe@test.com",
   },
   {
     name: "John Doe",
@@ -74,7 +74,7 @@ Currently helping mentees in react and nodejs express framework and helping them
       { instagram: "https://github.com/iamAravindks/" },
     ],
     watNum: 9745372810,
-    eMail: "test@test.com",
+    email: "johndoe@test.com",
   },
   {
     name: "Keerthi malik",
@@ -97,7 +97,7 @@ Currently helping mentees in Gcloud,azure,aws`,
       { instagram: "https://github.com/iamAravindks/" },
     ],
     watNum: 9745372810,
-    eMail: "test@test.com",
+    email: "keerthi013@test.com",
   },
 ];
 

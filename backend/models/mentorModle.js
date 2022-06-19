@@ -15,7 +15,7 @@ const MentorsSchema = mongoose.Schema({
     },
   ],
   watNum: { type: Number, required: true },
-  eMail: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
 const Mentors =
