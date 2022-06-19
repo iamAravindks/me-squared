@@ -109,3 +109,21 @@ mentorRouter.put("/:id", expressAsyncHandler(async (req, res) =>
     
   }
 }))
+
+// @desc delete a mentor with id
+// @route delete /api/mentors/:id
+// @access private
+
+mentorRouter.delete("/:id", expressAsyncHandler(async (req, res) =>
+{
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        res.status(500);
+        throw new Error("not a valid id");
+      }
+  await Mentors.deleteOne({ _id: req.params.id })
+  
+  res.status(204)
+  res.json({
+    message:"user deleted"
+  })
+}))
