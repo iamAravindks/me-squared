@@ -9,7 +9,7 @@ A platform for connecting the mentors and mentees
 # for installing the node modules
 ```npm install```
 
-# for running the app
+# for running the backend
 
 run 
 ```npm run data:import ``` for importing the data into the databse
@@ -19,5 +19,17 @@ run
 
 then run
 ```npm run server```
+
+# for running the front end
+
+```npm install```
+
+run 
+```npm run client```
+
+or 
+
+```cd frontend```
+```npm start```
 
 
