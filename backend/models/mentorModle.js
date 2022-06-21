@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const MentorsSchema = mongoose.Schema({
   name: { type: String, required: true },
   designation: { type: String, required: true },
-  yearNdClass: { type: String, required: true },
+  yearNdClass: { type: String, required: ['true',"year and class must be spciefied"] },
   respondIn: { type: String, required: true },
   tags: [{ type: String, required: true }],
   socialLinks: [
@@ -15,7 +15,7 @@ const MentorsSchema = mongoose.Schema({
     },
   ],
   watNum: { type: Number, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true,unique:true },
 });
 
 const Mentors =

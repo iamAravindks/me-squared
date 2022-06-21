@@ -1,8 +1,12 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import mongoose from "mongoose";
+import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 export const mentorRouter = express.Router();
+
+
+mentorRouter.param('id',idValidator)
 
 // @desc getting all mentor list
 // @route get /
@@ -30,17 +34,34 @@ mentorRouter.get(
 
 mentorRouter.get("/:id", expressAsyncHandler(async (req, res) =>
 {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-  {
-    res.status(500)
-    throw new Error("not a valid id")
-  }
   const mentorWithID = await Mentors.findOne({ _id: req.params.id })
   res.status(200).json({
     data:mentorWithID
   })
 
 }))
+
+
+// @desc get all mentors with a specific tag/tags
+// @route /api/transaction/:tag
+// @access public
+
+
+mentorRouter.get("/tag/:tag", expressAsyncHandler(async (req, res) =>
+{
+  const query = req.query.tag
+    ? [...req.query.tag, req.params.tag]
+    : [req.params.tag];
+  const users = await Mentors.find({ tags: { $in: query} });
+  res.json({
+    data:users
+  })
+}))
+
+
+
+
+
 
 
 // @desc create a new mentor
@@ -82,10 +103,7 @@ mentorRouter.post(
 
 mentorRouter.put("/:id", expressAsyncHandler(async (req, res) =>
 {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      res.status(500);
-      throw new Error("not a valid id");
-    }
+
   const userWithId = await Mentors.findById(req.params.id)
   if (userWithId)
   {
@@ -116,10 +134,6 @@ mentorRouter.put("/:id", expressAsyncHandler(async (req, res) =>
 
 mentorRouter.delete("/:id", expressAsyncHandler(async (req, res) =>
 {
-      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        res.status(500);
-        throw new Error("not a valid id");
-      }
   await Mentors.deleteOne({ _id: req.params.id })
   
   res.status(204)

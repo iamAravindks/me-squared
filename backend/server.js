@@ -1,6 +1,7 @@
 import express from "express";
 import cors from 'cors'
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 import connectDB from "./config/db.js";
 import { mentorRouter } from "./routes/mentorRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorHanlder.js";
@@ -19,6 +20,7 @@ app.use(
     extended: true,
   })
 );
+app.use(morgan("dev"))
 
 app.use("/api/mentors", mentorRouter);
 // app.get("/", (req, res) => res.send("Hello World!"));
