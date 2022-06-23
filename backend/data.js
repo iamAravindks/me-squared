@@ -28,6 +28,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "sumitkapoor@test.com",
+    password:"1465312"
   },
   {
     name: "jane doe",
@@ -46,6 +47,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "janedoe@test.com",
+    password:"146ajk"
   },
   {
     name: "John Doe",
@@ -75,6 +77,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "johndoe@test.com",
+    password:"1465lk"
   },
   {
     name: "Keerthi malik",
@@ -98,6 +101,7 @@ Currently helping mentees in Gcloud,azure,aws`,
     ],
     watNum: 9745372810,
     email: "keerthi013@test.com",
+    password:"1465310"
   },
 ];
 

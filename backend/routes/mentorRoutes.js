@@ -14,7 +14,7 @@ mentorRouter.param('id',idValidator)
 mentorRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-      const mentors = await Mentors.find({});
+      const mentors = await Mentors.find({}).select("-password");
       if (!mentors) {
         res.json({
           message: "No transactions found",
@@ -34,7 +34,7 @@ mentorRouter.get(
 
 mentorRouter.get("/:id", expressAsyncHandler(async (req, res) =>
 {
-  const mentorWithID = await Mentors.findOne({ _id: req.params.id })
+  const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select("-password")
   res.status(200).json({
     data:mentorWithID
   })
@@ -52,7 +52,9 @@ mentorRouter.get("/tag/:tag", expressAsyncHandler(async (req, res) =>
   const query = req.query.tag
     ? [...req.query.tag, req.params.tag]
     : [req.params.tag];
-  const users = await Mentors.find({ tags: { $in: query} });
+  const users = await Mentors.find({ tags: { $in: query } }).select(
+    "-password"
+  );
   res.json({
     data:users
   })
