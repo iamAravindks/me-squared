@@ -101,7 +101,7 @@ mentorRouter.post(
 
 
 // @desc update a single mentor info
-// @route put .api/mentors/:id
+// @route put /api/mentors/:id
 // @access private
 
 mentorRouter.put("/:id", expressAsyncHandler(async (req, res) =>
