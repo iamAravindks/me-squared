@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import { mentorRouter } from "./routes/mentorRoutes.js";
+import menteeRoute from "./routes/menteeRoute.js";
 import { errorHandler, notFound } from "./middleware/errorHanlder.js";
 
 
@@ -23,6 +24,7 @@ app.use(
 app.use(morgan("dev"))
 
 app.use("/api/mentors", mentorRouter);
+app.use("/api/mentees",menteeRoute)
 // app.get("/", (req, res) => res.send("Hello World!"));
 
 app.use(notFound)

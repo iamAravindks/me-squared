@@ -83,6 +83,7 @@ mentorRouter.post(
         socialLinks: req.body.socialLinks,
         watNum: req.body.watNum,
         email: req.body.email,
+        password:req.body.password
       };
       const isAlredyExist = await Mentors.findOne({ email:req.body.email });
       if (isAlredyExist)

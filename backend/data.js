@@ -1,3 +1,5 @@
+
+import bcrypt from "bcryptjs";
 const mentors = [
   {
     name: "sumit kapoor",
@@ -28,7 +30,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "sumitkapoor@test.com",
-    password:"1465312"
+    password: "1465312",
   },
   {
     name: "jane doe",
@@ -47,7 +49,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "janedoe@test.com",
-    password:"146ajk"
+    password: "146ajk",
   },
   {
     name: "John Doe",
@@ -77,7 +79,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "johndoe@test.com",
-    password:"1465lk"
+    password: "1465lk",
   },
   {
     name: "Keerthi malik",
@@ -101,8 +103,90 @@ Currently helping mentees in Gcloud,azure,aws`,
     ],
     watNum: 9745372810,
     email: "keerthi013@test.com",
-    password:"1465310"
+    password: "1465310",
   },
 ];
 
-export { mentors };
+const mentees = [
+  {
+    name: "Fig Nelson",
+    email: "fignelson@test.com",
+    password: bcrypt.hashSync("123abced",10),
+    yearNdClass: "2nd year cse",
+    socialLinks: [
+      { github: "https://github.com/iamAravindks/" },
+      { twitter: "https://github.com/iamAravindks/" },
+      { facebook: "https://github.com/iamAravindks/" },
+      { instagram: "https://github.com/iamAravindks/" },
+    ],
+    about: "want to get  a good grip in programming",
+    skillLooksFor: "c++",
+    watNum: 7771243000,
+  },
+  {
+    name: "Emma watson",
+    email: "emmawat@test.com",
+    password: bcrypt.hashSync("12345abc",10),
+    yearNdClass: "3nd year cse",
+    socialLinks: [
+      { github: "https://github.com/iamAravindks/" },
+      { twitter: "https://github.com/iamAravindks/" },
+      { facebook: "https://github.com/iamAravindks/" },
+      { instagram: "https://github.com/iamAravindks/" },
+    ],
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?\nLorem ipsum dolor sit amet, consectetur adipisicing elit.",
+    skillLooksFor: "python",
+    watNum: 7771243000,
+  },
+  {
+    name: "Elon Gated",
+    email: "elongated@test.com",
+    password: bcrypt.hashSync("123456",10),
+    yearNdClass: "1st year eee",
+    socialLinks: [
+      { github: "https://github.com/iamAravindks/" },
+      { twitter: "https://github.com/iamAravindks/" },
+      { facebook: "https://github.com/iamAravindks/" },
+      { instagram: "https://github.com/iamAravindks/" },
+    ],
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi \nLorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum ",
+    skillLooksFor: "designing",
+    watNum: 7771243000,
+  },
+  {
+    name: "Sparrow bruid",
+    email: "sparrowchirp@test.com",
+    password: bcrypt.hashSync("123987",10),
+    yearNdClass: "2nd year it",
+    socialLinks: [
+      { github: "https://github.com/iamAravindks/" },
+      { twitter: "https://github.com/iamAravindks/" },
+      { facebook: "https://github.com/iamAravindks/" },
+      { instagram: "https://github.com/iamAravindks/" },
+    ],
+    about:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi \nLorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi ",
+    skillLooksFor: "js",
+    watNum: 7771243000,
+  },
+  {
+    name: "Thomas R. Toe",
+    email: "rtoethomas@test.com",
+    password: bcrypt.hashSync("123abc",10),
+    yearNdClass: "2nd year ec",
+    socialLinks: [
+      { github: "https://github.com/iamAravindks/" },
+      { twitter: "https://github.com/iamAravindks/" },
+      { facebook: "https://github.com/iamAravindks/" },
+      { instagram: "https://github.com/iamAravindks/" },
+    ],
+    about:
+      "looks for good skill set in electronics,Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi \n Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil ",
+    skillLooksFor: "pcb",
+    watNum: 7771243000,
+  },
+];
+
+export { mentors ,mentees};

@@ -1,27 +1,29 @@
-import React,{useContext, useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
-import { MentorContext } from "./context/mentorContext/Context"
+import Header from "./Components/Header/Header"
+import { BrowserRouter as Router, Route,Routes} from "react-router-dom"
+import Home from "./Components/Home/Home"
 const App = () =>
 {
-  const { getMentors, mentorInfoState } = useContext(MentorContext);
-  useEffect(() =>
-  {
-   getMentors()
- },[])
+  const [tabSelected, setTabSelected] = useState("home");
+  const [path,setPath]=useState(window.location.pathname)
+  useEffect(() => {
+    setPath(window.location.pathname);
+    if (path === "/") setTabSelected("home")
+    else if(path==="/products") setTabSelected("products")
+    console.log(path)
+
+  }, [tabSelected,path]);
   return (
-    <div>Hello world
-      {mentorInfoState.length>0 && mentorInfoState.map(mentor => (
-        <div key={ Number(mentor._id) * 23}>
-          <p>name: {mentor.name}</p>
-          <p>designation : {mentor.designation}</p>
-          <p>Student of { mentor.yearNdClass}</p>
-          <p>respond in :{mentor.respondIn}</p>
-          <p>Contact no : { mentor.watNum}</p>
-      <hr/>
-      </div>
-      ))}
-    </div>
-  )
+    <>
+      <Router>
+        <Header tabSelected={tabSelected} setTabSelected={setTabSelected} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App  
