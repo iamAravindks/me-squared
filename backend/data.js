@@ -30,7 +30,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "sumitkapoor@test.com",
-    password: "1465312",
+    password: bcrypt.hashSync("123987",10),
   },
   {
     name: "jane doe",
@@ -49,7 +49,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "janedoe@test.com",
-    password: "146ajk",
+    password: bcrypt.hashSync("123987",10),
   },
   {
     name: "John Doe",
@@ -79,7 +79,7 @@ Currently helping mentees in react and nodejs express framework and helping them
     ],
     watNum: 9745372810,
     email: "johndoe@test.com",
-    password: "1465lk",
+    password: bcrypt.hashSync("123987",10),
   },
   {
     name: "Keerthi malik",
@@ -103,7 +103,7 @@ Currently helping mentees in Gcloud,azure,aws`,
     ],
     watNum: 9745372810,
     email: "keerthi013@test.com",
-    password: "1465310",
+    password: bcrypt.hashSync("123987",10),
   },
 ];
 
