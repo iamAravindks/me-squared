@@ -6,8 +6,11 @@ A platform for connecting the mentors and mentees
 - you need mongo and mongodb-compass in your local set
 - set the env as given in the ```.env.local``` file 
 - set ```MONGODB_LOCALHOST_URL=<Your_loaclhost>```
+- set ```JWT_SECRET =<some_secret_value>```
 # for installing the node modules
 ```npm install```
+
+### for installing node modules for front end , make sure that you're on the frontend folder
 
 # for running the backend
 
