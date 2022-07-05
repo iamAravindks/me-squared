@@ -1,7 +1,7 @@
 {
-  "name": "me-sqaured",
+  "name": "me-squared",
   "version": "1.0.0",
-  "description": "backend for the me-sqaured",
+  "description": "backend for the me-squared",
   "main": "server.js",
   "type": "module",
   "scripts": {
