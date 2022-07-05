@@ -3,7 +3,7 @@ import expressAsyncHandler from "express-async-handler";
 import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 import { generateToken } from "../utils/util.js";
-import { isAuthorisedMentor } from "../middleware/authMiddleware.js";
+import { isAuthorisedMenteeOrMentor, isAuthorisedMentor } from "../middleware/authMiddleware.js";
 export const mentorRouter = express.Router();
 
 mentorRouter.param("id", idValidator);
@@ -21,7 +21,7 @@ mentorRouter.post(
     const mentor = await Mentors.findOne({ email });
     if (mentor && (await mentor.matchPassword(password))) {
       const maxAge = 3 * 24 * 60 * 60; // expires in 3day
-      const token = generateToken(mentor._id);
+      const token = generateToken(mentor._id,"mentor");
       res.cookie("access_token", token, {
         httpOnly: true,
         maxAge: maxAge * 1000,
@@ -63,7 +63,7 @@ mentorRouter.post(
       return res.status(400).json({ message: "User already exists" });
     const createdMentor = await Mentors.create(newMentor);
     const maxAge = 3 * 24 * 60 * 60;
-    const token = generateToken(createdMentor._id);
+    const token = generateToken(createdMentor._id,"mentor");
     res.cookie("access_token", token, {
       httpOnly: true,
       maxAge: maxAge * 1000,
@@ -171,6 +171,7 @@ mentorRouter.delete(
 // @access private(curr public)
 mentorRouter.get(
   "/",
+  isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
     const mentors = await Mentors.find({}).select("-password");
     if (!mentors) {
@@ -191,6 +192,7 @@ mentorRouter.get(
 
 mentorRouter.get(
   "/:id",
+  isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
     const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
       "-password"
@@ -207,10 +209,11 @@ mentorRouter.get(
 
 mentorRouter.get(
   "/tag/:tag",
-  expressAsyncHandler(async (req, res) => {
-    const query = req.query.tag
-      ? [...req.query.tag, req.params.tag]
-      : [req.params.tag];
+  isAuthorisedMenteeOrMentor,
+  expressAsyncHandler(async (req, res) =>
+  {
+
+    const query = [req.params.tag].concat(req.query.tag)
     const users = await Mentors.find({ tags: { $in: query } }).select(
       "-password"
     );

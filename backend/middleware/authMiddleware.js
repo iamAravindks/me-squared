@@ -35,6 +35,7 @@ const isAuthorisedMentor = expressAsyncHandler(async (req, res,next) =>
   if (token) {
     try {
       const decodedObj = jwt.verify(token, config.JWT_SECRET);
+      console.log(decodedObj)
       const { id } = decodedObj;
 
       const mentor = await Mentors.findById(id).select("-password");
@@ -59,4 +60,45 @@ const isAuthorisedMentor = expressAsyncHandler(async (req, res,next) =>
 
 });
 
-export { isAuthorisedMentee,isAuthorisedMentor };
+const isAuthorisedMenteeOrMentor = expressAsyncHandler(async (req, res,next) =>
+{
+  const token = req.cookies.access_token;
+  
+  if (token)
+  {
+    try {
+      const decodedObj = jwt.verify(token, config.JWT_SECRET);
+      const { id, role } = decodedObj
+      let user=null
+      if (role === "mentor")
+      {
+      user = await Mentors.findById(id).select("-password");
+      } else if (role === "mentee")
+      {
+      user = await Mentees.findById(id).select("-password");
+      }
+
+      if (user)
+      {
+        next()
+      } else {
+        res.status(404);
+        next(new Error("No user found"));
+      }
+
+    } catch (error) {
+          {
+            console.log(error);
+            res.status(401);
+            throw new Error("Session expired! try to login again");
+          }
+    }
+  } else
+  {
+    res.status(401);
+    throw new Error("Invalid login credentials!");
+  }
+  
+})
+
+export { isAuthorisedMentee,isAuthorisedMentor,isAuthorisedMenteeOrMentor };

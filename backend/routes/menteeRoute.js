@@ -19,7 +19,7 @@ menteeRoute.post(
     const mentee = await Mentees.findOne({ email });
     if (mentee && (await mentee.matchPassword(password))) {
       const maxAge = 3 * 24 * 60 * 60;
-      const token = generateToken(mentee._id);
+      const token = generateToken(mentee._id,"mentee");
       res.cookie("access_token", token, {
         httpOnly: true,
         maxAge: maxAge * 1000,
@@ -80,7 +80,7 @@ menteeRoute.post(
     const menteeCreated = await Mentees.create(newMentee);
     if (menteeCreated) {
       const maxAge = 3 * 24 * 60 * 60;
-      const token = generateToken(menteeCreated._id);
+      const token = generateToken(menteeCreated._id,"mentee");
       res.cookie("access_token", token, {
         httpOnly: true,
         maxAge: maxAge * 1000,
