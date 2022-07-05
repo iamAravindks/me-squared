@@ -13,14 +13,13 @@ const MentorsSchema = mongoose.Schema({
     type: [String],
     validate: v => v == null || v.length > 0
    },
-  socialLinks: [
+  socialLinks: 
     {
       github: { type: String, default: "" },
       twitter: { type: String, default: "" },
       facebook: { type: String, default: "" },
       instagram: { type: String, default: "" },
     },
-  ],
   watNum: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },

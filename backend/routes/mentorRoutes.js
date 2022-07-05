@@ -3,64 +3,12 @@ import expressAsyncHandler from "express-async-handler";
 import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 import { generateToken } from "../utils/util.js";
-
+import { isAuthorisedMentor } from "../middleware/authMiddleware.js";
 export const mentorRouter = express.Router();
 
 mentorRouter.param("id", idValidator);
 
-// @desc getting all mentor list
-// @route get /
-// @access private(curr public)
-mentorRouter.get(
-  "/",
-  expressAsyncHandler(async (req, res) => {
-    const mentors = await Mentors.find({}).select("-password");
-    if (!mentors) {
-      res.json({
-        message: "No transactions found",
-        data: [],
-      });
-    } else
-      res.json({
-        data: mentors,
-      });
-  })
-);
-
-// @desc get a single mentor
-// @route /api/mentors/:id
-// @access private
-
-mentorRouter.get(
-  "/:id",
-  expressAsyncHandler(async (req, res) => {
-    const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
-      "-password"
-    );
-    res.status(200).json({
-      data: mentorWithID,
-    });
-  })
-);
-
-// @desc get all mentors with a specific tag/tags
-// @route /api/transaction/:tag
-// @access public
-
-mentorRouter.get(
-  "/tag/:tag",
-  expressAsyncHandler(async (req, res) => {
-    const query = req.query.tag
-      ? [...req.query.tag, req.params.tag]
-      : [req.params.tag];
-    const users = await Mentors.find({ tags: { $in: query } }).select(
-      "-password"
-    );
-    res.json({
-      data: users,
-    });
-  })
-);
+//  routes related to mentor himself/herself
 
 // @desc login a new mentor
 // @route POST /api/mentors/login
@@ -129,14 +77,35 @@ mentorRouter.post(
   })
 );
 
+
+// @desc read an auth mentors profile
+// @route GET /api/mentors/profile
+// @access private - by only the mentors
+
+mentorRouter.get(
+  "/profile",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    const mentorWithID = await Mentors.findById(req.mentor.id).select(
+      "-password"
+    );
+    res.status(200).json({
+      data: mentorWithID,
+    });
+  })
+);
+
+
+
 // @desc update a single mentor info
 // @route put /api/mentors/:id
 // @access private
 
 mentorRouter.put(
-  "/:id",
+  "/profile",
+  isAuthorisedMentor,
   expressAsyncHandler(async (req, res) => {
-    const userWithId = await Mentors.findById(req.params.id);
+    const userWithId = await Mentors.findById(req.mentor.id);
     if (userWithId) {
       userWithId.name = req.body.name || userWithId.name;
       userWithId.designation = req.body.designation || userWithId.designation;
@@ -152,7 +121,17 @@ mentorRouter.put(
 
       res.status(201).json({
         message: "user updated",
-        data: updatedUser,
+        data: {
+          name: userWithId.name,
+          designation: userWithId.designation,
+          yearNdClass: userWithId.yearNdClass,
+          respondIn: userWithId.respondIn,
+          about: userWithId.about,
+          watNum: userWithId.watNum,
+          email: userWithId.email,
+          tags: userWithId.tags,
+          socialLinks: userWithId.socialLinks,
+        },
       });
     }
   })
@@ -163,13 +142,80 @@ mentorRouter.put(
 // @access private
 
 mentorRouter.delete(
+  "/mentordel",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    
+    const mentor = await Mentors.findById(req.mentor.id);
+
+    if (req.body.password && (await mentor.matchPassword(req.body.password))) {
+      await Mentors.deleteOne({_id:mentor._id});
+      res.status(204).json({
+        message: "user deleted",
+      });
+    } else {
+      res.status(401);
+      return res.json({
+        message: "Invalid credentials",
+      });
+    }
+  })
+);
+
+
+
+// routes related to mentors by both mentor and mentee
+
+// @desc getting all mentor list
+// @route get /
+// @access private(curr public)
+mentorRouter.get(
+  "/",
+  expressAsyncHandler(async (req, res) => {
+    const mentors = await Mentors.find({}).select("-password");
+    if (!mentors) {
+      res.json({
+        message: "No mentors found",
+        data: [],
+      });
+    } else
+      res.json({
+        data: mentors,
+      });
+  })
+);
+
+// @desc get a single mentor
+// @route /api/mentors/:id
+// @access private
+
+mentorRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
-    await Mentors.deleteOne({ _id: req.params.id });
+    const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
+      "-password"
+    );
+    res.status(200).json({
+      data: mentorWithID,
+    });
+  })
+);
 
-    res.status(204);
+// @desc get all mentors with a specific tag/tags
+// @route /api/transaction/:tag
+// @access public
+
+mentorRouter.get(
+  "/tag/:tag",
+  expressAsyncHandler(async (req, res) => {
+    const query = req.query.tag
+      ? [...req.query.tag, req.params.tag]
+      : [req.params.tag];
+    const users = await Mentors.find({ tags: { $in: query } }).select(
+      "-password"
+    );
     res.json({
-      message: "user deleted",
+      data: users,
     });
   })
 );

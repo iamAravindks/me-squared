@@ -2,23 +2,21 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 const MenteeSchema = mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   yearNdClass: {
     type: String,
     required: ["true", "year and class must be spciefied"],
   },
-  socialLinks: [
-    {
-      github: { type: String },
-      twitter: { type: String },
-      facebook: { type: String },
-      instagram: { type: String },
-    },
-  ],
-    about: { type: String },
-  skillLooksFor:{type:String,required:true},
+  socialLinks: {
+    github: { type: String },
+    twitter: { type: String },
+    facebook: { type: String },
+    instagram: { type: String },
+  },
+  about: { type: String },
+  skillLooksFor: { type: String, required: true },
   watNum: { type: Number, required: true },
 });
 
@@ -36,5 +34,5 @@ MenteeSchema.pre("save", async function (next) {
 });
 
 const Mentees =
-    mongoose.model.Mentees || mongoose.model("Mentees", MenteeSchema);
-export default Mentees
+  mongoose.model.Mentees || mongoose.model("Mentees", MenteeSchema);
+export default Mentees;
