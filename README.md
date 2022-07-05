@@ -33,3 +33,9 @@ or
 ```npm start```
 
 
+### <i>todo</i> in server-side
+- [ ] connection request 
+- [ ] image upload for profile picture
+- [ ] forget password method
+- [ ] mailer
+
