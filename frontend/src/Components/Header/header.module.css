@@ -13,8 +13,6 @@
   transition: all 200ms ease-in;
 }
 .topBarContainer.setNavbar{
-  
-    background-color: #6765654a;
     height: 85px;
   
 }
@@ -57,12 +55,12 @@ transition: all 200ms ease-in;
 }
 .topBarMenu .menuItem ,.SidebarMenuContainer .menuItemMob{
   text-decoration: none;
-font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 1rem;
   line-height: 17px;
-  color: #000;
+  color: #fff;
   transition: all 200ms ease-in;
   cursor: pointer;
   height: 25px;
@@ -71,9 +69,8 @@ font-family: 'Roboto', sans-serif;
 
 }
 .topBarMenu .getStarted{
-    width: 106px;
-  height: 36px;
-  background-color: #4fc2f77c;
+  width: 106px;
+  height: 36px; 
   text-align: unset;
   padding: auto;
   display: flex;
@@ -81,14 +78,13 @@ font-family: 'Roboto', sans-serif;
   align-items: center;
   border: none;
   outline: none;
-  border-radius: 10px;
     text-decoration: none;
 font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 1rem;
   line-height: 17px;
-  color: #000;
+  color: #fff;
   transition: all 200ms ease-in;
   cursor: pointer;
 
@@ -111,8 +107,8 @@ font-family: 'Roboto', sans-serif;
 
 
 .topBarMenu .menuItem.tabSelected, .SidebarMenuContainer .menuItemMob.tabSelected{
-  color: #4615b2;
-  border-bottom: 1px solid #4615b2;
+  color: #fff;
+  border-bottom: 1px solid #ffe2d1ff;
   transition: color 200ms ease-in;
 
 }
@@ -176,6 +172,26 @@ font-family: 'Roboto', sans-serif;
     stroke-dashoffset: -134;
     stroke-width: 6;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdownContent{
+  display: block;
+}
+
+.getStarted:hover {
+
+}
+
 
 
 @media screen and (max-width:767px) {

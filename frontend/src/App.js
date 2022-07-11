@@ -3,6 +3,9 @@ import './App.css'
 import Header from "./Components/Header/Header"
 import { BrowserRouter as Router, Route,Routes} from "react-router-dom"
 import Home from "./Components/Home/Home"
+import Login from "./Components/Login/Login"
+import Signup from "./Components/Signup/Signup"
+
 const App = () =>
 {
   const [tabSelected, setTabSelected] = useState("home");
@@ -20,6 +23,8 @@ const App = () =>
         <Header tabSelected={tabSelected} setTabSelected={setTabSelected} />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </>
