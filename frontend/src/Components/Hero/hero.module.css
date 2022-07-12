@@ -1,0 +1,63 @@
+.heroContainer {
+    margin-top: 150px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.heroContainer h1 {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 1em;
+}
+
+.heroContainer p {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 2em;
+    width: 75%;
+    text-align: center;
+}
+
+.searchBar {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    position: relative;
+}
+
+.searchBar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 2em; 
+}
+
+.searchBar button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #1266F1;
+    color: white;
+    width: 60px;
+    height: 35px;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border-radius: 3px;
+    font-weight: 800;
+}
+
+.searchBar button:hover {
+    filter: brightness(0.9);
+}
+
+.categoryContainer {
+    width: 75%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
