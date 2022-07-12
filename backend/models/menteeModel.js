@@ -18,6 +18,9 @@ const MenteeSchema = mongoose.Schema({
   about: { type: String },
   skillLooksFor: { type: String, required: true },
   watNum: { type: Number, required: true },
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Mentors",default:"" },
+  
+],
 });
 
 //method for the model
@@ -26,6 +29,7 @@ MenteeSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 //hook
+
 MenteeSchema.pre("save", async function (next) {
   // if not password modified (if an existed user updates the email and name)
   if (!this.isModified("password")) return next();

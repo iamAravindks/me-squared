@@ -1,6 +1,5 @@
 .homeContainer{
- background: rgb(232, 250, 251);
-background: linear-gradient(90deg, rgba(232,250,251,1) 0%, rgba(100,180,255,1) 0%); 
+ background: #1C3144; 
 width: 100%;
 min-height: 1400px;
 padding-top: 120px;

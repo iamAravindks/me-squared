@@ -3,7 +3,12 @@ import expressAsyncHandler from "express-async-handler";
 import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 import { generateToken } from "../utils/util.js";
-import { isAuthorisedMenteeOrMentor, isAuthorisedMentor } from "../middleware/authMiddleware.js";
+import {
+  isAuthorisedMenteeOrMentor,
+  isAuthorisedMentor,
+} from "../middleware/authMiddleware.js";
+import Mentees from "../models/menteeModel.js";
+import mongoose from "mongoose";
 export const mentorRouter = express.Router();
 
 mentorRouter.param("id", idValidator);
@@ -21,7 +26,7 @@ mentorRouter.post(
     const mentor = await Mentors.findOne({ email });
     if (mentor && (await mentor.matchPassword(password))) {
       const maxAge = 3 * 24 * 60 * 60; // expires in 3day
-      const token = generateToken(mentor._id,"mentor");
+      const token = generateToken(mentor._id, "mentor");
       res.cookie("access_token", token, {
         httpOnly: true,
         maxAge: maxAge * 1000,
@@ -63,7 +68,7 @@ mentorRouter.post(
       return res.status(400).json({ message: "User already exists" });
     const createdMentor = await Mentors.create(newMentor);
     const maxAge = 3 * 24 * 60 * 60;
-    const token = generateToken(createdMentor._id,"mentor");
+    const token = generateToken(createdMentor._id, "mentor");
     res.cookie("access_token", token, {
       httpOnly: true,
       maxAge: maxAge * 1000,
@@ -76,7 +81,6 @@ mentorRouter.post(
     }
   })
 );
-
 
 // @desc read an auth mentors profile
 // @route GET /api/mentors/profile
@@ -94,8 +98,6 @@ mentorRouter.get(
     });
   })
 );
-
-
 
 // @desc update a single mentor info
 // @route put /api/mentors/:id
@@ -145,11 +147,10 @@ mentorRouter.delete(
   "/mentordel",
   isAuthorisedMentor,
   expressAsyncHandler(async (req, res) => {
-    
     const mentor = await Mentors.findById(req.mentor.id);
 
     if (req.body.password && (await mentor.matchPassword(req.body.password))) {
-      await Mentors.deleteOne({_id:mentor._id});
+      await Mentors.deleteOne({ _id: mentor._id });
       res.status(204).json({
         message: "user deleted",
       });
@@ -161,8 +162,6 @@ mentorRouter.delete(
     }
   })
 );
-
-
 
 // routes related to mentors by both mentor and mentee
 
@@ -185,6 +184,103 @@ mentorRouter.get(
       });
   })
 );
+
+// @desc Get all the pending requests
+// @route GET /api/mentors/follow-requests
+// @access private
+
+mentorRouter.get(
+  "/follow-requests",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    const mentor = await Mentors.findById(req.mentor.id);
+    const pending_req = mentor.pending;
+    const requests = await Mentees.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: pending_req,
+          },
+        },
+      },
+    ]);
+
+    res.json({
+      data: requests,
+    });
+  })
+);
+
+
+
+// @desc accept the following request
+// @route PUT /api/mentors/accept-mentee/:id
+// @access private
+
+mentorRouter.put(
+  "/accept-mentee/:id",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) =>
+  {
+    // logic 
+
+    const { id } = req.params
+    const mentee = await Mentees.findById(id)
+    const mentor = await Mentors.findById(req.mentor.id)
+
+    const updatedMentor = await Mentors.findByIdAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.mentor.id) },
+      {
+        $pull: { pending: mongoose.Types.ObjectId(id) },
+        $addToSet: { followers: mongoose.Types.ObjectId(id) },
+      },
+      { new: true }
+    );
+
+    res.json({
+      data:updatedMentor
+    })
+  })
+);
+
+
+// @desc decline the follow request
+// @route DELETE  /api/mentors/accept-mentee/:id
+// @access private
+
+mentorRouter.delete(
+  "/accept-mentee/:id",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    // logic
+
+    const { id } = req.params;
+    const mentee = await Mentees.findById(id);
+    const mentor = await Mentors.findById(req.mentor.id);
+
+    const updatedMentor = await Mentors.findByIdAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.mentor.id) },
+      {
+        $pull: { pending: mongoose.Types.ObjectId(id) },
+      },
+      { new: true }
+    );
+
+    const updatedMentee = await Mentees.findByIdAndUpdate(
+      { _id: mongoose.Types.ObjectId(id) },
+      {
+        $pull:{following : mongoose.Types.ObjectId(mentor._id)}
+      },
+      {new : true}
+    )
+
+    res.json({
+      data: updatedMentor,
+    });
+  })
+);
+
+
 
 // @desc get a single mentor
 // @route /api/mentors/:id
@@ -210,10 +306,8 @@ mentorRouter.get(
 mentorRouter.get(
   "/tag/:tag",
   isAuthorisedMenteeOrMentor,
-  expressAsyncHandler(async (req, res) =>
-  {
-
-    const query = [req.params.tag].concat(req.query.tag)
+  expressAsyncHandler(async (req, res) => {
+    const query = [req.params.tag].concat(req.query.tag);
     const users = await Mentors.find({ tags: { $in: query } }).select(
       "-password"
     );
@@ -222,3 +316,6 @@ mentorRouter.get(
     });
   })
 );
+
+
+

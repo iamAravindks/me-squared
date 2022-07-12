@@ -63,7 +63,7 @@ const Topbar = ({
           onClick={() => handleOnclick("findmentor")}
           data-aos="zoom-in"
         >
-          Find a Mentor
+          Find a mentor
         </Link>
         <Link
           to="/signup"
@@ -75,7 +75,13 @@ const Topbar = ({
           onClick={() => handleOnclick("signup")}
           data-aos="zoom-in"
         >
-          Get started
+          <div className={styles.dropdown}>
+            Get Started
+            <div className={styles.dropdownContent}>
+            <h4>Mentor</h4>
+            <h4>Mentee</h4>
+            </div>
+          </div>
         </Link>
         <Link
           to="/login"
