@@ -39,6 +39,7 @@ const Topbar = ({
         onClick={() => setTabSelected("home")}
       >
         <i className="fa-brands fa-squarespace logo"></i>
+        <p>me-squared</p>
       </Link>
       <div className={styles.topBarMenu}>
         <Link

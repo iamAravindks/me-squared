@@ -7,8 +7,14 @@
 
 .heroContainer h1 {
     color: white;
-    font-size: 3rem;
+    font-size: calc(1.525rem + 3.3vw);
     margin-bottom: 1em;
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    justify-content: center;
+    align-items: center;
 }
 
 .heroContainer p {

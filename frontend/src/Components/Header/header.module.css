@@ -17,16 +17,22 @@
 }
 
 .topBarBrand {
-  height: 110px;
+  min-height: 170px;
   cursor: pointer;
   margin-left: 20px;
-  width: 110px;
+  min-width: 140px;
   /* background-color: gray; */
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-decoration: none;
   color: #eee;
-  font-size: 4rem;
+  font-size: 3rem;
+  /* margin-top: 20px; */
+}
+.topBarBrand p{
+  font-size: 1.2rem;
 }
 
 .topBarMenu {
