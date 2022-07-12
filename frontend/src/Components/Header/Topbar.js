@@ -38,7 +38,7 @@ const Topbar = ({
         className={styles.topBarBrand}
         onClick={() => setTabSelected("home")}
       >
-        <img src={brandLogo} alt="iotek" />
+        <i className="fa-brands fa-squarespace logo"></i>
       </Link>
       <div className={styles.topBarMenu}>
         <Link
@@ -78,8 +78,8 @@ const Topbar = ({
           <div className={styles.dropdown}>
             Get Started
             <div className={styles.dropdownContent}>
-            <h4>Mentor</h4>
-            <h4>Mentee</h4>
+              <h4>Mentor</h4>
+              <h4>Mentee</h4>
             </div>
           </div>
         </Link>

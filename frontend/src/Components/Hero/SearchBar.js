@@ -16,13 +16,18 @@ const SearchBar = () => {
   }
 
   return (
-    
-      <form className={styles.searchBar}>
-        <input type='text' placeholder='Search using keywords like "Java"' value={search} onChange={updateSearch} />
-        <button onClick={onSubmit}>Search</button>
-      </form>
-    
-  )
+    <form className={styles.searchBar}>
+      <input
+        type="text"
+        placeholder='Search using keywords like "Java"'
+        value={search}
+        onChange={updateSearch}
+      />
+      <button onClick={onSubmit}>
+        <i className="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  );
 }
 
 export default SearchBar
