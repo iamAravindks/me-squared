@@ -1,24 +1,48 @@
-import React from 'react'
-import styles from './login.module.css'
+import React from "react";
+import styles from "./login.module.css";
+import { Link } from 'react-router-dom'
 
-const Home = () => {
+const Login = () => {
   return (
     <div className={styles.loginContainer}>
-      <form className={styles.loginForm}>
-       <div className={styles.inputContainer}>
-         <label>Username </label>
-         <input type="text" name="uname" required />
-       </div>
-       <div className={styles.inputContainer}>
-         <label>Password </label>
-         <input type="password" name="pass" required />
-       </div>
-       <div className={styles.buttonContainer}>
-         <input type="submit" value="Login" />
-       </div>
-     </form>
-    </div>
-     )
-}
+      <div className={styles.logoContainer}>
+        <i className="fa-brands fa-squarespace"></i>
+      </div>
+      <div className={styles.formContainer}>
+        <h1>Login</h1>
 
-export default Home
+        <div className={styles.accountInfo}>
+          <h2>Account Type</h2>
+          <div className={styles.choiceButtons}>
+            <label className={styles.radLabel}>
+              <input type="radio" className={styles.radInput} name="rad" />
+              <div className={styles.radDesign}></div>
+              <div className={styles.text}>Mentor</div>
+            </label>
+
+            <label className={styles.radLabel}>
+              <input type="radio" className={styles.radInput} name="rad" />
+              <div className={styles.radDesign}></div>
+              <div className={styles.text}>Mentee</div>
+            </label>
+          </div>
+        </div>
+        <form className={styles.form}>
+          <input type={"email"} placeholder="johndoe@example.com" required />
+          <input type={"password"} placeholder="Password..." required />
+          <input type={"button"} value="login" />
+        </form>
+        <div className={styles.otherOption}>
+          <p>Don't have an account yet?</p>
+          <Link to="/signupmentee">
+            <button className={styles.signupBtn}>
+              signup here
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

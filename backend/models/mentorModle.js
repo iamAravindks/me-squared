@@ -8,7 +8,7 @@ const MentorsSchema = mongoose.Schema({
     type: String,
     required: ["true", "year and class must be spciefied"],
   },
-  respondIn: { type: String, required: true },
+  respondIn: { type: String},
   tags: {
     type: [String],
     validate: (v) => v == null || v.length > 0,
