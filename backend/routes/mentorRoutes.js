@@ -48,6 +48,21 @@ mentorRouter.post(
   })
 );
 
+
+mentorRouter.get("/logout", isAuthorisedMentor, expressAsyncHandler(async (req, res) =>
+{
+  const maxAge =0;
+  const token = generateToken("6781235678", "logout");
+        res.cookie("access_token", token, {
+          httpOnly: true,
+          maxAge: maxAge ,
+        });
+  res.json({
+    message: "successfully logout in",
+    data:"LOG_OUT_MENTOR"
+  })
+
+}))
 // @desc create a new mentor
 // @route /api/mentors/signup
 // @access private
@@ -76,7 +91,11 @@ mentorRouter.post(
     if (createdMentor) {
       res.status(201).json({
         message: "mentor created",
-        data: newMentor,
+        data: {
+          _id: createdMentor._id,
+          name:createdMentor.name,
+          email:createdMentor.email
+        },
       });
     }
   })

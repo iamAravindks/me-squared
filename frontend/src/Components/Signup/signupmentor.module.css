@@ -86,7 +86,7 @@ select{
   text-align: center;
   font-size: 1rem;
 }
-.formContainer input[type="button"]{
+.formContainer input[type="submit"]{
   width: 200px;
   height: 40px;
   border-radius: 7px;

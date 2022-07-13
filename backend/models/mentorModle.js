@@ -11,7 +11,7 @@ const MentorsSchema = mongoose.Schema({
   respondIn: { type: String},
   tags: {
     type: [String],
-    validate: (v) => v == null || v.length > 0,
+    // validate: (v) => v == null || v.length > 0,
   },
   socialLinks: {
     github: { type: String, default: "" },

@@ -12,6 +12,8 @@ import {
   MENTOR_USER_REGISTER_SUCCESS,
   MENTOR_USER_LOGIN_FAIL,
   MENTOR_USER_LOGIN_SUCCESS,
+  MENTOR_USER_LOGOUT_FAIL,
+  MENTOR_USER_LOGOUT,
 } from "../types";
 import { ErrorContext } from "../errorContext/errorContext";
 
@@ -33,7 +35,7 @@ const Provider = ({ children }) => {
     initialState
   );
 
-  const {setError} = useContext(ErrorContext)
+  const { setError } = useContext(ErrorContext);
   // console.log(mentorsState)
   const config = {
     headers: {
@@ -53,6 +55,7 @@ const Provider = ({ children }) => {
         type: SEARCH_MENTORS,
         payload: res.data,
       });
+      console.log(res.data.data);
     } catch (error) {
       const err =
         error.response && error.response.data.message
@@ -83,8 +86,6 @@ const Provider = ({ children }) => {
         type: MENTOR_USER_LOGIN_SUCCESS,
         payload: data.data,
       });
-
-
     } catch (error) {
       dispatch({
         type: MENTOR_USER_LOGIN_FAIL,
@@ -93,8 +94,7 @@ const Provider = ({ children }) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-        setError(err);
-
+      setError(err);
     }
   };
 
@@ -135,7 +135,33 @@ const Provider = ({ children }) => {
           ? error.response.data.message
           : error.message;
       console.log(err);
-      setError(err)
+      setError(err);
+    }
+  };
+
+  //  log out
+
+  const logout = async () => {
+    try {
+      dispatch({ type: REQUEST });
+      const { data } = await axios.get("/api/mentors/logout", config);
+      if (data.data === "LOG_OUT_MENTOR") {
+        dispatch({
+          type: MENTOR_USER_LOGOUT,
+        });
+        localStorage.removeItem("userMentor")
+      } else {
+        dispatch({
+          type: MENTOR_USER_LOGOUT_FAIL,
+        });
+      }
+    } catch (error) {
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      console.log(err);
+      setError(err);
     }
   };
 
@@ -146,6 +172,7 @@ const Provider = ({ children }) => {
         getMentors,
         MentorLogin,
         MentorRegister,
+        logout,
       }}
     >
       {children}

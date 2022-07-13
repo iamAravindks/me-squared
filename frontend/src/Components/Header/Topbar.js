@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./header.module.css";
-import brandLogo from "../../assets/logos/logo.png";
 import { Link } from "react-router-dom";
+import { MentorContext } from "../../context/mentorContext/Context";
 
 const Topbar = ({
   tabSelected,
@@ -11,15 +11,16 @@ const Topbar = ({
 }) => {
   const [isNavbr, setIsNavbr] = useState(false);
   const setNavbar = () => setIsNavbr(window.scrollY >= 80 && true);
-
-  const handleOnclick = (path) =>
-  {
+  const { mentorsState,logout } = useContext(MentorContext);
+  const { userMentor } = mentorsState;
+  const handleOnclick = (path) => {
     setTabSelected(path);
-
-  }
+  };
+  
 
   useEffect(() => {
     window.addEventListener("scroll", setNavbar);
+
     return () => {
       window.removeEventListener("scroll", setNavbar);
     };
@@ -84,18 +85,22 @@ const Topbar = ({
             </div>
           </div>
         </Link>
-        <Link
-          to="/login"
-          className={
-            tabSelected === "login"
-              ? `${styles.menuItem} ${styles.tabSelected}`
-              : `${styles.menuItem}`
-          }
-          onClick={() => handleOnclick("login")}
-          data-aos="zoom-in"
-        >
-          Login
-        </Link>
+        {userMentor ? (
+          <button className={styles.menuItemBtn} onClick={logout}>Log out</button>
+        ) : (
+          <Link
+            to="/login"
+            className={
+              tabSelected === "login"
+                ? `${styles.menuItem} ${styles.tabSelected}`
+                : `${styles.menuItem}`
+            }
+            onClick={() => handleOnclick("login")}
+            data-aos="zoom-in"
+          >
+            Login
+          </Link>
+        )}
       </div>
       <div
         className={`${styles.hamburger} ${

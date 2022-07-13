@@ -192,7 +192,15 @@
 
 .getStarted:hover {
 }
-
+.menuItemBtn{
+  width: 100px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
 @media screen and (max-width: 767px) {
   .topBarMenu {
     display: none;
