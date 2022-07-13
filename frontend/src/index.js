@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import MentorContextProvider from "./context/mentorContext/Context";
+import { ErrorProvider } from "./context/errorContext/errorContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MentorContextProvider>
-      <App />
-    </MentorContextProvider>
+    <ErrorProvider>
+      <MentorContextProvider>
+        <App />
+      </MentorContextProvider>
+    </ErrorProvider>
   </React.StrictMode>
 );
 

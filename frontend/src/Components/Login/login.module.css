@@ -70,7 +70,7 @@
   border: none;
    color: hsl(0, 0%, 60%);
 }
-.formContainer input[type="button"]{
+.formContainer input[type="submit"]{
   width: 200px;
   height: 40px;
   border-radius: 7px;

@@ -19,12 +19,10 @@ const App = () => {
   const [tabSelected, setTabSelected] = useState("home");
   const [path, setPath] = useState(window.location.pathname);
   useEffect(() => {
-    console.log(mentorsState);
     getMentors();
     setPath(window.location.pathname);
     if (path === "/") setTabSelected("home");
     else if (path === "/products") setTabSelected("products");
-    console.log(path);
   }, [tabSelected, path]);
 
   const Layout = () => {

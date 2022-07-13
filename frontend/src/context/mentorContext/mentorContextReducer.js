@@ -2,13 +2,16 @@ import {
   SEARCH_MENTORS,
   SEARCH_MENTOR,
   SET_LOADING,
-  REQUEST_SEARCH,
+  REQUEST,
   CLEAR_MENTORS,
+  MENTOR_USER_LOGIN_SUCCESS,
+  MENTOR_USER_LOGIN_FAIL,
+  MENTOR_USER_REGISTER_FAIL,
 } from "../types";
 
 const mentorContextReducer = (state, action) => {
   switch (action.type) {
-    case REQUEST_SEARCH:
+    case REQUEST:
       return { ...state, loading: true };
     case SEARCH_MENTORS:
       return {
@@ -22,8 +25,27 @@ const mentorContextReducer = (state, action) => {
         mentors: [],
         ...state,
       };
+    
+    case MENTOR_USER_LOGIN_SUCCESS:
+      
+      const newState = {
+        ...state,
+        loading: false,
+        userMentor: action.payload,
+      };
+      localStorage.setItem("userMentor", JSON.stringify(action.payload));
+      console.log(newState)
+      return newState;
+    
+    case MENTOR_USER_LOGIN_FAIL:
+    case MENTOR_USER_REGISTER_FAIL:
+      return {
+        loading: false,
+        userMentor: null,
+        ...state
+      }
     default:
-      break;
+      return state;
   }
 };
 
