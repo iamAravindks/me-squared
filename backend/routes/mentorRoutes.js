@@ -31,11 +31,14 @@ mentorRouter.post(
         httpOnly: true,
         maxAge: maxAge * 1000,
       });
+
+      const {email,_id,name} = mentor
       res.json({
         message: "successfully logs in",
         data: {
-          _id: mentor._id,
-          ...mentor._doc,
+          _id,
+          email,
+          name
         },
       });
     } else {
@@ -46,7 +49,7 @@ mentorRouter.post(
 );
 
 // @desc create a new mentor
-// @route /api/mentors
+// @route /api/mentors/signup
 // @access private
 
 mentorRouter.post(
@@ -56,9 +59,6 @@ mentorRouter.post(
       name: req.body.name,
       designation: req.body.designation,
       yearNdClass: req.body.yearNdClass,
-      respondIn: req.body.respondIn,
-      about: req.body.about,
-      tags: req.body.tags,
       watNum: req.body.watNum,
       email: req.body.email,
       password: req.body.password,
