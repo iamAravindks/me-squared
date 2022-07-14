@@ -67,7 +67,7 @@ const Topbar = ({
         >
           Find a mentor
         </Link>
-        <Link
+        {/* <Link
           to="/signup"
           className={
             tabSelected === "signup"
@@ -84,9 +84,24 @@ const Topbar = ({
               <h4>Mentee</h4>
             </div>
           </div>
+        </Link> */}
+        <Link
+          to="/profile"
+          className={
+            tabSelected === "profile"
+              ? `${styles.menuItem} ${styles.tabSelected}`
+              : `${styles.menuItem}`
+          }
+          onClick={() => handleOnclick("profile")}
+          data-aos="zoom-in"
+        >
+          Profile
         </Link>
+
         {userMentor ? (
-          <button className={styles.menuItemBtn} onClick={logout}>Log out</button>
+          <button className={styles.menuItemBtn} onClick={logout}>
+            Log out
+          </button>
         ) : (
           <Link
             to="/login"

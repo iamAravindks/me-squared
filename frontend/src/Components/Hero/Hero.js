@@ -17,9 +17,8 @@ const Hero = () => {
               "Growth",
               "Resume",
               "UX Design",
-              "Development",
               "SEO",
-              "Product Management",
+              
             ]}
             typeSpeed={100}
             backSpeed={60}

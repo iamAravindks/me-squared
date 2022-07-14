@@ -1,19 +1,18 @@
 import axios from "axios";
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 import mentorContextReducer from "./mentorContextReducer";
 
 import {
   SEARCH_MENTORS,
-  SEARCH_MENTOR,
-  SET_LOADING,
   REQUEST,
-  MENTOR_USER_REGISTER,
   MENTOR_USER_REGISTER_FAIL,
   MENTOR_USER_REGISTER_SUCCESS,
   MENTOR_USER_LOGIN_FAIL,
   MENTOR_USER_LOGIN_SUCCESS,
   MENTOR_USER_LOGOUT_FAIL,
   MENTOR_USER_LOGOUT,
+  MENTOR_USER_PROFILE_SUCCESS,
+  MENTOR_USER_PROFILE_FAIL,
 } from "../types";
 import { ErrorContext } from "../errorContext/errorContext";
 
@@ -149,7 +148,7 @@ const Provider = ({ children }) => {
         dispatch({
           type: MENTOR_USER_LOGOUT,
         });
-        localStorage.removeItem("userMentor")
+        localStorage.removeItem("userMentor");
       } else {
         dispatch({
           type: MENTOR_USER_LOGOUT_FAIL,
@@ -165,6 +164,35 @@ const Provider = ({ children }) => {
     }
   };
 
+  const getProfileMentor = async() =>
+  {
+    
+    try
+    {
+      dispatch({
+        type:REQUEST
+      })
+      const { data } = await axios.get("/api/mentors/profile",config)
+      console.log(data)
+      dispatch({
+        type: MENTOR_USER_PROFILE_SUCCESS,
+        payload:data.data
+      });
+
+    } catch (error)
+    {
+      dispatch({
+        type: MENTOR_USER_PROFILE_FAIL,
+      });
+            const err =
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+            console.log(err);
+            setError(err);
+    }
+  };
+
   return (
     <MentorContext.Provider
       value={{
@@ -173,6 +201,7 @@ const Provider = ({ children }) => {
         MentorLogin,
         MentorRegister,
         logout,
+        getProfileMentor,
       }}
     >
       {children}

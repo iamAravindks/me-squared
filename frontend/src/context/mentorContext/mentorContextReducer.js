@@ -10,6 +10,8 @@ import {
   MENTOR_USER_LOGOUT_FAIL,
   MENTOR_USER_LOGOUT,
   MENTOR_USER_REGISTER_SUCCESS,
+  MENTOR_USER_PROFILE_FAIL,
+  MENTOR_USER_PROFILE_SUCCESS,
 } from "../types";
 
 const mentorContextReducer = (state, action) => {
@@ -50,8 +52,17 @@ const mentorContextReducer = (state, action) => {
       localStorage.setItem("userMentor", JSON.stringify(action.payload));
       return newState;
 
+    case MENTOR_USER_PROFILE_SUCCESS:
+      newState = {
+        ...state,
+        loading: false,
+        userMentor: action.payload,
+      };
+      return newState;
+
     case MENTOR_USER_LOGIN_FAIL:
     case MENTOR_USER_REGISTER_FAIL:
+    case MENTOR_USER_PROFILE_FAIL:
       return {
         loading: false,
         userMentor: null,

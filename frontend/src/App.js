@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import "./App.css";
 import Header from "./Components/Header/Header";
@@ -12,14 +13,18 @@ import Login from "./Components/Login/Login";
 import { MentorContext } from "./context/mentorContext/Context";
 import SignupMentee from "./Components/Signup/SignupMentee";
 import Signupmentor from "./Components/Signup/Signupmentor";
+import PrivateRouteWrapper from "./Components/PrivateRoute";
+import Profile from "./Components/Profile/Profile";
 
 const App = () => {
-  const { mentorsState, getMentors } = useContext(MentorContext);
+  const { getProfileMentor } = useContext(MentorContext);
 
   const [tabSelected, setTabSelected] = useState("home");
   const [path, setPath] = useState(window.location.pathname);
+
+  
   useEffect(() => {
-    getMentors();
+   getProfileMentor();
     setPath(window.location.pathname);
     if (path === "/") setTabSelected("home");
     else if (path === "/products") setTabSelected("products");
@@ -39,7 +44,10 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route element={<PrivateRouteWrapper />}>
+              <Route index element={<Home />} />
+              <Route path="/profile" element={<Profile/>}/>
+            </Route>
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signupmentee" element={<SignupMentee />} />
