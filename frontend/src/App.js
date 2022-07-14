@@ -17,14 +17,14 @@ import PrivateRouteWrapper from "./Components/PrivateRoute";
 import Profile from "./Components/Profile/Profile";
 
 const App = () => {
-  const { getProfileMentor } = useContext(MentorContext);
+  const { getProfileMentor,mentorsState } = useContext(MentorContext);
 
   const [tabSelected, setTabSelected] = useState("home");
   const [path, setPath] = useState(window.location.pathname);
 
   
   useEffect(() => {
-   getProfileMentor();
+   if(mentorsState.userMentor) getProfileMentor();
     setPath(window.location.pathname);
     if (path === "/") setTabSelected("home");
     else if (path === "/products") setTabSelected("products");

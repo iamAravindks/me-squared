@@ -1,10 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { MentorContext } from "../../context/mentorContext/Context"
 import styles from './profile.module.css'
 const Profile = () => {
 
-    const { mentorsState } = useContext(MentorContext)
+    const { mentorsState,getProfileMentor } = useContext(MentorContext)
     const {userMentor} = mentorsState
+
+  console.log(userMentor.tags)
 
   return (
     <div className={styles.profileContainer}>
@@ -41,9 +43,8 @@ const Profile = () => {
             <b>skills and interests</b>
           </p>
           <ul>
-            {/* {userMentor.tags.map((item) => (
-              <li>{item}</li>
-            ))} */}
+            {userMentor.tags &&
+              userMentor.tags.map((item) => <li>{item}</li>)}
           </ul>
         </div>
       </div>
