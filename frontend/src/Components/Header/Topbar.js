@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./header.module.css";
 import { Link } from "react-router-dom";
 import { MentorContext } from "../../context/mentorContext/Context";
+import { MenteeContext } from "../../context/menteeContext/MenteeContext";
 
 const Topbar = ({
   tabSelected,
@@ -11,12 +12,25 @@ const Topbar = ({
 }) => {
   const [isNavbr, setIsNavbr] = useState(false);
   const setNavbar = () => setIsNavbr(window.scrollY >= 80 && true);
-  const { mentorsState,logout } = useContext(MentorContext);
+  const { mentorsState, logout } = useContext(MentorContext);
+  const { menteeState, logoutMentee } = useContext(MenteeContext);
+  
   const { userMentor } = mentorsState;
+  const {userMentee} = menteeState
   const handleOnclick = (path) => {
     setTabSelected(path);
   };
   
+  const handleLogout = () =>
+  {
+    if (userMentor)
+    {
+      logout()
+    } else if (userMentee)
+    {
+      logoutMentee()
+      }
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", setNavbar);
@@ -98,8 +112,8 @@ const Topbar = ({
           Profile
         </Link>
 
-        {userMentor ? (
-          <button className={styles.menuItemBtn} onClick={logout}>
+        {userMentor || userMentee ? (
+          <button className={styles.menuItemBtn} onClick={handleLogout}>
             Log out
           </button>
         ) : (

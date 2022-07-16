@@ -4,16 +4,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { MentorContext } from "../../context/mentorContext/Context";
 import { ErrorContext } from "../../context/errorContext/errorContext";
 import Alert from '../Alert/Alert'
+import { MenteeContext } from "../../context/menteeContext/MenteeContext";
 
 
 const Login = () =>
 {
   const history = useNavigate();
   const mentorContext = useContext(MentorContext);
-
+  const menteeContext = useContext(MenteeContext)
   const { MentorLogin, mentorsState } = mentorContext;
+  const { menteeLogin, menteeState } = menteeContext;
   const { userMentor } = mentorsState
+  const {userMentee} = menteeState
   const {error}  = useContext(ErrorContext)
+
+
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,18 +44,25 @@ const Login = () =>
     e.preventDefault();
     if (type === "mentor") {
       MentorLogin(email, password);
+    } else if (type === "mentee")
+    {
+      menteeLogin(email,password)
     }
   };  
   useEffect(() =>
   {
-    console.log("called me")
-    if (userMentor)
+
+    if ( userMentor)
     {
-      console.log("authed")
-      console.log(userMentor)
       history("/")
     }
   }, [userMentor]);
+
+    useEffect(() => {
+      if (userMentee) {
+        history("/")
+      }
+    }, [userMentee]);
 
   return (
     <div className={styles.loginContainer}>
@@ -62,7 +75,7 @@ const Login = () =>
         <h1>Login</h1>
 
         <div className={styles.accountInfo}>
-          <h2>Account Type</h2>
+          <h3>Account Type</h3>
           <div className={styles.choiceButtons}>
             <label className={styles.radLabel}>
               <input

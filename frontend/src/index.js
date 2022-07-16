@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import MentorContextProvider from "./context/mentorContext/Context";
 import { ErrorProvider } from "./context/errorContext/errorContext";
+import MenteeContextProvider from "./context/menteeContext/MenteeContext";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ErrorProvider>
       <MentorContextProvider>
-        <App />
+        <MenteeContextProvider>
+          <App />
+        </MenteeContextProvider>
       </MentorContextProvider>
     </ErrorProvider>
   </React.StrictMode>

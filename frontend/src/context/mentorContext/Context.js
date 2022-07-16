@@ -13,7 +13,7 @@ import {
   MENTOR_USER_LOGOUT,
   MENTOR_USER_PROFILE_SUCCESS,
   MENTOR_USER_PROFILE_FAIL,
-} from "../types";
+} from "./mentorTypes";
 import { ErrorContext } from "../errorContext/errorContext";
 
 const userInfo = JSON.parse(localStorage.getItem("userMentor")) || null;

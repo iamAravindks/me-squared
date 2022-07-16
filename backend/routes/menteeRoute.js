@@ -27,14 +27,38 @@ menteeRoute.post(
         maxAge: maxAge * 1000,
       });
       res.json({
-        _id: mentee._id,
-        name: mentee.name,
-        email: mentee.email,
+        message: "Mentee login success",
+        data: {
+          _id: mentee._id,
+          name: mentee.name,
+          email: mentee.email,
+        },
       });
     } else {
       res.status(401);
       throw new Error("Invalid email or password");
     }
+  })
+);
+
+// @desc log out the mentee
+// @route GET /api/mentees/logout
+// @access private
+
+menteeRoute.get(
+  "/logout",
+  isAuthorisedMentee,
+  expressAsyncHandler(async (req, res) => {
+    const maxAge = 0;
+    const token = generateToken("6781235678", "logout");
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      maxAge: maxAge,
+    });
+    res.json({
+      message: "successfully logout in",
+      data: "LOG_OUT_MENTEE",
+    });
   })
 );
 
