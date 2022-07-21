@@ -49,7 +49,7 @@ mentorRouter.post(
 );
 
 
-mentorRouter.get("/logout", isAuthorisedMentor, expressAsyncHandler(async (req, res) =>
+mentorRouter.get("/logout", expressAsyncHandler(async (req, res) =>
 {
   const maxAge =0;
   const token = generateToken("6781235678", "logout");

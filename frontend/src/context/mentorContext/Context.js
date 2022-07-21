@@ -13,6 +13,7 @@ import {
   MENTOR_USER_LOGOUT,
   MENTOR_USER_PROFILE_SUCCESS,
   MENTOR_USER_PROFILE_FAIL,
+  MENTOR_RETREIVE_FOLLOW_REQUESTS,
 } from "./mentorTypes";
 import { ErrorContext } from "../errorContext/errorContext";
 
@@ -193,6 +194,36 @@ const Provider = ({ children }) => {
     }
   };
 
+  const getFollowRequests = async() => {
+    {
+    
+      try
+      {
+        dispatch({
+          type:REQUEST
+        })
+        const { data } = await axios.get("/api/mentors/follow-requests",config)
+        console.log(data)
+        dispatch({
+          type: MENTOR_RETREIVE_FOLLOW_REQUESTS,
+          payload:data.data
+        });
+  
+      } catch (error)
+      {
+        dispatch({
+          type:  MENTOR_RETREIVE_FOLLOW_REQUESTS,
+        });
+              const err =
+                error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message;
+              console.log(err);
+              setError(err);
+      }
+    };
+  }
+
   return (
     <MentorContext.Provider
       value={{
@@ -202,6 +233,7 @@ const Provider = ({ children }) => {
         MentorRegister,
         logout,
         getProfileMentor,
+        getFollowRequests,
       }}
     >
       {children}
