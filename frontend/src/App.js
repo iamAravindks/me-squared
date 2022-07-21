@@ -53,7 +53,7 @@ const App = () => {
           <Route path="/signupmentee" element={<SignupMentee />} />
           <Route path="/signupmentor" element={<Signupmentor />} />
         </Routes>
-      </Router>
+  </Router>
     </>
   );
 };

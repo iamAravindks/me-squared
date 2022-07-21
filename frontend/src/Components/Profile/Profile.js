@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { MentorContext } from "../../context/mentorContext/Context"
+import MentorProfile from './MentorProfile'
 import styles from './profile.module.css'
 const Profile = () => {
 
@@ -9,7 +10,9 @@ const Profile = () => {
   console.log(userMentor.tags)
 
   return (
-    <div className={styles.profileContainer}>
+        <>
+        <MentorProfile />
+        {/*<div className={styles.profileContainer}>
       <div className={styles.profileBox}>
         <h1>Profile</h1>
         <div className={styles.profileInfo}>
@@ -48,8 +51,9 @@ const Profile = () => {
           </ul>
         </div>
       </div>
-    </div>
-  );
+    </div>*/}
+        </>
+            );
 }
 
 export default Profile
