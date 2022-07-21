@@ -44,17 +44,17 @@ const Provider = ({ children }) => {
 
   // get list of mentors
 
-  const getMentors = async () => {
+  const getMentors = async (tag) => {
     try {
       dispatch({
         type: REQUEST,
       });
-      const res = await axios.get("/api/mentors", config);
+      const {data} = await axios.get(`/api/mentors/tag/${tag}`, config);
       dispatch({
         type: SEARCH_MENTORS,
-        payload: res.data,
+        payload: data.data,
       });
-      console.log(res.data.data);
+      
     } catch (error) {
       const err =
         error.response && error.response.data.message

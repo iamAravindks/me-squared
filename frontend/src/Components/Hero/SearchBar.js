@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 import styles from './hero.module.css'
-import { MentorContext } from '../../context/mentorContext/Context';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [search, setSearch] = useState('')
-  const mentor = useContext(MentorContext)
+  const history = useNavigate()
 
   const updateSearch = (e) => {
     setSearch(e.target.value)
@@ -12,6 +12,8 @@ const SearchBar = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+    if(search.length > 0)
+      history("browsementor",{state:{value: search}})
     setSearch('')
   }
 
@@ -21,7 +23,7 @@ const SearchBar = () => {
         type="text"
         placeholder='Search using keywords like "Java"'
         value={search}
-        onChange={updateSearch}
+        onChange={updateSearch} required
       />
       <button onClick={onSubmit}>
         <i className="fa-solid fa-magnifying-glass"></i>
