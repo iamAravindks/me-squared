@@ -232,6 +232,32 @@ mentorRouter.get(
 
 
 
+// @desc get all the followers
+// @route GET /api/mentors/followers
+// @access private
+
+mentorRouter.get(
+  "/followers",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    const mentor = await Mentors.findById(req.mentor.id);
+    const followers = mentor.followers;
+    const requests = await Mentees.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followers,
+          },
+        },
+      },
+    ]);
+
+    res.json({
+      data: requests,
+    });
+  })
+);
+
 // @desc accept the following request
 // @route PUT /api/mentors/accept-mentee/:id
 // @access private
