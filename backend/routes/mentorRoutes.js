@@ -251,6 +251,7 @@ mentorRouter.get(
           },
         },
       },
+      {$project:{name:1}}
     ]);
 
     res.json({
