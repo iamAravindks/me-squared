@@ -12,6 +12,7 @@ import {
   MENTOR_USER_REGISTER_SUCCESS,
   MENTOR_USER_PROFILE_FAIL,
   MENTOR_USER_PROFILE_SUCCESS,
+  MENTOR_RETREIVE_FOLLOW_REQUESTS
 } from "./mentorTypes";
 
 const mentorContextReducer = (state, action) => {
@@ -82,6 +83,13 @@ const mentorContextReducer = (state, action) => {
 
     case MENTOR_USER_LOGOUT_FAIL:
       return state;
+
+    case  MENTOR_RETREIVE_FOLLOW_REQUESTS:
+      newState = {
+        ...state,
+        loading:false,
+        followReqs:action.payload,
+      };
 
     default:
       return state;

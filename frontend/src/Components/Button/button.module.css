@@ -3,10 +3,10 @@
     font-size: 1rem;
     color: white;
     padding: 1em; 
-    min-width: 130px;
-    height: 50px;
+    min-width: 180px;
+    height: 55px;
     border: none;
-    border-top:2px solid transparent;
+    border-top: 4px solid transparent;
     border-radius: 5px;
     margin: 1em; 
     cursor: pointer;

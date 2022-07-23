@@ -35,7 +35,7 @@ const isAuthorisedMentor = expressAsyncHandler(async (req, res,next) =>
   if (token) {
     try {
       const decodedObj = jwt.verify(token, config.JWT_SECRET);
-      console.log(decodedObj)
+      // console.log(decodedObj)
       const { id } = decodedObj;
 
       const mentor = await Mentors.findById(id).select("-password");
@@ -72,14 +72,17 @@ const isAuthorisedMenteeOrMentor = expressAsyncHandler(async (req, res,next) =>
       let user=null
       if (role === "mentor")
       {
-      user = await Mentors.findById(id).select("-password");
+        user = await Mentors.findById(id).select("-password");
+       if(user) req.mentor = user
       } else if (role === "mentee")
       {
-      user = await Mentees.findById(id).select("-password");
+        user = await Mentees.findById(id).select("-password");
+        if (user) req.mentee = user
       }
 
       if (user)
       {
+        // console.log("user here",user)
         next()
       } else {
         res.status(404);

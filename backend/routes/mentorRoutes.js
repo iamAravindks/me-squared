@@ -13,6 +13,7 @@ export const mentorRouter = express.Router();
 
 mentorRouter.param("id", idValidator);
 
+
 //  routes related to mentor himself/herself
 
 // @desc login a new mentor
@@ -49,7 +50,7 @@ mentorRouter.post(
 );
 
 
-mentorRouter.get("/logout", isAuthorisedMentor, expressAsyncHandler(async (req, res) =>
+mentorRouter.get("/logout", expressAsyncHandler(async (req, res) =>
 {
   const maxAge =0;
   const token = generateToken("6781235678", "logout");
@@ -191,7 +192,7 @@ mentorRouter.get(
   "/",
   isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
-    const mentors = await Mentors.find({}).select("-password");
+    const mentors = await Mentors.find({}).select(["name","designation"]);
     if (!mentors) {
       res.json({
         message: "No mentors found",
@@ -231,6 +232,33 @@ mentorRouter.get(
 );
 
 
+
+// @desc get all the followers
+// @route GET /api/mentors/followers
+// @access private
+
+mentorRouter.get(
+  "/followers",
+  isAuthorisedMentor,
+  expressAsyncHandler(async (req, res) => {
+    const mentor = await Mentors.findById(req.mentor.id);
+    const followers = mentor.followers;
+    const requests = await Mentees.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followers,
+          },
+        },
+      },
+      {$project:{name:1}}
+    ]);
+
+    res.json({
+      data: requests,
+    });
+  })
+);
 
 // @desc accept the following request
 // @route PUT /api/mentors/accept-mentee/:id
@@ -306,15 +334,42 @@ mentorRouter.delete(
 // @access private
 
 mentorRouter.get(
-  "/:id",
+  "/mentor/:id",
   isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
     const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
       "-password"
     );
-    res.status(200).json({
-      data: mentorWithID,
-    });
+  
+    let data  =null
+    if (req.mentor)
+    {
+      res.json({
+         data:mentorWithID
+       })
+    } else if (req.mentee)
+    {
+      const followers = mentorWithID.followers.map(usr => usr.toString())
+     
+      if (followers.includes(req.mentee._id.toString())) {
+        res.json({
+          data: mentorWithID,
+        });
+      } else {
+        const { _id, name, designation, about, tags } = mentorWithID;
+        res.json({
+          data: {
+            _id,
+            name,
+            designation,
+            about,
+            tags,
+          },
+        });
+      }
+      }
+
+    
   })
 );
 
@@ -327,9 +382,11 @@ mentorRouter.get(
   isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
     const query = [req.params.tag].concat(req.query.tag);
-    const users = await Mentors.find({ tags: { $in: query } }).select(
-      "-password"
-    );
+    const users = await Mentors.find({ tags: { $in: query } }).select([
+      "name",
+      "designation",
+      "tags"
+    ]); 
     res.json({
       data: users,
     });

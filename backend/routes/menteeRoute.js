@@ -47,7 +47,6 @@ menteeRoute.post(
 
 menteeRoute.get(
   "/logout",
-  isAuthorisedMentee,
   expressAsyncHandler(async (req, res) => {
     const maxAge = 0;
     const token = generateToken("6781235678", "logout");
@@ -223,7 +222,8 @@ menteeRoute.get(
           },
         },
       },
-    ]);
+      { $project: {name:1} },
+    ])
 
     res.json({
       data: followings,
@@ -288,7 +288,7 @@ menteeRoute.post(
           { _id: mongoose.Types.ObjectId(req.mentee.id) },
           { $addToSet: { following: mentor._id } },
           { new: true }
-        );
+        ).select("-password");;
 
         const updatedMentor = await Mentors.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(mentor._id) },
@@ -298,11 +298,10 @@ menteeRoute.post(
             },
           },
           { new: true }
-        );
+        )
 
         res.json({
           data: {
-            mentor: updatedMentor,
             mentee: updatedMentee,
           },
         });
