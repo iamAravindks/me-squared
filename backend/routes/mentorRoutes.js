@@ -369,7 +369,7 @@ mentorRouter.get(
           followers:requests
         });
       } else {
-        const { _id, name, designation, about, tags } = mentorWithID;
+        const { _id, name, designation, about, tags ,profileImg} = mentorWithID;
         res.json({
           data: {
             _id,
@@ -377,7 +377,8 @@ mentorRouter.get(
             designation,
             about,
             tags,
-            followersCount:followers.length
+            followersCount: followers.length,
+            profileImg,
           },
         });
       }
@@ -398,6 +399,7 @@ mentorRouter.get(
       "name",
       "designation",
       "tags",
+      "profileImg"
     ]);
     res.json({
       data: users,
