@@ -54,6 +54,7 @@ const SignupMentee = () => {
             placeholder="password confirmation"
             required
           />
+          
           <input type={"button"} value="Signup" />
         </form>
         <div className={styles.otherOption}>
