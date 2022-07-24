@@ -18,9 +18,10 @@ const MenteeSchema = mongoose.Schema({
   about: { type: String },
   skillLooksFor: { type: String, required: true },
   watNum: { type: Number, required: true },
-  following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Mentors",default:"" },
-  
-],
+  following: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Mentors", default: "" },
+  ],
+  profileImg: { type: String, default: "tjrt4em8imosdzf8bbcm" },
 });
 
 //method for the model

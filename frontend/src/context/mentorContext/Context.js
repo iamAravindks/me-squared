@@ -16,7 +16,7 @@ import {
   MENTOR_RETREIVE_FOLLOW_REQUESTS,
 } from "./mentorTypes";
 import { ErrorContext } from "../errorContext/errorContext";
-
+import { uploadImg } from "../../utils/utils";
 const userInfo = JSON.parse(localStorage.getItem("userMentor")) || null;
 
 const initialState = {
@@ -105,23 +105,19 @@ const Provider = ({ children }) => {
     designation,
     watNum,
     yearNdClass,
-    password
+    password,
+    img = null
   ) => {
     try {
+      let params = { name, email, designation, watNum, yearNdClass, password };
       dispatch({ type: REQUEST });
-      const { data } = await axios.post(
-        "/api/mentors/signup",
-        {
-          name,
-          email,
-          designation,
-          watNum,
-          yearNdClass,
-          password,
-        },
-        config
-      );
-      console.log(data);
+      if (img) {
+        const profileImg = await uploadImg(img);
+      
+        params.profileImg = profileImg;
+      }
+
+      const { data } = await axios.post("/api/mentors/signup", params, config);
       dispatch({
         type: MENTOR_USER_REGISTER_SUCCESS,
         payload: data.data,
@@ -165,64 +161,53 @@ const Provider = ({ children }) => {
     }
   };
 
-  const getProfileMentor = async() =>
-  {
-    
-    try
-    {
+  const getProfileMentor = async () => {
+    try {
       dispatch({
-        type:REQUEST
-      })
-      const { data } = await axios.get("/api/mentors/profile",config)
-      console.log(data)
+        type: REQUEST,
+      });
+      const { data } = await axios.get("/api/mentors/profile", config);
+      console.log(data);
       dispatch({
         type: MENTOR_USER_PROFILE_SUCCESS,
-        payload:data.data
+        payload: data.data,
       });
-
-    } catch (error)
-    {
+    } catch (error) {
       dispatch({
         type: MENTOR_USER_PROFILE_FAIL,
       });
-            const err =
-              error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message;
-            console.log(err);
-            setError(err);
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      console.log(err);
+      setError(err);
     }
   };
 
-  const getFollowRequests = async() => {
-    {
-    
-      try
-      {
-        dispatch({
-          type:REQUEST
-        })
-        const { data } = await axios.get("/api/mentors/follow-requests",config)
-        console.log(data)
-        dispatch({
-          type: MENTOR_RETREIVE_FOLLOW_REQUESTS,
-          payload:data.data
-        });
-  
-      } catch (error)
-      {
-        dispatch({
-          type:  MENTOR_RETREIVE_FOLLOW_REQUESTS,
-        });
-              const err =
-                error.response && error.response.data.message
-                  ? error.response.data.message
-                  : error.message;
-              console.log(err);
-              setError(err);
-      }
-    };
-  }
+  const getFollowRequests = async () => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      const { data } = await axios.get("/api/mentors/follow-requests", config);
+      console.log(data);
+      dispatch({
+        type: MENTOR_RETREIVE_FOLLOW_REQUESTS,
+        payload: data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: MENTOR_RETREIVE_FOLLOW_REQUESTS,
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      console.log(err);
+      setError(err);
+    }
+  };
 
   return (
     <MentorContext.Provider

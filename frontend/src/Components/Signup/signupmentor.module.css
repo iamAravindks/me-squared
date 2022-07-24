@@ -1,5 +1,5 @@
-.signupmentorContainer{
-    background-color: #eee;
+.signupmentorContainer {
+  background-color: #eee;
   width: 100% !important;
   height: 100vh;
   /* padding-top: 120px; */
@@ -7,21 +7,22 @@
   justify-content: center;
   align-items: center;
 }
-.logoContainer,.formContainer{
+.logoContainer,
+.formContainer {
   flex-grow: 0.5;
 }
-.logoContainer{
-  background-color: #1266F1;
+.logoContainer {
+  background-color: #1266f1;
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
 }
-.logoContainer i{
+.logoContainer i {
   font-size: 6em;
   color: #eee;
 }
-.formContainer{
+.formContainer {
   width: 100%;
   height: 100%;
   /* background-color: grey; */
@@ -30,68 +31,67 @@
   justify-content: center;
   align-items: center;
 }
-.formContainer form{
+.formContainer form {
   display: flex;
   flex-direction: column;
   min-width: 70%;
-  min-height:300px ;
+  min-height: 300px;
   /* background-color: green; */
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
 
-.formContainer h1{
+.formContainer h1 {
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.8;
 }
-.formContainer p{
+.formContainer p {
   margin-bottom: 30px;
-   color: hsl(0, 0%, 60%);
+  color: hsl(0, 0%, 60%);
 }
-.formContainer a{
+.formContainer a {
   text-decoration: none;
   font-weight: 600;
-  color: #1266F1;
+  color: #1266f1;
 }
 .formContainer input[type="email"],
 .formContainer input[type="password"],
 .formContainer input[type="text"],
-.formContainer input[type="tel"]
-
-{
+.formContainer input[type="tel"] {
   min-width: 80%;
   height: 50px;
   border-radius: 7px;
   padding: 10px;
   outline: none;
   border: none;
-   color: hsl(0, 0%, 60%);
+  color: hsl(0, 0%, 60%);
 }
-.chooseYear,.chooseDep{
+.chooseYear,
+.chooseDep {
   min-width: 80%;
 }
-label[for="year"],label[for="department"]{
+label[for="year"],
+label[for="department"] {
   margin-right: 20px;
   font-size: 1.2rem;
   font-weight: 600;
-  min-width:80% ;
+  min-width: 80%;
 }
 
-
-select{
+select {
   min-width: 100px;
   min-height: 20px;
   text-align: center;
   font-size: 1rem;
 }
-.formContainer input[type="submit"]{
+.formContainer input[type="submit"] {
   width: 200px;
   height: 40px;
   border-radius: 7px;
   outline: none;
-  background-color: #1266F1;
+  background-color: #1266f1;
   color: #eee;
   border: none;
   font-size: 1.2rem;
@@ -99,52 +99,80 @@ select{
   font-weight: 600;
 }
 
-.otherOption{
+.otherOption {
   margin-bottom: 30px;
   margin-top: 3rem;
   display: flex;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
 }
-.otherOption p{
+.otherOption p {
   margin: 20px 0;
 }
-.signupBtn{
-    width: 200px;
+.signupBtn {
+  width: 200px;
   height: 40px;
   border-radius: 7px;
   outline: none;
   background-color: #eee;
-  color: #1266F1;
-  border:2px solid #1266F1;
+  color: #1266f1;
+  border: 2px solid #1266f1;
   font-size: 1.2rem;
   cursor: pointer;
   font-weight: 600;
   transition: all 200ms ease-in;
 }
 
-.signupBtn:hover{
+.signupBtn:hover {
   background-color: #5185d8;
   color: #eee;
-  border:2px solid #5185d8;
+  border: 2px solid #5185d8;
+}
 
+.addPic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.addImgBtn {
+  display: flex;
+  background-color: #9ca6b7;
+  width: 170px;
+  height: 30px;
+  justify-content: space-around;
+  align-items: center;
+  color: #eee;
+  border-radius: 7px;
+  gap: 5px;
+  padding: 2px;
+  cursor: pointer;
+}
+.profileImgInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.profileImgInfo .clearBtn{
+  width: 150px;
+  cursor: pointer;
 }
 
 
-@media screen and (max-width:991px){
-
-  .logoContainer{
+@media screen and (max-width: 991px) {
+  .logoContainer {
     flex-grow: 0.25;
     max-width: 25%;
   }
-  .formContainer{
+  .formContainer {
     flex-grow: 0.75;
     min-width: 75%;
   }
 }
-@media screen and (max-width:500px){
-
-  .logoContainer{
+@media screen and (max-width: 500px) {
+  .logoContainer {
     display: none;
   }
 }

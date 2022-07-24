@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect } from 'react'
 import { MentorContext } from "../../context/mentorContext/Context"
 import MentorProfile from './MentorProfile'

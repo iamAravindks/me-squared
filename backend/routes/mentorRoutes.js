@@ -70,8 +70,10 @@ mentorRouter.get("/logout", expressAsyncHandler(async (req, res) =>
 
 mentorRouter.post(
   "/signup",
-  expressAsyncHandler(async (req, res) => {
-    const newMentor = {
+  expressAsyncHandler(async (req, res) =>
+  {
+    
+    let newMentor = {
       name: req.body.name,
       designation: req.body.designation,
       yearNdClass: req.body.yearNdClass,
@@ -79,6 +81,10 @@ mentorRouter.post(
       email: req.body.email,
       password: req.body.password,
     };
+
+    if (req.body.profileImg) newMentor.profileImg = req.body.profileImg
+    
+    
     const isAlreadyExist = await Mentors.findOne({ email: req.body.email });
     if (isAlreadyExist)
       return res.status(400).json({ message: "User already exists" });
@@ -138,7 +144,7 @@ mentorRouter.put(
       userWithId.email = req.body.email || userWithId.email;
       userWithId.tags = req.body.tags || userWithId.tags;
       userWithId.socialLinks = req.body.socialLinks || userWithId.socialLinks;
-
+      userWithId.profileImg = req.body.profileImg || userWithId.profileImg
       const updatedUser = await userWithId.save();
 
       res.status(201).json({
@@ -153,6 +159,7 @@ mentorRouter.put(
           email: userWithId.email,
           tags: userWithId.tags,
           socialLinks: userWithId.socialLinks,
+          profileImg : userWithId.profileImg
         },
       });
     }
@@ -192,7 +199,7 @@ mentorRouter.get(
   "/",
   isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
-    const mentors = await Mentors.find({}).select(["name","designation"]);
+    const mentors = await Mentors.find({}).select(["name","designation","profileImg"]);
     if (!mentors) {
       res.json({
         message: "No mentors found",
@@ -341,7 +348,6 @@ mentorRouter.get(
       "-password"
     );
   
-    let data  =null
     if (req.mentor)
     {
       res.json({
@@ -350,7 +356,8 @@ mentorRouter.get(
     } else if (req.mentee)
     {
       const followers = mentorWithID.followers.map(usr => usr.toString())
-     
+      const followers_count = followers.length
+
       if (followers.includes(req.mentee._id.toString())) {
         res.json({
           data: mentorWithID,
@@ -364,6 +371,7 @@ mentorRouter.get(
             designation,
             about,
             tags,
+            followers:followers_count
           },
         });
       }

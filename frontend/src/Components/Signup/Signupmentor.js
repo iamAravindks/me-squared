@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./signupmentor.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,8 +21,9 @@ const Signupmentor = () => {
     dep: "cse",
     rePassword: "",
     designation: "",
-  };
 
+  };
+  const [imgSelect, setImgSelect] = useState(null);
   const [formVal, setFormVal] = useState(initVal);
   const [passErr, setPassErr] = useState(null);
   const { email, password, name, watNum, year, dep, rePassword, designation } =
@@ -72,10 +74,16 @@ const Signupmentor = () => {
     passwordCheck(e.target.value);
   };
 
+
   const passwordCheck = (rep) => {
     if (password !== rep) setPassErr("Password didn't match");
     else setPassErr("");
   };
+
+  const handleImg = (file) =>
+  {
+        setImgSelect(file)
+  }
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -87,7 +95,8 @@ const Signupmentor = () => {
         designation,
         parseInt(watNum),
         `${year} ${dep}`,
-        password
+        password,
+        imgSelect
       );
   };
 
@@ -188,6 +197,25 @@ const Signupmentor = () => {
             onChange={handleRePassword}
           />
           {passErr && <p style={{ color: "red" }}>{passErr}</p>}
+          <div className={styles.addPic}>
+            <label htmlFor="files" className={styles.addImgBtn}>
+              Select an Image <i className="fa-solid fa-plus"></i>
+            </label>
+            <span style={{marginTop:"2px"}}>(optional)</span>
+            <input
+              id="files"
+              style={{ visibility: "hidden" }}
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={(e) => {
+                handleImg(e.target.files[0]);
+              }}
+            />
+            {imgSelect && (
+              <div className={styles.profileImgInfo}><p>{imgSelect.name}</p>
+                <button className={styles.clearBtn} onClick={()=>setImgSelect(null)}>remove image</button>
+            </div>)}
+          </div>
           <input type={"submit"} value="Signup" />
         </form>
         <div className={styles.otherOption}>

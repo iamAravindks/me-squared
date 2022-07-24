@@ -1,3 +1,5 @@
+/* eslint-disable no-fallthrough */
+/* eslint-disable no-unused-vars */
 import {
   SEARCH_MENTORS,
   SEARCH_MENTOR,

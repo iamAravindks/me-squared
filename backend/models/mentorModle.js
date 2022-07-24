@@ -8,7 +8,7 @@ const MentorsSchema = mongoose.Schema({
     type: String,
     required: ["true", "year and class must be spciefied"],
   },
-  respondIn: { type: String},
+  respondIn: { type: String },
   tags: {
     type: [String],
     // validate: (v) => v == null || v.length > 0,
@@ -29,6 +29,7 @@ const MentorsSchema = mongoose.Schema({
   pending: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Mentees", default: "" },
   ],
+  profileImg: { type: String, default: "tjrt4em8imosdzf8bbcm" },
 });
 
 MentorsSchema.methods.matchPassword = async function (enteredPassword)
