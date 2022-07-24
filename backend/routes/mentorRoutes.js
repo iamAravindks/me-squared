@@ -13,7 +13,6 @@ export const mentorRouter = express.Router();
 
 mentorRouter.param("id", idValidator);
 
-
 //  routes related to mentor himself/herself
 
 // @desc login a new mentor
@@ -33,13 +32,13 @@ mentorRouter.post(
         maxAge: maxAge * 1000,
       });
 
-      const {email,_id,name} = mentor
+      const { email, _id, name } = mentor;
       res.json({
         message: "successfully logs in",
         data: {
           _id,
           email,
-          name
+          name,
         },
       });
     } else {
@@ -49,30 +48,28 @@ mentorRouter.post(
   })
 );
 
-
-mentorRouter.get("/logout", expressAsyncHandler(async (req, res) =>
-{
-  const maxAge =0;
-  const token = generateToken("6781235678", "logout");
-        res.cookie("access_token", token, {
-          httpOnly: true,
-          maxAge: maxAge ,
-        });
-  res.json({
-    message: "successfully logout in",
-    data:"LOG_OUT_MENTOR"
+mentorRouter.get(
+  "/logout",
+  expressAsyncHandler(async (req, res) => {
+    const maxAge = 0;
+    const token = generateToken("6781235678", "logout");
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      maxAge: maxAge,
+    });
+    res.json({
+      message: "successfully logout in",
+      data: "LOG_OUT_MENTOR",
+    });
   })
-
-}))
+);
 // @desc create a new mentor
 // @route /api/mentors/signup
 // @access private
 
 mentorRouter.post(
   "/signup",
-  expressAsyncHandler(async (req, res) =>
-  {
-    
+  expressAsyncHandler(async (req, res) => {
     let newMentor = {
       name: req.body.name,
       designation: req.body.designation,
@@ -82,9 +79,8 @@ mentorRouter.post(
       password: req.body.password,
     };
 
-    if (req.body.profileImg) newMentor.profileImg = req.body.profileImg
-    
-    
+    if (req.body.profileImg) newMentor.profileImg = req.body.profileImg;
+
     const isAlreadyExist = await Mentors.findOne({ email: req.body.email });
     if (isAlreadyExist)
       return res.status(400).json({ message: "User already exists" });
@@ -100,8 +96,8 @@ mentorRouter.post(
         message: "mentor created",
         data: {
           _id: createdMentor._id,
-          name:createdMentor.name,
-          email:createdMentor.email
+          name: createdMentor.name,
+          email: createdMentor.email,
         },
       });
     }
@@ -144,7 +140,7 @@ mentorRouter.put(
       userWithId.email = req.body.email || userWithId.email;
       userWithId.tags = req.body.tags || userWithId.tags;
       userWithId.socialLinks = req.body.socialLinks || userWithId.socialLinks;
-      userWithId.profileImg = req.body.profileImg || userWithId.profileImg
+      userWithId.profileImg = req.body.profileImg || userWithId.profileImg;
       const updatedUser = await userWithId.save();
 
       res.status(201).json({
@@ -159,7 +155,7 @@ mentorRouter.put(
           email: userWithId.email,
           tags: userWithId.tags,
           socialLinks: userWithId.socialLinks,
-          profileImg : userWithId.profileImg
+          profileImg: userWithId.profileImg,
         },
       });
     }
@@ -199,7 +195,11 @@ mentorRouter.get(
   "/",
   isAuthorisedMenteeOrMentor,
   expressAsyncHandler(async (req, res) => {
-    const mentors = await Mentors.find({}).select(["name","designation","profileImg"]);
+    const mentors = await Mentors.find({}).select([
+      "name",
+      "designation",
+      "profileImg",
+    ]);
     if (!mentors) {
       res.json({
         message: "No mentors found",
@@ -238,8 +238,6 @@ mentorRouter.get(
   })
 );
 
-
-
 // @desc get all the followers
 // @route GET /api/mentors/followers
 // @access private
@@ -258,7 +256,7 @@ mentorRouter.get(
           },
         },
       },
-      {$project:{name:1}}
+      { $project: { name: 1 } },
     ]);
 
     res.json({
@@ -274,13 +272,12 @@ mentorRouter.get(
 mentorRouter.put(
   "/accept-mentee/:id",
   isAuthorisedMentor,
-  expressAsyncHandler(async (req, res) =>
-  {
-    // logic 
+  expressAsyncHandler(async (req, res) => {
+    // logic
 
-    const { id } = req.params
-    const mentee = await Mentees.findById(id)
-    const mentor = await Mentors.findById(req.mentor.id)
+    const { id } = req.params;
+    const mentee = await Mentees.findById(id);
+    const mentor = await Mentors.findById(req.mentor.id);
 
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
@@ -292,11 +289,10 @@ mentorRouter.put(
     );
 
     res.json({
-      data:updatedMentor
-    })
+      data: updatedMentor,
+    });
   })
 );
-
 
 // @desc decline the follow request
 // @route DELETE  /api/mentors/accept-mentee/:id
@@ -323,18 +319,16 @@ mentorRouter.delete(
     const updatedMentee = await Mentees.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(id) },
       {
-        $pull:{following : mongoose.Types.ObjectId(mentor._id)}
+        $pull: { following: mongoose.Types.ObjectId(mentor._id) },
       },
-      {new : true}
-    )
+      { new: true }
+    );
 
     res.json({
       data: updatedMentor,
     });
   })
 );
-
-
 
 // @desc get a single mentor
 // @route /api/mentors/:id
@@ -347,20 +341,32 @@ mentorRouter.get(
     const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
       "-password"
     );
-  
-    if (req.mentor)
-    {
-      res.json({
-         data:mentorWithID
-       })
-    } else if (req.mentee)
-    {
-      const followers = mentorWithID.followers.map(usr => usr.toString())
-      const followers_count = followers.length
+    const followers = mentorWithID.followers;
+    const requests = await Mentees.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followers,
+          },
+        },
+      },
+      { $project: { name: 1 } },
+    ]);
 
-      if (followers.includes(req.mentee._id.toString())) {
+    if (!mentorWithID) {
+      res.status(404);
+      throw new Error("No mentor found");
+    }
+    if (req.mentor) {
+      res.json({
+        data: mentorWithID,
+        followers:requests
+      });
+    } else if (req.mentee) {
+      if (followers.includes(mongoose.Types.ObjectId(req.mentee._id))) {
         res.json({
           data: mentorWithID,
+          followers:requests
         });
       } else {
         const { _id, name, designation, about, tags } = mentorWithID;
@@ -371,13 +377,11 @@ mentorRouter.get(
             designation,
             about,
             tags,
-            followers:followers_count
+            followersCount:followers.length
           },
         });
       }
-      }
-
-    
+    }
   })
 );
 
@@ -393,13 +397,10 @@ mentorRouter.get(
     const users = await Mentors.find({ tags: { $in: query } }).select([
       "name",
       "designation",
-      "tags"
-    ]); 
+      "tags",
+    ]);
     res.json({
       data: users,
     });
   })
 );
-
-
-
