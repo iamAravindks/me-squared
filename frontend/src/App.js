@@ -15,6 +15,7 @@ import SignupMentee from "./Components/Signup/SignupMentee";
 import Signupmentor from "./Components/Signup/Signupmentor";
 import PrivateRouteWrapper from "./Components/PrivateRoute";
 import Profile from "./Components/Profile/Profile";
+import BrowseMentor from "./Components/BrowseMentor/BrowseMentor";
 
 const App = () => {
 
@@ -47,11 +48,13 @@ const App = () => {
             <Route element={<PrivateRouteWrapper />}>
               <Route index element={<Home />} />
               <Route path="/profile" element={<Profile/>}/>
+              <Route path="/browsementor" element={<BrowseMentor />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signupmentee" element={<SignupMentee />} />
           <Route path="/signupmentor" element={<Signupmentor />} />
+          
         </Routes>
   </Router>
     </>

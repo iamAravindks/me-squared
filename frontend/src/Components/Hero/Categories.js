@@ -6,15 +6,15 @@ import Button from '../Button/Button'
 const Categories = () => {
   return (
     <div className={styles.categoryContainer}>
-        <Button color='violet' text='Javascript'/>
-        <Button color='green' text='Nodejs'/>
-        <Button color='red' text='Python'/>
+        <Button color='red' text='javascript'/>
+        <Button color='orange' text='leadership'/>
         <Button color='yellow' text='Data Structures'/>
+        <Button color='red' text='nodejs'/>
         <Button color='orange' text='Marketing'/>
-        <Button color='firebrick' text='Leadership'/>
-        <Button color='pink' text='Communication'/>
-        <Button color='crimson' text='C++'/>
-        <Button color='black' text='Java'/>
+        <Button color='yellow' text='CAD'/>
+        <Button color='red' text='python'/>
+        <Button color='orange' text='Communication'/>
+        <Button color='red' text='Java'/>
     </div>
   )
 }
