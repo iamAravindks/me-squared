@@ -56,7 +56,7 @@ const Provider = ({ children }) => {
         type: SEARCH_MENTORS,
         payload: data.data,
       });
-      
+      console.log(data)
     } catch (error) {
       const err =
         error.response && error.response.data.message

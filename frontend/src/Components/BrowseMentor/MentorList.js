@@ -6,7 +6,8 @@ import styles from './browseMentor.module.css'
 const MentorList = ({ searchTag }) => {
     console.log("Testing browse mentor with data",searchTag)
     const { getMentors,mentorsState } = useContext(MentorContext)
-    const {mentors} = mentorsState
+  const { mentors } = mentorsState
+  
     useEffect(() => {
         getMentors(searchTag)
     },[])
