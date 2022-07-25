@@ -281,6 +281,12 @@ menteeRoute.post(
     const { id } = req.params;
     const mentee = await Mentees.findById(req.mentee.id);
     const mentor = await Mentors.findById(id).select("-password");
+
+    if (!mentor)
+    {
+      res.status(404)
+      throw new Error("No mentor found")
+    }
     // console.log(mentor)
     if (mentee) {
       try {

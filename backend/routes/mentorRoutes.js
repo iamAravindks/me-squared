@@ -230,6 +230,7 @@ mentorRouter.get(
           },
         },
       },
+      { $project: { name: 1, profileImg: 1 } },
     ]);
 
     res.json({
@@ -256,7 +257,7 @@ mentorRouter.get(
           },
         },
       },
-      { $project: { name: 1 } },
+      { $project: { name: 1 ,profileImg:1} },
     ]);
 
     res.json({
@@ -289,7 +290,9 @@ mentorRouter.put(
     );
 
     res.json({
-      data: updatedMentor,
+      data: {
+        followers:updatedMentor.followers
+      },
     });
   })
 );
@@ -312,6 +315,7 @@ mentorRouter.delete(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
       {
         $pull: { pending: mongoose.Types.ObjectId(id) },
+        $pull: { followers: mongoose.Types.ObjectId(id) },
       },
       { new: true }
     );
@@ -325,7 +329,9 @@ mentorRouter.delete(
     );
 
     res.json({
-      data: updatedMentor,
+      data: {
+        followers: updatedMentor.followers,
+      },
     });
   })
 );
