@@ -86,7 +86,7 @@ select{
   text-align: center;
   font-size: 1rem;
 }
-.formContainer input[type="button"]{
+.formContainer input[type="submit"]{
   width: 200px;
   height: 40px;
   border-radius: 7px;
@@ -129,7 +129,36 @@ select{
   border:2px solid #5185d8;
 
 }
-
+.addPic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.addImgBtn {
+  display: flex;
+  background-color: #9ca6b7;
+  width: 170px;
+  height: 30px;
+  justify-content: space-around;
+  align-items: center;
+  color: #eee;
+  border-radius: 7px;
+  gap: 5px;
+  padding: 2px;
+  cursor: pointer;
+}
+.profileImgInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.profileImgInfo .clearBtn{
+  width: 150px;
+  cursor: pointer;
+}
 
 @media screen and (max-width:991px){
 

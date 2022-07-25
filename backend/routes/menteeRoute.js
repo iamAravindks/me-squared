@@ -88,8 +88,15 @@ menteeRoute.get(
 menteeRoute.post(
   "/signup",
   expressAsyncHandler(async (req, res) => {
-    const { name, email, password, yearNdClass, skillLooksFor, watNum } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      yearNdClass,
+      skillLooksFor,
+      watNum,
+      profileImg,
+    } = req.body;
     const newMentee = {
       name,
       email,
@@ -97,6 +104,7 @@ menteeRoute.post(
       yearNdClass,
       skillLooksFor,
       watNum,
+      profileImg
     };
     const isAlredyExist = await Mentees.findOne({ email });
     if (isAlredyExist)
@@ -118,6 +126,7 @@ menteeRoute.post(
           yearNdClass,
           skillLooksFor,
           watNum,
+          profileImg
         },
       });
     } else {

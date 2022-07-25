@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useReducer } from "react";
+import { uploadImg } from "../../utils/utils";
 import { ErrorContext } from "../errorContext/errorContext";
 import {menteeContextReducer} from "./MenteeContextReducer";
 import {
@@ -7,6 +8,8 @@ import {
   MENTEE_USER_LOGIN_SUCCESS,
   MENTEE_USER_LOGOUT,
   MENTEE_USER_LOGOUT_FAIL,
+  MENTEE_USER_REGISTER_FAIL,
+  MENTEE_USER_REGISTER_SUCCESS,
   REQUEST,
 } from "./menteeTypes";
 
@@ -66,6 +69,60 @@ const Provider = ({ children }) => {
     }
   };
 
+
+
+    const menteeRegister = async (
+      name,
+      email,
+      skillLooksFor,
+      watNum,
+      yearNdClass,
+      password,
+      img = null
+    ) => {
+      try {
+        let params = {
+          name,
+          email,
+          skillLooksFor,
+          watNum,
+          yearNdClass,
+          password,
+        };
+        dispatch({ type: REQUEST });
+        if (img) {
+          const profileImg = await uploadImg(img);
+
+          params.profileImg = profileImg;
+        }
+
+        const { data } = await axios.post(
+          "/api/mentees/signup",
+          params,
+          config
+        );
+        console.log(data)
+        dispatch({
+          type: MENTEE_USER_REGISTER_SUCCESS,
+          payload: data.data,
+        });
+      } catch (error) {
+        dispatch({
+          type: MENTEE_USER_REGISTER_FAIL,
+        });
+        const err =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        console.log(err);
+        setError(err);
+      }
+    };
+  
+  
+  
+  
+  
   //log out mentee
 
   //  log out
@@ -99,7 +156,8 @@ const Provider = ({ children }) => {
       value={{
         menteeState,
         menteeLogin,
-        logoutMentee
+        logoutMentee,
+        menteeRegister,
       }}
     >
       {children}
