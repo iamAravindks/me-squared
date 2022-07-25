@@ -25,6 +25,7 @@ const initialState = {
   mentor: {},
   error: null,
   userMentor: userInfo,
+  followReqs: [],
 };
 
 export const MentorContext = createContext(initialState);

@@ -4,13 +4,17 @@ import { useContext, useEffect } from 'react';
 
 import { MentorContext } from '../../context/mentorContext/Context';
 
+import ReqCard from './ReqCard'
+
 import styles from './mentorProfile.module.css';
 
 const MentorProfile = () => {
   const { getFollowRequests, getProfileMentor, mentorsState } =
     useContext(MentorContext);
+
   const { userMentor, followReqs } = mentorsState;
 
+  console.log(followReqs)
   useEffect(() => {
     getProfileMentor();
     getFollowRequests();
@@ -33,8 +37,11 @@ const MentorProfile = () => {
           </div>
         </div>
         <div className={styles.right}>
-          <div className={styles.reqCard}>
-            <p>{followReqs}</p>
+          <div className={styles.reqContainer}>
+          {/* {followReqs && followReqs[0].name} */}
+          {followReqs !== [] && 
+            followReqs.map(follower=> <ReqCard follower={follower} />)
+          }
           </div>
         </div>
       </div>

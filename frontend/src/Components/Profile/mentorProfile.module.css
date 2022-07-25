@@ -34,15 +34,16 @@ background: linear-gradient(180deg, rgba(233,189,190,1) 0%, rgba(255,255,255,1) 
     border-width: 2px;
 }
 
-.reqCard {
-    margin-left:3rem;
-    height: 5rem;
-    width: 5rem;
-    border-radius: 15px;
-    border-style: solid;
-    border-color: red;
-    border-width: 2px;
+.reqContainer {
+    display: flex;
+    flex-direction: column;
+    float: right;
 }
+
+.right {
+    width: 100%;
+}
+
 
 img {
     display: inline-block;
