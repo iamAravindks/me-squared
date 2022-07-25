@@ -92,6 +92,7 @@ const mentorContextReducer = (state, action) => {
         loading:false,
         followReqs:action.payload,
       };
+      return newState;
 
     default:
       return state;

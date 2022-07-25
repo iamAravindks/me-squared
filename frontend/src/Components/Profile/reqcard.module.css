@@ -1,0 +1,44 @@
+.container {
+    margin-right: 2rem;
+}
+
+.container a {
+    color: inherit;
+    text-decoration: inherit;
+
+}
+
+.reqCard {
+    height:100%;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    margin: 1rem 5rem 0 0;
+    min-height: 5rem;
+    min-width: 5rem;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+}
+
+.reqCard p {
+    margin-left: -1rem;
+    margin-right: 1rem;
+}
+
+.profImg{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    float:left;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.profImg img {
+    width: 50%;
+    height: 50%;
+    margin-left: 1rem;
+    object-fit: cover;
+}
