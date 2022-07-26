@@ -16,6 +16,7 @@ import PrivateRouteWrapper from "./Components/PrivateRoute";
 import Profile from "./Components/Profile/Profile";
 import BrowseMentor from "./Components/BrowseMentor/BrowseMentor";
 import Loader from "./Components/Loader/Loader";
+import MentorView from "./Components/Profile/MentorView"
 
 
 const App = () =>
@@ -46,6 +47,7 @@ const App = () =>
               <Route index element={<Home />} />
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/browsementor" element={<BrowseMentor />} />
+              <Route path="/browsementor/:userID" element={<MentorView />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
