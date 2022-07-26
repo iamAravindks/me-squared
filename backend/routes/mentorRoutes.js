@@ -347,6 +347,11 @@ mentorRouter.get(
     const mentorWithID = await Mentors.findOne({ _id: req.params.id }).select(
       "-password"
     );
+
+    if (!mentorWithID) {
+      res.status(404);
+      throw new Error("No mentor found");
+    }
     const followers = mentorWithID.followers;
     const requests = await Mentees.aggregate([
       {
@@ -359,10 +364,6 @@ mentorRouter.get(
       { $project: { name: 1 } },
     ]);
 
-    if (!mentorWithID) {
-      res.status(404);
-      throw new Error("No mentor found");
-    }
     if (req.mentor) {
       res.json({
         data: mentorWithID,
