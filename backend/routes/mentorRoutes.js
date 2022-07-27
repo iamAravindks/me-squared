@@ -366,26 +366,35 @@ mentorRouter.get(
 
     if (req.mentor) {
       res.json({
-        data: mentorWithID,
-        followers:requests
+        data: {
+          mentor: mentorWithID,
+          followers: requests,
+          following:true
+        },
       });
     } else if (req.mentee) {
       if (followers.includes(mongoose.Types.ObjectId(req.mentee._id))) {
         res.json({
-          data: mentorWithID,
-          followers:requests
+          data: {
+            mentor: mentorWithID,
+            followers: requests,
+            following: true,
+          },
         });
       } else {
         const { _id, name, designation, about, tags ,profileImg} = mentorWithID;
         res.json({
           data: {
-            _id,
-            name,
-            designation,
-            about,
-            tags,
+            mentor: {
+              _id,
+              name,
+              designation,
+              about,
+              tags,
+              profileImg,
+            },
             followersCount: followers.length,
-            profileImg,
+            following: false,
           },
         });
       }
