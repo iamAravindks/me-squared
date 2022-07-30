@@ -16,7 +16,7 @@ const Hero = () => {
               "Career",
               "Growth",
               "Resume",
-              "UX Design",
+              "UI/UX",
               "SEO",
               
             ]}

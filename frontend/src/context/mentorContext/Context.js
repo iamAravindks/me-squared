@@ -4,6 +4,7 @@ import mentorContextReducer from "./mentorContextReducer";
 
 import {
   SEARCH_MENTORS,
+  SEARCH_MENTOR,
   REQUEST,
   MENTOR_USER_REGISTER_FAIL,
   MENTOR_USER_REGISTER_SUCCESS,
@@ -22,7 +23,7 @@ const userInfo = JSON.parse(localStorage.getItem("userMentor")) || null;
 const initialState = {
   loading: false,
   mentors: [],
-  mentor: {},
+  mentorData: {},
   error: null,
   userMentor: userInfo,
   followReqs: [],
@@ -54,6 +55,26 @@ const Provider = ({ children }) => {
       const {data} = await axios.get(`/api/mentors/tag/${tag}`, config);
       dispatch({
         type: SEARCH_MENTORS,
+        payload: data.data,
+      });
+      console.log(data)
+    } catch (error) {
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      console.log(err);
+    }
+  };
+
+  const getMentor = async (_id) => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      const {data} = await axios.get(`/api/mentors/mentor/${_id}`, config);
+      dispatch({
+        type: SEARCH_MENTOR,
         payload: data.data,
       });
       console.log(data)
@@ -215,6 +236,7 @@ const Provider = ({ children }) => {
       value={{
         mentorsState,
         getMentors,
+        getMentor,
         MentorLogin,
         MentorRegister,
         logout,
