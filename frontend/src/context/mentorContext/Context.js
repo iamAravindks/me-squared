@@ -15,6 +15,8 @@ import {
   MENTOR_USER_PROFILE_SUCCESS,
   MENTOR_USER_PROFILE_FAIL,
   MENTOR_RETREIVE_FOLLOW_REQUESTS,
+  SEARCH_MENTOR_FAIL,
+  SEARCH_MENTORS_FAIL,
 } from "./mentorTypes";
 import { ErrorContext } from "../errorContext/errorContext";
 import { uploadImg } from "../../utils/utils";
@@ -52,18 +54,23 @@ const Provider = ({ children }) => {
       dispatch({
         type: REQUEST,
       });
-      const {data} = await axios.get(`/api/mentors/tag/${tag}`, config);
+      const { data } = await axios.get(`/api/mentors/tag/${ tag }`, config);
+      if(data.data.length===0) setError("No mentors found")
       dispatch({
         type: SEARCH_MENTORS,
         payload: data.data,
       });
-      console.log(data)
-    } catch (error) {
+    } catch (error)
+    {
+      dispatch({
+        type:SEARCH_MENTORS_FAIL
+      })
       const err =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
       console.log(err);
+      setError(err);
     }
   };
 
@@ -77,13 +84,17 @@ const Provider = ({ children }) => {
         type: SEARCH_MENTOR,
         payload: data.data,
       });
-      console.log(data)
-    } catch (error) {
+    } catch (error)
+    {
+      dispatch({
+        type:SEARCH_MENTOR_FAIL
+      })
       const err =
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
       console.log(err);
+      setError(err);
     }
   };
 
@@ -103,7 +114,6 @@ const Provider = ({ children }) => {
         },
         config
       );
-      console.log(data);
       dispatch({
         type: MENTOR_USER_LOGIN_SUCCESS,
         payload: data.data,
@@ -189,7 +199,6 @@ const Provider = ({ children }) => {
         type: REQUEST,
       });
       const { data } = await axios.get("/api/mentors/profile", config);
-      console.log(data);
       dispatch({
         type: MENTOR_USER_PROFILE_SUCCESS,
         payload: data.data,
@@ -213,7 +222,6 @@ const Provider = ({ children }) => {
         type: REQUEST,
       });
       const { data } = await axios.get("/api/mentors/follow-requests", config);
-      console.log(data);
       dispatch({
         type: MENTOR_RETREIVE_FOLLOW_REQUESTS,
         payload: data.data,

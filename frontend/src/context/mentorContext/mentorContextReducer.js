@@ -14,7 +14,9 @@ import {
   MENTOR_USER_REGISTER_SUCCESS,
   MENTOR_USER_PROFILE_FAIL,
   MENTOR_USER_PROFILE_SUCCESS,
-  MENTOR_RETREIVE_FOLLOW_REQUESTS
+  MENTOR_RETREIVE_FOLLOW_REQUESTS,
+  SEARCH_MENTOR_FAIL,
+  SEARCH_MENTORS_FAIL
 } from "./mentorTypes";
 
 const mentorContextReducer = (state, action) => {
@@ -79,9 +81,23 @@ const mentorContextReducer = (state, action) => {
     case MENTOR_USER_REGISTER_FAIL:
     case MENTOR_USER_PROFILE_FAIL:
       return {
+        ...state,
         loading: false,
         userMentor: null,
+      };
+    
+    case SEARCH_MENTOR_FAIL:
+      return {
         ...state,
+        mentorData: {},
+        loading:false
+      };
+    case SEARCH_MENTORS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        mentorData: {},
+        mentors: [],
       };
 
     case MENTOR_USER_LOGOUT:
