@@ -23,7 +23,7 @@ const userInfo = JSON.parse(localStorage.getItem("userMentor")) || null;
 const initialState = {
   loading: false,
   mentors: [],
-  mentor: {},
+  mentorData: {},
   error: null,
   userMentor: userInfo,
   followReqs: [],

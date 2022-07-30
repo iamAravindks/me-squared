@@ -15,7 +15,7 @@ const MentorList = ({ searchTag }) => {
   return (
     <div className={styles.mentorsContainer}>
        {
-        mentors!==[] ? mentors.map(mentor => <Mentor mentor={mentor} />) : ""
+        mentors!==[] ? mentors.map(mentor => <Mentor mentor={mentor} key={mentor._id}/>) : ""
        }
     </div>
   )

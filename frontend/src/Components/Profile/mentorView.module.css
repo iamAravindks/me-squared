@@ -1,6 +1,5 @@
 .viewContainer {
     padding: 100px 50px 0px 50px; 
-    /* background-color: lightblue; */
 }
 
 .viewContainer h4 {
@@ -17,9 +16,9 @@
     background-color: white;
     position: absolute;
     top: 170px;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    bottom: 0%;
+    right: 0%;
+    left: 0%;
 }
 
 .menuBar {
@@ -28,7 +27,7 @@
     background-color: whitesmoke;
     padding: 8px 350px;
     top: 170px;
-    left: 0;
+    left: 0%;
     width: 100%;
     min-height: 40px;
 }
@@ -47,10 +46,12 @@
 .menuBar button:focus {
     color: #1266F1;
     text-decoration: underline;
+    font-size: 1rem;
 } 
 
 .menuBar button:hover {
     color: #1266F1;
+    font-size: 1rem;
 }
 
 .profileCard {
@@ -110,7 +111,7 @@
     left: 350px;
     top: 250px;
     padding: 30px;
-    min-width: 900px;
+    width: 900px;
     min-height: 100px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

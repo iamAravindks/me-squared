@@ -8,7 +8,7 @@ const Categories = () => {
     <div className={styles.categoryContainer}>
         <Button color='red' text='javascript'/>
         <Button color='orange' text='leadership'/>
-        <Button color='yellow' text='Data Structures'/>
+        <Button color='yellow' text='cloud computing'/>
         <Button color='red' text='nodejs'/>
         <Button color='orange' text='Marketing'/>
         <Button color='yellow' text='CAD'/>

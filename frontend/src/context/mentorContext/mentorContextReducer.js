@@ -35,10 +35,10 @@ const mentorContextReducer = (state, action) => {
       newState={
         ...state,
         loading: false,
-        mentor: action.payload,
+        mentorData: action.payload,
       }
       return newState
-      
+
     case CLEAR_MENTORS:
       return {
         loading: false,
