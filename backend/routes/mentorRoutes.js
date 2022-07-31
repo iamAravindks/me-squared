@@ -386,7 +386,7 @@ mentorRouter.get(
           },
         },
       },
-      { $project: { name: 1 } },
+      { $project: { name: 1 ,profileImg:1} },
     ]);
 
     if (req.mentor) {
