@@ -2,7 +2,10 @@ import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import Mentees from "../models/menteeModel.js";
 import { generateToken } from "../utils/util.js";
-import { isAuthorisedMentee } from "../middleware/authMiddleware.js";
+import {
+  isAuthorisedMentee,
+  isAuthorisedMenteeOrMentor,
+} from "../middleware/authMiddleware.js";
 import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 import mongoose from "mongoose";
@@ -69,15 +72,32 @@ menteeRoute.get(
   "/profile",
   isAuthorisedMentee,
   expressAsyncHandler(async (req, res) => {
-    const mentee = await Mentees.findById(req.mentee.id).select("-password");
-    if (mentee) {
-      res.json({
-        data: mentee,
-      });
-    } else {
+    const menteeWithId = await Mentees.findById(req.mentee.id).select(
+      "-password"
+    );
+
+    if (!menteeWithId) {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("Can't find a mentee");
     }
+
+    const followings = menteeWithId.following;
+
+    const followingsList = await Mentors.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followings,
+          },
+        },
+      },
+      { $project: { name: 1, profileImg: 1 } },
+    ]);
+
+    res.json({
+      data: menteeWithId,
+      following: followingsList,
+    });
   })
 );
 
@@ -307,7 +327,6 @@ menteeRoute.post(
       following: { $in: id },
     });
 
-
     if (isFollowing) {
       res.status(403);
       throw new Error("Already following");
@@ -340,7 +359,7 @@ menteeRoute.post(
 
         res.json({
           data: {
-            following:updatedMentee.following,
+            following: updatedMentee.following,
           },
         });
       } catch (error) {
@@ -350,4 +369,39 @@ menteeRoute.post(
     }
   })
 );
+
+menteeRoute.get(
+  "/mentee/:id",
+  isAuthorisedMenteeOrMentor,
+  expressAsyncHandler(async (req, res) =>
+  {
+    const menteeWithId = await Mentees.findById(req.params.id).select("-password")
+
+
+    if (!menteeWithId)
+    {
+      res.status(404)
+      throw new Error("Can't find a mentee")
+    }
+
+        const followings = menteeWithId.following;
+
+        const followingsList = await Mentors.aggregate([
+          {
+            $match: {
+              _id: {
+                $in: followings,
+              },
+            },
+          },
+          { $project: { name: 1, profileImg: 1 } },
+        ]);
+    
+    res.json({
+      data: menteeWithId,
+      following : followingsList
+    })
+  })
+);
+
 export default menteeRoute;
