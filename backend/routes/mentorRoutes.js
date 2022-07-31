@@ -115,8 +115,23 @@ mentorRouter.get(
     const mentorWithID = await Mentors.findById(req.mentor.id).select(
       "-password"
     );
+        const followers = mentorWithID.followers;
+        const requests = await Mentees.aggregate([
+          {
+            $match: {
+              _id: {
+                $in: followers,
+              },
+            },
+          },
+          { $project: { name: 1, profileImg: 1 } },
+        ]);
     res.status(200).json({
-      data: mentorWithID,
+      data: {
+        mentor: mentorWithID,
+        followers:requests
+      }
+
     });
   })
 );
@@ -283,12 +298,12 @@ mentorRouter.put(
 
     const isPendingReq = await Mentors.findOne({
       _id: req.mentor.id,
-      pending:{$in :id}
+      pending:{$in :mentee._id}
     })
     
     const isFollower = await Mentors.findOne({
       _id: req.mentor.id,
-      followers:{$in:id}
+      followers:{$in:mentee._id}
     })
 
     if (!isPendingReq || isFollower)
@@ -300,8 +315,8 @@ mentorRouter.put(
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
       {
-        $pull: { pending: mongoose.Types.ObjectId(id) },
-        $addToSet: { followers: mongoose.Types.ObjectId(id) },
+        $pull: { pending: mentee._id },
+        $addToSet: { followers: mentee._id },
       },
       { new: true }
     );
@@ -319,7 +334,7 @@ mentorRouter.put(
 // @route DELETE  /api/mentors/accept-mentee/:id
 // @access private
 /**
- * ? Should i change the endpoint name and response
+ * 
  * 
  * 
  * 
@@ -333,21 +348,31 @@ mentorRouter.delete(
     const mentee = await Mentees.findById(id);
     const mentor = await Mentors.findById(req.mentor.id);
 
+    const isInFolloReq = await Mentors.findOne({
+      _id: mentor._id,
+      pending:{$in:mentee._id}
+    })
+
     
+    if (!isInFolloReq)
+    {
+      res.status(403)
+      throw new Error("Can't reject a null follow request")
+    }
 
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
       {
-        $pull: { pending: mongoose.Types.ObjectId(id) },
-        $pull: { followers: mongoose.Types.ObjectId(id) },
+        $pull: { pending: mentee._id, followers: mentee._id },
+
       },
       { new: true }
     );
 
     const updatedMentee = await Mentees.findByIdAndUpdate(
-      { _id: mongoose.Types.ObjectId(id) },
+      { _id: mentee._id },
       {
-        $pull: { following: mongoose.Types.ObjectId(mentor._id) },
+        $pull: { following: mentor._id},
       },
       { new: true }
     );
@@ -355,7 +380,7 @@ mentorRouter.delete(
     res.json({
       data: {
         followersReqs: updatedMentor.pending,
-        // followers:updatedMentee.followers
+        followers:updatedMentee.followers
       },
     });
   })
