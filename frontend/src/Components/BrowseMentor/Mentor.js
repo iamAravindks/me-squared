@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './browseMentor.module.css'
-import { CloudinaryContext, Image } from "cloudinary-react";
+import { CloudinaryContext, Image ,} from "cloudinary-react";
 import { Link } from 'react-router-dom'
 const Mentor = ({ mentor }) => {
   return (

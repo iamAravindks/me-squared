@@ -2,7 +2,10 @@ import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import Mentees from "../models/menteeModel.js";
 import { generateToken } from "../utils/util.js";
-import { isAuthorisedMentee } from "../middleware/authMiddleware.js";
+import {
+  isAuthorisedMentee,
+  isAuthorisedMenteeOrMentor,
+} from "../middleware/authMiddleware.js";
 import { idValidator } from "../middleware/idValidator.js";
 import Mentors from "../models/mentorModle.js";
 import mongoose from "mongoose";
@@ -69,15 +72,32 @@ menteeRoute.get(
   "/profile",
   isAuthorisedMentee,
   expressAsyncHandler(async (req, res) => {
-    const mentee = await Mentees.findById(req.mentee.id).select("-password");
-    if (mentee) {
-      res.json({
-        data: mentee,
-      });
-    } else {
+    const menteeWithId = await Mentees.findById(req.mentee.id).select(
+      "-password"
+    );
+
+    if (!menteeWithId) {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("Can't find a mentee");
     }
+
+    const followings = menteeWithId.following;
+
+    const followingsList = await Mentors.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followings,
+          },
+        },
+      },
+      { $project: { name: 1, profileImg: 1 } },
+    ]);
+
+    res.json({
+      data: menteeWithId,
+      following: followingsList,
+    });
   })
 );
 
@@ -104,7 +124,7 @@ menteeRoute.post(
       yearNdClass,
       skillLooksFor,
       watNum,
-      profileImg
+      profileImg,
     };
     const isAlredyExist = await Mentees.findOne({ email });
     if (isAlredyExist)
@@ -126,7 +146,7 @@ menteeRoute.post(
           yearNdClass,
           skillLooksFor,
           watNum,
-          profileImg
+          profileImg,
         },
       });
     } else {
@@ -222,6 +242,7 @@ menteeRoute.get(
   isAuthorisedMentee,
   expressAsyncHandler(async (req, res) => {
     const mentee = await Mentees.findById(req.mentee.id);
+
     const following = mentee.following;
     const followings = await Mentors.aggregate([
       {
@@ -231,8 +252,8 @@ menteeRoute.get(
           },
         },
       },
-      { $project: {name:1} },
-    ])
+      { $project: { name: 1 } },
+    ]);
 
     res.json({
       data: followings,
@@ -247,11 +268,22 @@ menteeRoute.get(
 menteeRoute.delete(
   "/follow-mentor/:id",
   isAuthorisedMentee,
-  expressAsyncHandler(async (req, res) =>
-  {
+  expressAsyncHandler(async (req, res) => {
     const { id: mentorId } = req.params;
 
     // remove from the following list of mentee
+
+    const isFollowing = await Mentees.findOne({
+      _id: mongoose.Types.ObjectId(req.mentee.id),
+      following: { $in: mentorId },
+    });
+
+    console.log(isFollowing);
+
+    if (!isFollowing) {
+      res.status(403);
+      throw new Error("Can't make a unfollow if not following");
+    }
 
     const updatedMentee = await Mentees.findByIdAndUpdate(
       {
@@ -274,8 +306,8 @@ menteeRoute.delete(
     );
 
     res.json({
-      data:updatedMentee
-    })
+      data: updatedMentee.following,
+    });
   })
 );
 
@@ -289,12 +321,22 @@ menteeRoute.post(
   expressAsyncHandler(async (req, res) => {
     const { id } = req.params;
     const mentee = await Mentees.findById(req.mentee.id);
+
+    const isFollowing = await Mentees.findOne({
+      _id: mongoose.Types.ObjectId(req.mentee.id),
+      following: { $in: id },
+    });
+
+    if (isFollowing) {
+      res.status(403);
+      throw new Error("Already following");
+    }
+
     const mentor = await Mentors.findById(id).select("-password");
 
-    if (!mentor)
-    {
-      res.status(404)
-      throw new Error("No mentor found")
+    if (!mentor) {
+      res.status(404);
+      throw new Error("No mentor found");
     }
     // console.log(mentor)
     if (mentee) {
@@ -303,7 +345,7 @@ menteeRoute.post(
           { _id: mongoose.Types.ObjectId(req.mentee.id) },
           { $addToSet: { following: mentor._id } },
           { new: true }
-        ).select("-password");;
+        ).select("-password");
 
         const updatedMentor = await Mentors.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(mentor._id) },
@@ -313,11 +355,11 @@ menteeRoute.post(
             },
           },
           { new: true }
-        )
+        );
 
         res.json({
           data: {
-            mentee: updatedMentee,
+            following: updatedMentee.following,
           },
         });
       } catch (error) {
@@ -327,4 +369,39 @@ menteeRoute.post(
     }
   })
 );
+
+menteeRoute.get(
+  "/mentee/:id",
+  isAuthorisedMenteeOrMentor,
+  expressAsyncHandler(async (req, res) =>
+  {
+    const menteeWithId = await Mentees.findById(req.params.id).select("-password")
+
+
+    if (!menteeWithId)
+    {
+      res.status(404)
+      throw new Error("Can't find a mentee")
+    }
+
+        const followings = menteeWithId.following;
+
+        const followingsList = await Mentors.aggregate([
+          {
+            $match: {
+              _id: {
+                $in: followings,
+              },
+            },
+          },
+          { $project: { name: 1, profileImg: 1 } },
+        ]);
+    
+    res.json({
+      data: menteeWithId,
+      following : followingsList
+    })
+  })
+);
+
 export default menteeRoute;

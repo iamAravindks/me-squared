@@ -280,6 +280,23 @@ mentorRouter.put(
     const mentee = await Mentees.findById(id);
     const mentor = await Mentors.findById(req.mentor.id);
 
+
+    const isPendingReq = await Mentors.findOne({
+      _id: req.mentor.id,
+      pending:{$in :id}
+    })
+    
+    const isFollower = await Mentors.findOne({
+      _id: req.mentor.id,
+      followers:{$in:id}
+    })
+
+    if (!isPendingReq || isFollower)
+    {
+      res.status(403)
+      throw new Error("Can't make a request")
+    }
+
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
       {
@@ -291,7 +308,8 @@ mentorRouter.put(
 
     res.json({
       data: {
-        followers:updatedMentor.followers
+        followers: updatedMentor.followers,
+        followReqs : updatedMentor.pending
       },
     });
   })
@@ -300,16 +318,22 @@ mentorRouter.put(
 // @desc decline the follow request
 // @route DELETE  /api/mentors/accept-mentee/:id
 // @access private
-
+/**
+ * ? Should i change the endpoint name and response
+ * 
+ * 
+ * 
+ */
 mentorRouter.delete(
-  "/accept-mentee/:id",
+  "/reject-mentee/:id",
   isAuthorisedMentor,
   expressAsyncHandler(async (req, res) => {
-    // logic
-
+  
     const { id } = req.params;
     const mentee = await Mentees.findById(id);
     const mentor = await Mentors.findById(req.mentor.id);
+
+    
 
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
@@ -331,6 +355,7 @@ mentorRouter.delete(
     res.json({
       data: {
         followers: updatedMentor.followers,
+        followReqs:updatedMentor.pending
       },
     });
   })
@@ -361,7 +386,7 @@ mentorRouter.get(
           },
         },
       },
-      { $project: { name: 1 } },
+      { $project: { name: 1 ,profileImg:1} },
     ]);
 
     if (req.mentor) {

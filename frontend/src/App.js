@@ -25,7 +25,6 @@ const App = () =>
   const [tabSelected, setTabSelected] = useState("home");
 
 
-
   const Layout = () => {
     return (
       <>
