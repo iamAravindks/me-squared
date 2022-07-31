@@ -15,6 +15,7 @@ const Categories = () => {
         <Button color='red' text='python'/>
         <Button color='orange' text='Communication'/>
         <Button color='red' text='Java'/>
+        <Button color='yellow' text='azure'/>
     </div>
   )
 }
