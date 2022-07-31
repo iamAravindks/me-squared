@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { MentorContext } from '../../context/mentorContext/Context'
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from './mentorView.module.css'
@@ -17,14 +17,16 @@ const MentorView = () => {
     const [tab,setTab]=useState({
         about:true,
         skills:false,
-        connect:false
+        connect:false,
+        followersTab: false
     })
 
     const displayAbout = () => {
         setTab({
             about: true,
             skills: false,
-            connect: false
+            connect: false,
+            followersTab: false
         })
     }
 
@@ -32,7 +34,8 @@ const MentorView = () => {
         setTab({
             about: false,
             skills: true,
-            connect: false
+            connect: false,
+            followersTab: false
         })
     }
 
@@ -40,11 +43,21 @@ const MentorView = () => {
         setTab({
             about: false,
             skills: false,
-            connect: true
+            connect: true,
+            followersTab: false
         })
     }
 
-    const { about, skills, connect } = tab
+    const displayFollowers = () => {
+        setTab({
+            about: false,
+            skills: false,
+            connect: false,
+            followersTab: true
+        })
+    }
+
+    const { about, skills, connect, followersTab } = tab
     if(mentor)
     return (
         <div className={styles.viewContainer}>
@@ -55,6 +68,7 @@ const MentorView = () => {
                         <button autoFocus onClick={displayAbout}>About</button>
                         <button onClick={displaySkills}>Skills</button>
                         <button onClick={displayConnect}>Connect</button>
+                        <button onClick={displayFollowers}>Followers</button>
                     </div>
                     <div className={styles.profileCard}>
                         <CloudinaryContext cloudName="dlgosw3g3" >
@@ -73,6 +87,7 @@ const MentorView = () => {
                         </div>
                         { connect && 
                             <div className={styles.connectContainer}>
+                                <p>Studying in: {mentor.yearNdClass}</p>
                                 <p>{mentor.name} {mentor.respondIn}</p>
                                 <a href={mentor.socialLinks.facebook} target='_blank' rel='noreferrer'><i className="fa-brands fa-facebook-f"></i></a>
                                 <a href={mentor.socialLinks.twitter} target='_blank' rel='noreferrer'><i className="fa-brands fa-twitter"></i></a>
@@ -81,6 +96,9 @@ const MentorView = () => {
                                 <p><i className="fa-brands fa-whatsapp"></i> {mentor.watNum}</p>
                             </div>
                         }
+                        <div className={styles.followContainer}>
+                            {followersTab && mentorData.followers.map(follower => <Link to={`/browsementor/${userID}/${follower._id}`} style={{ textDecoration: "none", color: "black" }}><p>{follower.name}</p></Link>)}
+                        </div>
                     </div>
                 </> : 
                 <>

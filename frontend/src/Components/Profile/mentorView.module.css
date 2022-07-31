@@ -33,10 +33,11 @@
 }
 
 .menuBar button {
-    min-width: 70px;
+    min-width: 90px;
     min-height: 35px;
     font-size: 1.1rem;
     margin-right: 80px;
+    padding: 5px;
     border: none;
     outline: none;
     background-color: whitesmoke;
@@ -146,4 +147,24 @@
 .connectContainer p i {
     color: #1266F1;
     font-size: 1.5rem;
+}
+
+.followContainer {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.followContainer p {
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 20px;
+    min-width: 150px;
+    text-align: center;
+    background-color: white;
+}
+
+.followContainer p:hover {
+    filter: brightness(0.97);
 }
