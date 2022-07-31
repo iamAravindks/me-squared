@@ -2,16 +2,6 @@
     padding: 100px 50px 0px 50px; 
 }
 
-.viewContainer h4 {
-    position: relative;
-    z-index: 10;
-}
-
-.viewContainer p {
-    position: relative;
-    z-index: 10;
-}
-
 .backgroundColor {
     background-color: white;
     position: absolute;
@@ -29,7 +19,7 @@
     top: 170px;
     left: 0%;
     width: 100%;
-    min-height: 40px;
+    height: 50px;
 }
 
 .menuBar button {
@@ -64,7 +54,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: 15px;
-    position: relative;
+    position: absolute;
     z-index: 10;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -83,11 +73,34 @@
 .profileCard p {
     font-size: 0.9rem;
     font-weight: 450;
-    cursor: pointer;
     color: #1266F1;
+    margin-bottom: 10px;
 }
-.profileCard p:hover {
-    filter: brightness(0.8);
+
+.profileCard button {
+    padding: 3px;
+    min-width: 80px;
+    text-align: center;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.profileCard .following {
+    color: black;
+    background-color: white;
+}
+
+.profileCard .follow {
+    color: white;
+    background-color: #1266F1;
+}
+
+.profileCard button:hover {
+    filter: brightness(0.95);
 }
 
 .profImg{
@@ -106,19 +119,17 @@
     object-fit: cover;
 }
 
-.contentContainer {
-    position: absolute;
+.aboutContainer {
+    margin-left: 300px;
+    position: relative;
     z-index: 10;
-    left: 350px;
-    top: 250px;
-    padding: 30px;
-    width: 900px;
-    min-height: 100px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .skillsContainer {
+    margin-left: 300px;
+    margin-top: 150px;
+    position: relative;
+    z-index: 10;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -128,10 +139,17 @@
     border:solid #1266F1;
     color: #1266F1;
     border-radius: 20px;
-    padding: 5px;
+    padding: 8px;
     text-align: center;
     min-width: 100px;
     margin: 10px;
+    font-weight: 500;
+}
+
+.connectContainer {
+    margin-left: 300px;
+    position: relative;
+    z-index: 10;
 }
 
 .connectContainer a {
@@ -150,21 +168,50 @@
 }
 
 .followContainer {
+    margin-left: 300px;
+    height: 500px;
+    width: 500px; 
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
 }
 
-.followContainer p {
-    border: 2px solid;
-    border-radius: 5px;
+.followContainer h4 {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 3px;
     padding: 5px;
-    margin-right: 20px;
-    min-width: 150px;
-    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    min-width: 330px;
+    height: 50px;
     background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: 500;
 }
 
-.followContainer p:hover {
+.followContainer h4:hover {
     filter: brightness(0.97);
+}
+
+.followProfImg {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.followProfImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

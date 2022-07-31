@@ -4,7 +4,7 @@ import { MentorContext } from '../../context/mentorContext/Context'
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from './mentorView.module.css'
 import { v1 as uuid } from 'uuid'
-
+import {stringAvatar } from '../../utils/utils';
 const MentorView = () => {
     const { userID } = useParams()
     const { mentorsState, getMentor } = useContext(MentorContext)
@@ -13,7 +13,7 @@ const MentorView = () => {
     useEffect(() => {
         getMentor(userID)
     },[])
-
+    
     const [tab,setTab]=useState({
         about:true,
         skills:false,
@@ -79,9 +79,9 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followers.length !== 1 ? `${mentorData.followers.length} Followers` :  '1 Follower'}</p>
+                        <button className={styles.following}>Following</button>
                     </div>
-                    <div className={styles.contentContainer}>
-                        <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4>{tag}</h4>)}</div>
+                        <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
                             {about && <p>{mentor.about}</p>}
                         </div>
@@ -97,9 +97,13 @@ const MentorView = () => {
                             </div>
                         }
                         <div className={styles.followContainer}>
-                            {followersTab && mentorData.followers.map(follower => <Link to={`/browsementor/${userID}/${follower._id}`} style={{ textDecoration: "none", color: "black" }}><p>{follower.name}</p></Link>)}
+                            {followersTab && mentorData.followers.map(follower => <Link to={`/browsementor/${userID}/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
+                            <div className={styles.followProfImg}>
+                                <Image publicId={follower.profileImg} width="50"  />
+                            </div>
+                        </CloudinaryContext> {follower.name}</h4></Link>)}
                         </div>
-                    </div>
+                    
                 </> : 
                 <>
                     <div className={styles.menuBar}>
@@ -115,13 +119,12 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followersCount !== 1 ? `${mentorData.followersCount} Followers` :  '1 Follower'}</p>
+                        <button className={styles.follow}>Follow</button>
                     </div>
-                    <div className={styles.contentContainer}>
-                        <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 key={uuid()}>{tag}</h4>)}</div>
+                        <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
                             {about && <p>{mentor.about}</p>}
                         </div>
-                    </div>
                 </>
             }
         </div>

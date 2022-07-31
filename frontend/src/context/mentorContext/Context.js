@@ -84,7 +84,6 @@ const Provider = ({ children }) => {
         type: SEARCH_MENTOR,
         payload: data.data,
       });
-      console.log(data.data)
     } catch (error)
     {
       dispatch({
