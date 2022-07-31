@@ -17,6 +17,8 @@ import {
   MENTOR_RETREIVE_FOLLOW_REQUESTS,
   SEARCH_MENTOR_FAIL,
   SEARCH_MENTORS_FAIL,
+  MENTOR_ACCEPT_FOLLOW_REQUEST,
+  MENTOR_REJECT_FOLLOW_REQUEST,
 } from "./mentorTypes";
 import { ErrorContext } from "../errorContext/errorContext";
 import { uploadImg } from "../../utils/utils";
@@ -239,7 +241,53 @@ const Provider = ({ children }) => {
     }
   };
 
-  return (
+  const acceptFollowRequests = async(_id) => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      const {data} = await axios.put(`/api/mentors/accept-mentee/${_id}`, config);
+      console.log(data);
+      dispatch({
+        type: MENTOR_ACCEPT_FOLLOW_REQUEST,
+        payload: data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: MENTOR_ACCEPT_FOLLOW_REQUEST,
+      })
+      const err = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        console.error(err)
+        setError(err);
+    }
+  };
+
+  const rejectFollowRequests = async(_id) => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      const {data} = await axios.delete(`/api/mentors/reject-mentee/${_id}`, config);
+      console.log(data);
+      dispatch({
+        type: MENTOR_REJECT_FOLLOW_REQUEST,
+        payload: data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: MENTOR_REJECT_FOLLOW_REQUEST,
+      })
+      const err = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        console.error(err)
+        setError(err);
+    }
+  };
+
+    return (
     <MentorContext.Provider
       value={{
         mentorsState,
@@ -250,6 +298,8 @@ const Provider = ({ children }) => {
         logout,
         getProfileMentor,
         getFollowRequests,
+        acceptFollowRequests,
+        rejectFollowRequests,
       }}
     >
       {children}

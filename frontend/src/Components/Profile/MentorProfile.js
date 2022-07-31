@@ -1,52 +1,159 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import { useContext, useEffect } from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import ReqCard from './ReqCard';
 import { MentorContext } from '../../context/mentorContext/Context';
-
-import ReqCard from './ReqCard'
-
+import { CloudinaryContext, Image } from 'cloudinary-react';
 import styles from './mentorProfile.module.css';
+import { v1 as uuid } from 'uuid';
+import { stringAvatar } from '../../utils/utils';
 
 const MentorProfile = () => {
   const { getFollowRequests, getProfileMentor, mentorsState } =
     useContext(MentorContext);
 
   const { userMentor, followReqs } = mentorsState;
-
-  console.log(followReqs)
+  console.log(followReqs);
   useEffect(() => {
     getProfileMentor();
     getFollowRequests();
   }, []);
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.banner}>
-        <p></p>
-      </div>
+  const [tab, setTab] = useState({
+    about: true,
+    skills: false,
+    connect: false,
+    followersTab: false,
+  });
 
-      <div className={styles.bContainer}>
-        <div className={styles.left}>
-          <div className={styles.profContainer}>
-            <div className={styles.profCard}>
-              <img src={userMentor.profileImage} alt="blaah" />
-              <h2>{userMentor.name}</h2>
-              <p>{userMentor.designation}</p>
+  const displayAbout = () => {
+    setTab({
+      about: true,
+      skills: false,
+      connect: false,
+      followersTab: false,
+    });
+  };
+
+  const displaySkills = () => {
+    setTab({
+      about: false,
+      skills: true,
+      connect: false,
+      followersTab: false,
+    });
+  };
+
+  const displayConnect = () => {
+    setTab({
+      about: false,
+      skills: false,
+      connect: true,
+      followersTab: false,
+    });
+  };
+
+  const displayFollowers = () => {
+    setTab({
+      about: false,
+      skills: false,
+      connect: false,
+      followersTab: true,
+    });
+  };
+
+  const { about, skills, connect, followersTab } = tab;
+  if (userMentor)
+    return (
+      <div className={styles.viewContainer}>
+        <div className={styles.backgroundColor}></div>
+        <div className={styles.profile}>
+          <div className={styles.menuBar}>
+            <button autoFocus onClick={displayAbout}>
+              About
+            </button>
+            <button onClick={displaySkills}>Skills</button>
+            <button onClick={displayConnect}>Connect</button>
+          </div>
+          <div className={styles.profileCard}>
+            <CloudinaryContext cloudName="dlgosw3g3">
+              <div className={styles.profImg}>
+                <Image publicId={userMentor.profileImg} width="50" />
+              </div>
+            </CloudinaryContext>
+            <h3>{userMentor.name}</h3>
+            <h4>{userMentor.designation}</h4>
+            <p>
+              <i className="fa-solid fa-users"></i>{' '}
+              {userMentor.followers && userMentor.followers.length !== 1
+                ? `${userMentor.followers.length} Followers`
+                : '1 Follower'}
+            </p>
+          </div>
+          <div className={styles.skillsContainer}>
+            {skills &&
+              userMentor.tags.map((tag) => (
+                <h4
+                  style={{
+                    borderColor: stringAvatar(tag),
+                    color: stringAvatar(tag),
+                  }}
+                  key={uuid()}
+                >
+                  {tag}
+                </h4>
+              ))}
+          </div>
+          <div className={styles.aboutContainer}>
+            {about && <p>{userMentor.about}</p>}
+          </div>
+          {connect && (
+            <div className={styles.connectContainer}>
+              <p>Studying in: {userMentor.yearNdClass}</p>
+              <p>
+                {userMentor.name} {userMentor.respondIn}
+              </p>
+              <a
+                href={userMentor.socialLinks.facebook}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa-brands fa-facebook-f"></i>
+              </a>
+              <a
+                href={userMentor.socialLinks.twitter}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa-brands fa-twitter"></i>
+              </a>
+              <a
+                href={userMentor.socialLinks.github}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa-brands fa-github"></i>
+              </a>
+              <a
+                href={userMentor.socialLinks.instagram}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fa-brands fa-instagram"></i>
+              </a>
+              <p>
+                <i className="fa-brands fa-whatsapp"></i> {userMentor.watNum}
+              </p>
             </div>
-          </div>
+          )}
         </div>
-        <div className={styles.right}>
+          <div>
           <div className={styles.reqContainer}>
-          {/* {followReqs && followReqs[0].name} */}
-          {followReqs !== [] && 
-            followReqs.map(follower=> <ReqCard follower={follower} />)
-          }
-          </div>
+          {followReqs.length > 0 &&
+            followReqs.map((follower) => <ReqCard follower={follower} />)}
         </div>
+          </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default MentorProfile;

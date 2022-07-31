@@ -1,35 +1,32 @@
-.container {
-    margin-right: 2rem;
+.container{
+    display: flex;
+    width:50%;
 }
 
-.container a {
-    color: inherit;
-    text-decoration: inherit;
-
+.reqCard{
+    background:white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 10px;
+    min-width:400px;
+    display: flex;
+    gap: 1.5rem;
 }
 
-.reqCard {
-    height:100%;
-    width: 100%;
-    display:flex;
+.reqCard .menteeInfo {
+    text-decoration: none;
+    color: black;
+    display: flex;
     align-items: center;
-    margin: 1rem 5rem 0 0;
-    min-height: 5rem;
-    min-width: 5rem;
-    border-radius: 15px;
-    border-style: solid;
-    border-color: red;
-    border-width: 2px;
 }
 
-.reqCard p {
-    margin-left: -1rem;
-    margin-right: 1rem;
+.menteeInfo p {
+    font-size: 100;
 }
+
 
 .profImg{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     display: flex;
     float:left;
     align-items: center;
@@ -42,3 +39,36 @@
     margin-left: 1rem;
     object-fit: cover;
 }
+
+.actionArea{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 10px;
+    /* background:green; */
+}
+
+.accept {
+    color: #68D6C5;
+    background:#F1FBFA;
+    cursor: pointer;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.reject {
+    color: #FB9E85;
+    background: #FEF3F1;
+    cursor: pointer;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
