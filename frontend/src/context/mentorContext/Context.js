@@ -269,7 +269,7 @@ const Provider = ({ children }) => {
       dispatch({
         type: REQUEST,
       });
-      const {data} = await axios.delete(`/api/mentors/accept-mentee/${_id}`, config);
+      const {data} = await axios.delete(`/api/mentors/reject-mentee/${_id}`, config);
       console.log(data);
       dispatch({
         type: MENTOR_REJECT_FOLLOW_REQUEST,
