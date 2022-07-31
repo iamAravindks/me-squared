@@ -16,8 +16,10 @@ import {
   MENTOR_USER_PROFILE_SUCCESS,
   MENTOR_RETREIVE_FOLLOW_REQUESTS,
   SEARCH_MENTOR_FAIL,
-  SEARCH_MENTORS_FAIL
-} from "./mentorTypes";
+  SEARCH_MENTORS_FAIL,
+  MENTOR_ACCEPT_FOLLOW_REQUEST,
+  MENTOR_REJECT_FOLLOW_REQUEST,
+} from './mentorTypes';
 
 const mentorContextReducer = (state, action) => {
   let newState = {};
@@ -26,20 +28,20 @@ const mentorContextReducer = (state, action) => {
       return { ...state, loading: true };
 
     case SEARCH_MENTORS:
-      newState={
+      newState = {
         ...state,
         loading: false,
         mentors: action.payload,
       };
-      return newState
+      return newState;
 
     case SEARCH_MENTOR:
-      newState={
+      newState = {
         ...state,
         loading: false,
         mentorData: action.payload,
-      }
-      return newState
+      };
+      return newState;
 
     case CLEAR_MENTORS:
       return {
@@ -49,24 +51,14 @@ const mentorContextReducer = (state, action) => {
       };
 
     case MENTOR_USER_REGISTER_SUCCESS:
-      newState = {
-        ...state,
-        loading: false,
-        userMentor: action.payload,
-      };
-      localStorage.setItem("userMentor", JSON.stringify(action.payload));
-      localStorage.removeItem("userMentee")
-      return newState;
-
     case MENTOR_USER_LOGIN_SUCCESS:
       newState = {
         ...state,
         loading: false,
         userMentor: action.payload,
       };
-      localStorage.setItem("userMentor", JSON.stringify(action.payload));
-      localStorage.removeItem("userMentee");
-
+      localStorage.setItem('userMentor', JSON.stringify(action.payload));
+      localStorage.removeItem('userMentee');
       return newState;
 
     case MENTOR_USER_PROFILE_SUCCESS:
@@ -77,20 +69,31 @@ const mentorContextReducer = (state, action) => {
       };
       return newState;
 
+    case MENTOR_ACCEPT_FOLLOW_REQUEST:
+    case MENTOR_REJECT_FOLLOW_REQUEST:
+    case MENTOR_RETREIVE_FOLLOW_REQUESTS:
+      newState = {
+        ...state,
+        loading: false,
+        followReqs: action.payload,
+      };
+      return newState;
+
     case MENTOR_USER_LOGIN_FAIL:
     case MENTOR_USER_REGISTER_FAIL:
     case MENTOR_USER_PROFILE_FAIL:
+    case MENTOR_USER_LOGOUT:
       return {
         ...state,
         loading: false,
         userMentor: null,
       };
-    
+
     case SEARCH_MENTOR_FAIL:
       return {
         ...state,
         mentorData: {},
-        loading:false
+        loading: false,
       };
     case SEARCH_MENTORS_FAIL:
       return {
@@ -100,23 +103,8 @@ const mentorContextReducer = (state, action) => {
         mentors: [],
       };
 
-    case MENTOR_USER_LOGOUT:
-      return {
-        ...state,
-        loading: false,
-        userMentor: null,
-      };
-
     case MENTOR_USER_LOGOUT_FAIL:
       return state;
-
-    case  MENTOR_RETREIVE_FOLLOW_REQUESTS:
-      newState = {
-        ...state,
-        loading:false,
-        followReqs:action.payload,
-      };
-      return newState;
 
     default:
       return state;

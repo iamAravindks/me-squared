@@ -354,8 +354,8 @@ mentorRouter.delete(
 
     res.json({
       data: {
-        followers: updatedMentor.followers,
-        followReqs:updatedMentor.pending
+        followersReqs: updatedMentor.pending,
+        // followers:updatedMentee.followers
       },
     });
   })
