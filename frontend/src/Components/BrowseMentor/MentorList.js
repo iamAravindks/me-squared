@@ -19,7 +19,7 @@ const MentorList = ({ searchTag }) => {
       ) : (
         <div className={styles.nofound}>
             <Search />
-            <p>Sorry , no mentor for { searchTag}</p>
+            <p>Sorry, no mentors found</p>
         </div>
       )}
     </div>
