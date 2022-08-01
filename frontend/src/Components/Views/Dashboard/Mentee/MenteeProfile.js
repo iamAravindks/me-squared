@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import {Tooltip} from '@material-ui/core/'
 import { MenteeContext } from "../../../../context/menteeContext/MenteeContext";
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from "./menteeProfile.module.css";
@@ -155,7 +156,10 @@ console.log(userMentee.following);
                             <div className={styles.followProfImg}>
                                 <Image publicId={follower.profileImg} width="50"  />
                             </div>
-                        </CloudinaryContext> {follower.name}</h4></Link>)}
+                        </CloudinaryContext> {follower.name}
+                        {follower.pending===true ? <i className="fa-solid fa-circle-check"></i> : <i class="fa-solid fa-circle-exclamation"></i>}
+                        
+                        </h4></Link>)}
                         </div>}
           </div>
         </div>

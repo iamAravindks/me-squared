@@ -97,6 +97,7 @@ const MentorView = () => {
     return (
         <div className={styles.viewContainer}>
             {error && <Alert severity={"error"} message={error}/>}
+            
             <div className={styles.backgroundColor}></div>
             { mentorData && mentorData.following ?
                 <>
