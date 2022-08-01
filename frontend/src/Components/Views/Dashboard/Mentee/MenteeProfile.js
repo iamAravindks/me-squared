@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import {Tooltip} from '@material-ui/core/'
+import { Tooltip } from "@material-ui/core/";
 import { MenteeContext } from "../../../../context/menteeContext/MenteeContext";
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from "./menteeProfile.module.css";
@@ -8,14 +8,13 @@ import { v1 as uuid } from "uuid";
 import { stringAvatar } from "../../../../utils/utils";
 
 const MentorProfile = () => {
-  const { getProfileMentee, menteeState } =
-    useContext(MenteeContext);
+  const { getProfileMentee, menteeState } = useContext(MenteeContext);
 
   const { userMentee, following } = menteeState;
   useEffect(() => {
     getProfileMentee();
   }, []);
-console.log(userMentee.following);
+  console.log(userMentee.following);
   const [tab, setTab] = useState({
     about: true,
     skills: false,
@@ -83,22 +82,25 @@ console.log(userMentee.following);
               <h3>{userMentee.name}</h3>
               <h4>{userMentee.designation}</h4>
               <p>
-              <i className="fa-solid fa-envelope" style={{marginRight:'5px'}}></i>
+                <i
+                  className="fa-solid fa-envelope"
+                  style={{ marginRight: "5px" }}
+                ></i>
                 {userMentee.email}
               </p>
             </div>
 
             {skills && (
               <div className={`${styles.skillsContainer} ${styles.tabs}`}>
-                  <h4
-                    style={{
-                      borderColor: stringAvatar(userMentee.skillLooksFor),
-                      color: stringAvatar(userMentee.skillLooksFor),
-                    }}
-                    key={uuid()}
-                  >
-                    {userMentee.skillLooksFor}
-                  </h4>
+                <h4
+                  style={{
+                    borderColor: stringAvatar(userMentee.skillLooksFor),
+                    color: stringAvatar(userMentee.skillLooksFor),
+                  }}
+                  key={uuid()}
+                >
+                  {userMentee.skillLooksFor}
+                </h4>
               </div>
             )}
             {about && (
@@ -151,16 +153,49 @@ console.log(userMentee.following);
                 </div>
               </div>
             )}
-            {followersTab &&<div className={`${styles.followContainer} ${styles.tabs}`}>
-                            { following.map(follower => <Link to={`/browsementor/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
-                            <div className={styles.followProfImg}>
-                                <Image publicId={follower.profileImg} width="50"  />
-                            </div>
-                        </CloudinaryContext> {follower.name}
-                        {follower.pending===true ? <i className="fa-solid fa-circle-check"></i> : <i class="fa-solid fa-circle-exclamation"></i>}
-                        
-                        </h4></Link>)}
-                        </div>}
+            {followersTab && (
+              <div className={`${styles.followContainer} ${styles.tabs}`}>
+                {following.map((follower) => (
+                  <Link
+                    to={`/browsementor/${follower._id}`}
+                    style={{ textDecoration: "none", color: "black" }}
+                    key={uuid()}
+                  >
+                    <h4>
+                      <CloudinaryContext cloudName="dlgosw3g3">
+                        <div className={styles.followProfImg}>
+                          <Image publicId={follower.profileImg} width="50" />
+                        </div>
+                      </CloudinaryContext>{" "}
+                      {follower.name}
+                      {follower.pending === false ? (
+                        <Tooltip title="accepted">
+                          <i
+                            className="fa-solid fa-circle-check"
+                            style={{
+                              marginLeft: "auto",
+                              color: "#8bc34a",
+                              marginRight: "10px",
+                            }}
+                          ></i>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="pending request">
+                          <i
+                            className="fa-solid fa-circle-exclamation"
+                            style={{
+                              marginLeft: "auto",
+                              color: "#ff1744",
+                              marginRight: "10px",
+                            }}
+                          ></i>
+                        </Tooltip>
+                      )}
+                    </h4>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

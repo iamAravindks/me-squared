@@ -84,14 +84,14 @@ const MentorProfile = () => {
               </CloudinaryContext>
               <h3>{userMentor.name}</h3>
               <h4>{userMentor.designation}</h4>
-              <button className={styles.followersBtn} onClick={displayFollowers}>
+              <div style={{cursor:"pointer"}} onClick={displayFollowers}>
                 <p>
                   <i className="fa-solid fa-users"></i>{" "}
                   {userMentor.followers && userMentor.followers.length !== 1
                     ? `${userMentor.followers.length} Followers`
                     : "1 Follower"}
                 </p>
-              </button>
+              </div>
             </div>
 
             {skills && (
