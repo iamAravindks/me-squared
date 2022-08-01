@@ -29,7 +29,7 @@ const MentorsSchema = mongoose.Schema({
   pending: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Mentees", default: "" },
   ],
-  profileImg: { type: String, default: "tjrt4em8imosdzf8bbcm" },
+  profileImg: { type: String, default: "default_k9h24k" },
 });
 
 MentorsSchema.methods.matchPassword = async function (enteredPassword)

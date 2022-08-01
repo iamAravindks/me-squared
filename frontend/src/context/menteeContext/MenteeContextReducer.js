@@ -21,16 +21,16 @@ export const menteeContextReducer = (state, action) => {
 
     case SEARCH_MENTORS:
       return {
+        ...state,
         loading: false,
         mentors: action.payload,
-        ...state,
       };
 
     case CLEAR_MENTORS:
       return {
+        ...state,
         loading: false,
         mentors: [],
-        ...state,
       };
 
     case MENTEE_USER_REGISTER_SUCCESS:
@@ -66,9 +66,9 @@ export const menteeContextReducer = (state, action) => {
     case MENTEE_USER_REGISTER_FAIL:
     case MENTEE_USER_PROFILE_FAIL:
       return {
+        ...state,
         loading: false,
         userMentee: null,
-        ...state,
       };
 
     case MENTEE_USER_LOGOUT_FAIL:

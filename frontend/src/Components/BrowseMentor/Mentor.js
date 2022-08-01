@@ -7,7 +7,7 @@ const Mentor = ({ mentor }) => {
     <li className={styles.mentor} key={mentor._id}>
       <CloudinaryContext cloudName="dlgosw3g3" >
         <div className={styles.profImg}>
-          <Image publicId={mentor.profileImg} width="50"  />
+          <Image publicId={mentor.profileImg}   />
         </div>
       </CloudinaryContext>
       <h3>{mentor.name}</h3>
