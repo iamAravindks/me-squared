@@ -20,10 +20,11 @@ const MentorView = () => {
         getProfileMentee()
         getMentor(userID)
     },[])
+    console.log(mentorData)
     // let isFollowing = userMentee.following?.includes(userID)
-    const isFollowMentor = (id) => userMentee?.following?.includes(id)
-    console.log(isFollowMentor(userID))
-    const [buttonStyle, setButtonStyle] = useState(isFollowMentor(userID) ? {
+    // const isFollowMentor = (id) => userMentee?.following?.includes(id)
+    // console.log(isFollowMentor(userID))
+    const [buttonStyle, setButtonStyle] = useState( mentor ? {
         txtColor: "#000",
         bgColor: "#eee",
         // text: "Following"
@@ -80,13 +81,6 @@ const MentorView = () => {
     const followStatus =(e) => {
         e.preventDefault()
         followMentor(userID)
-        getProfileMentee()
-        // isFollowing = true
-        setButtonStyle({
-            txtColor: "#000",
-            bgColor: "#eee",
-            // text: "Following"
-        })
     }
 
 
@@ -114,7 +108,7 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followers.length !== 1 ? `${mentorData.followers.length} Followers` :  '1 Follower'}</p>
-                        {userMentee != null && <button className={styles.following}>Following</button>}
+                        {userMentee != null && <button className={styles.following} onClick={followStatus}>Following</button>}
                     </div>
                         <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
@@ -154,7 +148,7 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followersCount !== 1 ? `${mentorData.followersCount} Followers` :  '1 Follower'}</p>
-                        <button onClick={followStatus} style={{ color: txtColor, backgroundColor: bgColor }}>{isFollowMentor(userID) ? "Following" : "Follow"}</button>
+                        <button onClick={followStatus} style={{ color: txtColor, backgroundColor: bgColor }}>{mentor ? "Following" : "Follow"}</button>
                     </div>
                         <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
