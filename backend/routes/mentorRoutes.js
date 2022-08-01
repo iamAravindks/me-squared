@@ -419,7 +419,7 @@ mentorRouter.get(
         data: {
           mentor: mentorWithID,
           followers: requests,
-          following:true
+ 
         },
       });
     } else if (req.mentee) {

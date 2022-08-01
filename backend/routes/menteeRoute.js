@@ -359,7 +359,8 @@ menteeRoute.post(
 
         res.json({
           data: {
-            following: updatedMentee.following,
+            followingList: updatedMentee.following,
+            following:true
           },
         });
       } catch (error) {

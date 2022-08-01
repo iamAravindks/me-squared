@@ -1,23 +1,43 @@
-import React from 'react'
-import styles from './hero.module.css'
-import Button from '../Button/Button'
+import React from "react";
+import { v4 as uuid } from "uuid";
+import styles from "./hero.module.css";
+import Button from "../Button/Button";
+import { types } from "./btnCateogories";
 
+const Categories = () =>
+{
+  const animations = [
+    "fade-up",
+    "fade-down",
+    "fade-left",
+    "fade-up-right",
+    "fade-down-left",
+    "zoom-in",
+    "zoom-in-up",
+    "zoom-in-down",
+    "zoom-in-left",
+    "zoom-in-right",
+    "zoom-out"
+  ]
+  function randAnimation() {
+    // min and max included
+    return Math.floor(Math.random() * ((animations.length-1) - 0 + 1) + 0);
+  }
 
-const Categories = () => {
   return (
     <div className={styles.categoryContainer}>
-        <Button color='red' text='javascript'/>
-        <Button color='orange' text='leadership'/>
-        <Button color='yellow' text='cloud computing'/>
-        <Button color='red' text='nodejs'/>
-        <Button color='orange' text='Marketing'/>
-        <Button color='yellow' text='CAD'/>
-        <Button color='red' text='python'/>
-        <Button color='orange' text='Communication'/>
-        <Button color='red' text='Java'/>
-        <Button color='yellow' text='azure'/>
+      <div className={styles.btnContainer}>
+        {types.map(({ color, text }) => (
+          <Button
+            color={color}
+            text={text}
+            key={uuid()}
+            dataAos={animations[randAnimation()]}
+          />
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Categories
+export default Categories;

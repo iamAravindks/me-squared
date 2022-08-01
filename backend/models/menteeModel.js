@@ -21,7 +21,7 @@ const MenteeSchema = mongoose.Schema({
   following: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Mentors", default: "" },
   ],
-  profileImg: { type: String, default: "tjrt4em8imosdzf8bbcm" },
+  profileImg: { type: String, default: "default_k9h24k" },
 });
 
 //method for the model

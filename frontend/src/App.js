@@ -17,10 +17,12 @@ import Profile from "./Components/Profile/Profile";
 import BrowseMentor from "./Components/BrowseMentor/BrowseMentor";
 import Loader from "./Components/Loader/Loader";
 import MentorView from "./Components/Profile/MentorView"
+import Aos from "aos";
 
 
 const App = () =>
 {
+  Aos.init();
 
   const [tabSelected, setTabSelected] = useState("home");
 

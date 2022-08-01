@@ -69,7 +69,7 @@ const Topbar = ({
         >
           Home
         </Link>
-        <Link
+        {/* <Link
           to="/findmentor"
           className={
             tabSelected === "findmentor"
@@ -80,7 +80,7 @@ const Topbar = ({
           data-aos="zoom-in"
         >
           Find a mentor
-        </Link>
+        </Link> */}
         {/* <Link
           to="/signup"
           className={

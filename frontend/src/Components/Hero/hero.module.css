@@ -1,71 +1,88 @@
 .heroContainer {
-    margin-top: 150px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .heroContainer h1 {
-    color: white;
-    font-size: calc(1.525rem + 3.3vw);
-    margin-bottom: 1em;
-    width: 70%;
-    display: flex;
-    flex-wrap: wrap;
-    word-wrap: break-word;
-    justify-content: center;
-    align-items: center;
+  color: white;
+  font-size: calc(1.525rem + 3.3vw);
+  margin-bottom: 1em;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  justify-content: center;
+  align-items: center;
 }
 
 .heroContainer p {
-    color: rgba(253, 253, 253, 0.699);
-    font-weight: 600;
-    margin-bottom: 2em;
-    width: 75%;
-    text-align: center;
+  color: rgba(253, 253, 253, 0.699);
+  font-weight: 600;
+  margin-bottom: 2em;
+  width: 75%;
+  text-align: center;
 }
-.heroContainer h1 span{
-    color:  #1C3144;
-    margin: 0 5px;
+.heroContainer h1 span {
+  color: #1c3144;
+  margin: 0 5px;
 }
 
 .searchBar {
-    width: 60%;
-    position: relative;
+  width: 60%;
+  position: relative;
 }
 
 .searchBar input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 1rem;
-    padding: 1em;
-    border-radius: 5px;
-    margin-bottom: 2em; 
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1em;
+  border-radius: 5px;
+  margin-bottom: 2em;
 }
 
 .searchBar button {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background: #1266F1;
-    color: white;
-    width: 60px;
-    height: 35px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border-radius: 3px;
-    font-weight: 800;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #1266f1;
+  color: white;
+  width: 60px;
+  height: 35px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 3px;
+  font-weight: 800;
 }
 
 .searchBar button:hover {
-    filter: brightness(0.9);
+  filter: brightness(0.9);
 }
 
 .categoryContainer {
-    width: 75%;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnContainer {
+  width: 75%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  place-items: center;
+}
+
+@media screen and (max-width: 767px) {
+  .btnContainer {
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
 }

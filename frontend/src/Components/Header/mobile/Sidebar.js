@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MenteeContext } from "../../../context/menteeContext/MenteeContext";
+import { MentorContext } from "../../../context/mentorContext/Context";
 import styles from "./../header.module.css";
 
 const Sidebar = ({ tabSelected, setTabSelected, setSideNavBarStatus }) =>
@@ -8,8 +10,23 @@ const Sidebar = ({ tabSelected, setTabSelected, setSideNavBarStatus }) =>
       setTabSelected(path);
       setSideNavBarStatus(prevState=>!prevState)
     };
+
+      const { mentorsState, logout } = useContext(MentorContext);
+      const { menteeState, logoutMentee } = useContext(MenteeContext);
+
+      const { userMentor } = mentorsState;
+  const { userMentee } = menteeState;
+  
+    const handleLogout = () => {
+      if (userMentor) {
+        logout();
+      } else if (userMentee) {
+        logoutMentee();
+      }
+    };
+  
   return (
-    <div className={styles.SidebarMenuContainer}>
+    <div className={styles.SidebarMenuContainer} data-aos="fade-down">
       <Link
         to="/"
         className={
@@ -23,18 +40,18 @@ const Sidebar = ({ tabSelected, setTabSelected, setSideNavBarStatus }) =>
         Home
       </Link>
       <Link
-        to="/findmentor"
+        to="/profile"
         className={
-          tabSelected === "findmentor"
+          tabSelected === "profile"
             ? `${styles.menuItemMob} ${styles.tabSelected}`
             : `${styles.menuItemMob}`
         }
-        onClick={() => handleOnclick("findmentor")}
+        onClick={() => handleOnclick("profile")}
         data-aos="zoom-in"
       >
-        Find a mentor
+        Profile
       </Link>
-      <Link
+      {/* <Link
         to="/signup"
         className={
           tabSelected === "signup"
@@ -45,20 +62,28 @@ const Sidebar = ({ tabSelected, setTabSelected, setSideNavBarStatus }) =>
         data-aos="zoom-in"
       >
         <button>Get started</button>
-      </Link>
-      <Link
-        to="/login"
-        className={
-          tabSelected === "login"
-            ? `${styles.menuItemMob} ${styles.tabSelected}`
-            : `${styles.menuItemMob}`
-        }
-        onClick={() => handleOnclick("login")}
-        data-aos="zoom-in"
-      >
-        Login
-      </Link>
-      <Link
+      </Link> */}
+
+      {userMentor || userMentee ? (
+        <button className={styles.menuItemBtn} onClick={handleLogout}>
+          Log out
+        </button>
+      ) : (
+        <Link
+          to="/login"
+          className={
+            tabSelected === "login"
+              ? `${styles.menuItemMob} ${styles.tabSelected}`
+              : `${styles.menuItemMob}`
+          }
+          onClick={() => handleOnclick("login")}
+          data-aos="zoom-in"
+        >
+          Login
+        </Link>
+      )}
+
+      {/* <Link
         to="/support"
         className={
           tabSelected === "support"
@@ -69,7 +94,7 @@ const Sidebar = ({ tabSelected, setTabSelected, setSideNavBarStatus }) =>
         data-aos="zoom-in"
       >
         Support
-      </Link>
+      </Link> */}
     </div>
   );
 };
