@@ -46,13 +46,14 @@
     display: flex;
     align-items: center;
     justify-content:center;
+    padding: 15px;
     gap: 10px;
     /* background:green; */
 }
 
 .accept {
     color: #68D6C5;
-    background:#F1FBFA;
+    background:#e0f7f4;
     cursor: pointer;
     width: 5rem;
     height: 2rem;
@@ -64,7 +65,7 @@
 
 .reject {
     color: #FB9E85;
-    background: #FEF3F1;
+    background: #fdedea;
     cursor: pointer;
     width: 5rem;
     height: 2rem;
