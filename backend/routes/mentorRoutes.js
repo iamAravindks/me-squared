@@ -115,23 +115,22 @@ mentorRouter.get(
     const mentorWithID = await Mentors.findById(req.mentor.id).select(
       "-password"
     );
-        const followers = mentorWithID.followers;
-        const requests = await Mentees.aggregate([
-          {
-            $match: {
-              _id: {
-                $in: followers,
-              },
-            },
+    const followers = mentorWithID.followers;
+    const requests = await Mentees.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followers,
           },
-          { $project: { name: 1, profileImg: 1 } },
-        ]);
+        },
+      },
+      { $project: { name: 1, profileImg: 1 } },
+    ]);
     res.status(200).json({
       data: {
         mentor: mentorWithID,
-        followers:requests
-      }
-
+        followers: requests,
+      },
     });
   })
 );
@@ -272,7 +271,7 @@ mentorRouter.get(
           },
         },
       },
-      { $project: { name: 1 ,profileImg:1} },
+      { $project: { name: 1, profileImg: 1 } },
     ]);
 
     res.json({
@@ -295,21 +294,19 @@ mentorRouter.put(
     const mentee = await Mentees.findById(id);
     const mentor = await Mentors.findById(req.mentor.id);
 
-
     const isPendingReq = await Mentors.findOne({
       _id: req.mentor.id,
-      pending:{$in :mentee._id}
-    })
-    
+      pending: { $in: mentee._id },
+    });
+
     const isFollower = await Mentors.findOne({
       _id: req.mentor.id,
-      followers:{$in:mentee._id}
-    })
+      followers: { $in: mentee._id },
+    });
 
-    if (!isPendingReq || isFollower)
-    {
-      res.status(403)
-      throw new Error("Can't make a request")
+    if (!isPendingReq || isFollower) {
+      res.status(403);
+      throw new Error("Can't make a request");
     }
 
     const updatedMentor = await Mentors.findByIdAndUpdate(
@@ -324,7 +321,7 @@ mentorRouter.put(
     res.json({
       data: {
         followers: updatedMentor.followers,
-        followReqs : updatedMentor.pending
+        followReqs: updatedMentor.pending,
       },
     });
   })
@@ -334,37 +331,33 @@ mentorRouter.put(
 // @route DELETE  /api/mentors/accept-mentee/:id
 // @access private
 /**
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  */
 mentorRouter.delete(
   "/reject-mentee/:id",
   isAuthorisedMentor,
   expressAsyncHandler(async (req, res) => {
-  
     const { id } = req.params;
     const mentee = await Mentees.findById(id);
     const mentor = await Mentors.findById(req.mentor.id);
 
     const isInFolloReq = await Mentors.findOne({
       _id: mentor._id,
-      pending:{$in:mentee._id}
-    })
+      pending: { $in: mentee._id },
+    });
 
-    
-    if (!isInFolloReq)
-    {
-      res.status(403)
-      throw new Error("Can't reject a null follow request")
+    if (!isInFolloReq) {
+      res.status(403);
+      throw new Error("Can't reject a null follow request");
     }
 
     const updatedMentor = await Mentors.findByIdAndUpdate(
       { _id: mongoose.Types.ObjectId(req.mentor.id) },
       {
         $pull: { pending: mentee._id, followers: mentee._id },
-
       },
       { new: true }
     );
@@ -372,7 +365,7 @@ mentorRouter.delete(
     const updatedMentee = await Mentees.findByIdAndUpdate(
       { _id: mentee._id },
       {
-        $pull: { following: mentor._id},
+        $pull: { following: mentor._id },
       },
       { new: true }
     );
@@ -380,7 +373,7 @@ mentorRouter.delete(
     res.json({
       data: {
         followersReqs: updatedMentor.pending,
-        followers:updatedMentee.followers
+        followers: updatedMentee.followers,
       },
     });
   })
@@ -403,6 +396,7 @@ mentorRouter.get(
       throw new Error("No mentor found");
     }
     const followers = mentorWithID.followers;
+    const pending = mentorWithID.pending;
     const requests = await Mentees.aggregate([
       {
         $match: {
@@ -411,7 +405,7 @@ mentorRouter.get(
           },
         },
       },
-      { $project: { name: 1 ,profileImg:1} },
+      { $project: { name: 1, profileImg: 1 } },
     ]);
 
     if (req.mentor) {
@@ -419,7 +413,6 @@ mentorRouter.get(
         data: {
           mentor: mentorWithID,
           followers: requests,
- 
         },
       });
     } else if (req.mentee) {
@@ -429,10 +422,30 @@ mentorRouter.get(
             mentor: mentorWithID,
             followers: requests,
             following: true,
+            pending: false,
+          },
+        });
+      } else if (pending.includes(mongoose.Types.ObjectId(req.mentee._id))) {
+        const { _id, name, designation, about, tags, profileImg } =
+          mentorWithID;
+        res.json({
+          data: {
+            mentor: {
+              _id,
+              name,
+              designation,
+              about,
+              tags,
+              profileImg,
+            },
+            followersCount: followers.length,
+            following: true,
+            pending: true,
           },
         });
       } else {
-        const { _id, name, designation, about, tags ,profileImg} = mentorWithID;
+        const { _id, name, designation, about, tags, profileImg } =
+          mentorWithID;
         res.json({
           data: {
             mentor: {
@@ -445,6 +458,7 @@ mentorRouter.get(
             },
             followersCount: followers.length,
             following: false,
+            pending: false,
           },
         });
       }
@@ -465,7 +479,7 @@ mentorRouter.get(
       "name",
       "designation",
       "tags",
-      "profileImg"
+      "profileImg",
     ]);
     res.json({
       data: users,
