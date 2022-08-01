@@ -244,7 +244,7 @@ menteeRoute.get(
     const mentee = await Mentees.findById(req.mentee.id);
 
     const following = mentee.following;
-    const followings = await Mentors.aggregate([
+    let followings = await Mentors.aggregate([
       {
         $match: {
           _id: {
@@ -252,8 +252,25 @@ menteeRoute.get(
           },
         },
       },
-      { $project: { name: 1 } },
+      { $project: { name: 1, profileImg: 1 } },
     ]);
+    const pendingFollowing = (followingArray) => {
+      const promises = followingArray.map(async (mentor) => {
+        let pending = false;
+        let pendingReq = await Mentors.find({
+          _id: mentor._id,
+          followers: { $in: mentee._id },
+        });
+
+        if (pendingReq.length <= 0) pending = true;
+
+        return { ...mentor, pending };
+      });
+
+      return Promise.all(promises);
+    };
+followings = await pendingFollowing(followings);
+// console.log(followings)
 
     res.json({
       data: followings,
@@ -360,7 +377,7 @@ menteeRoute.post(
         res.json({
           data: {
             followingList: updatedMentee.following,
-            following:true
+            following: true,
           },
         });
       } catch (error) {
@@ -374,34 +391,33 @@ menteeRoute.post(
 menteeRoute.get(
   "/mentee/:id",
   isAuthorisedMenteeOrMentor,
-  expressAsyncHandler(async (req, res) =>
-  {
-    const menteeWithId = await Mentees.findById(req.params.id).select("-password")
+  expressAsyncHandler(async (req, res) => {
+    const menteeWithId = await Mentees.findById(req.params.id).select(
+      "-password"
+    );
 
-
-    if (!menteeWithId)
-    {
-      res.status(404)
-      throw new Error("Can't find a mentee")
+    if (!menteeWithId) {
+      res.status(404);
+      throw new Error("Can't find a mentee");
     }
 
-        const followings = menteeWithId.following;
+    const followings = menteeWithId.following;
 
-        const followingsList = await Mentors.aggregate([
-          {
-            $match: {
-              _id: {
-                $in: followings,
-              },
-            },
+    const followingsList = await Mentors.aggregate([
+      {
+        $match: {
+          _id: {
+            $in: followings,
           },
-          { $project: { name: 1, profileImg: 1 } },
-        ]);
-    
+        },
+      },
+      { $project: { name: 1, profileImg: 1 } },
+    ]);
+
     res.json({
       data: menteeWithId,
-      following : followingsList
-    })
+      following: followingsList,
+    });
   })
 );
 
