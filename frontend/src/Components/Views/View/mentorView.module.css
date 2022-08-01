@@ -94,10 +94,10 @@
     background-color: white;
 }
 
-.profileCard .follow {
+/* .profileCard .follow {
     color: white;
     background-color: #1266F1;
-}
+} */
 
 .profileCard button:hover {
     filter: brightness(0.95);

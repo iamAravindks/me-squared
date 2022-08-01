@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './reqcard.module.css';
 import { CloudinaryContext, Image } from 'cloudinary-react';
-import { MentorContext } from '../../context/mentorContext/Context';
+import { MentorContext } from '../../../context/mentorContext/Context';
 
 const ReqCard = ({ follower }) => {
   const mentorContext = useContext(MentorContext);

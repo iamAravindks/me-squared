@@ -13,10 +13,10 @@ import Login from "./Components/Login/Login";
 import SignupMentee from "./Components/Signup/SignupMentee";
 import Signupmentor from "./Components/Signup/Signupmentor";
 import PrivateRouteWrapper from "./Components/PrivateRoute";
-import Profile from "./Components/Profile/Profile";
+import Profile from "./Components/Views/Dashboard/Profile";
 import BrowseMentor from "./Components/BrowseMentor/BrowseMentor";
 import Loader from "./Components/Loader/Loader";
-import MentorView from "./Components/Profile/MentorView"
+import MentorView from "./Components/Views/View/MentorView"
 import Aos from "aos";
 
 
