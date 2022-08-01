@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import ReqCard from "../ReqCard";
 import { MenteeContext } from "../../../../context/menteeContext/MenteeContext";
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from "./menteeProfile.module.css";
@@ -11,12 +10,11 @@ const MentorProfile = () => {
   const { getProfileMentee, menteeState } =
     useContext(MenteeContext);
 
-  const { userMentee, followReqs } = menteeState;
-  console.log(followReqs);
+  const { userMentee, following } = menteeState;
   useEffect(() => {
     getProfileMentee();
   }, []);
-
+console.log(userMentee.following);
   const [tab, setTab] = useState({
     about: true,
     skills: false,
@@ -73,6 +71,7 @@ const MentorProfile = () => {
               </button>
               <button onClick={displaySkills}>Interests</button>
               <button onClick={displayConnect}>Connect</button>
+              <button onClick={displayFollowers}>My Mentors</button>
             </div>
             <div className={styles.profileCard}>
               <CloudinaryContext cloudName="dlgosw3g3">
@@ -151,6 +150,13 @@ const MentorProfile = () => {
                 </div>
               </div>
             )}
+            {followersTab &&<div className={`${styles.followContainer} ${styles.tabs}`}>
+                            { following.map(follower => <Link to={`/browsementor/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
+                            <div className={styles.followProfImg}>
+                                <Image publicId={follower.profileImg} width="50"  />
+                            </div>
+                        </CloudinaryContext> {follower.name}</h4></Link>)}
+                        </div>}
           </div>
         </div>
       </div>

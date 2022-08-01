@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import ReqCard from "../ReqCard";
-import { MentorContext } from "../../../../context/mentorContext/Context";
+import ReqCard from "../Dashboard/ReqCard";
+import { MenteeContext } from "../../../context/menteeContext/MenteeContext";
 import { CloudinaryContext, Image } from "cloudinary-react";
-import styles from "./mentorProfile.module.css";
+import styles from "./menteeView.module.css";
 import { v1 as uuid } from "uuid";
-import { stringAvatar } from "../../../../utils/utils";
+import { stringAvatar } from "../../../utils/utils";
 
-const MentorProfile = () => {
-  const { getFollowRequests, getProfileMentor, mentorsState } =
-    useContext(MentorContext);
+const MenteeView = () => {
+  const {userID} = useParams();
+console.log(userID);
+  const { getMenteeView, menteeState } =
+    useContext(MenteeContext);
 
-  const { userMentor, followReqs, followers } = mentorsState;
-  console.log(followReqs);
+  const { menteeData, following } = menteeState;
   useEffect(() => {
-    getProfileMentor();
-    getFollowRequests();
+    getMenteeView(userID);
   }, []);
-
+console.log(menteeData.following);
   const [tab, setTab] = useState({
     about: true,
     skills: false,
@@ -62,7 +62,7 @@ const MentorProfile = () => {
   };
 
   const { about, skills, connect, followersTab } = tab;
-  if (userMentor)
+  if (menteeData)
     return (
       <div className={styles.viewContainer}>
         <div className={styles.backgroundColor}></div>
@@ -72,81 +72,74 @@ const MentorProfile = () => {
               <button autoFocus onClick={displayAbout}>
                 About
               </button>
-              <button onClick={displaySkills}>Skills</button>
+              <button onClick={displaySkills}>Interests</button>
               <button onClick={displayConnect}>Connect</button>
-              <button onClick={displayFollowers}>Followers</button>
             </div>
             <div className={styles.profileCard}>
               <CloudinaryContext cloudName="dlgosw3g3">
                 <div className={styles.profImg}>
-                  <Image publicId={userMentor.profileImg} width="50" />
+                  <Image publicId={menteeData.profileImg} width="50" />
                 </div>
               </CloudinaryContext>
-              <h3>{userMentor.name}</h3>
-              <h4>{userMentor.designation}</h4>
-              <button className={styles.followersBtn} onClick={displayFollowers}>
-                <p>
-                  <i className="fa-solid fa-users"></i>{" "}
-                  {userMentor.followers && userMentor.followers.length !== 1
-                    ? `${userMentor.followers.length} Followers`
-                    : "1 Follower"}
-                </p>
-              </button>
+              <h3>{menteeData.name}</h3>
+              <h4>{menteeData.designation}</h4>
+              <p>
+              <i className="fa-solid fa-envelope" style={{marginRight:'5px'}}></i>
+                {menteeData.email}
+              </p>
             </div>
 
             {skills && (
               <div className={`${styles.skillsContainer} ${styles.tabs}`}>
-                {userMentor.tags.map((tag) => (
                   <h4
                     style={{
-                      borderColor: stringAvatar(tag),
-                      color: stringAvatar(tag),
+                      borderColor: stringAvatar(menteeData.skillLooksFor),
+                      color: stringAvatar(menteeData.skillLooksFor),
                     }}
                     key={uuid()}
                   >
-                    {tag}
+                    {menteeData.skillLooksFor}
                   </h4>
-                ))}
               </div>
             )}
             {about && (
               <div className={`${styles.aboutContainer} ${styles.tabs}`}>
-                <p>{userMentor.about}</p>
+                <p>{menteeData.about}</p>
               </div>
             )}
             {connect && (
               <div className={`${styles.connectContainer} ${styles.tabs}`}>
                 <div className={styles.connectTxt}>
                   <p>
-                    Studying in: {userMentor.yearNdClass} <br />
-                    {userMentor.name} {userMentor.respondIn}
+                    Studying in: {menteeData.yearNdClass} <br />
+                    {menteeData.name} {menteeData.respondIn}
                   </p>
                 </div>
 
                 <div className={styles.socialBtns}>
                   <a
-                    href={userMentor.socialLinks.facebook}
+                    href={menteeData.socialLinks.facebook}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <i className="fa-brands fa-facebook-f"></i>
                   </a>
                   <a
-                    href={userMentor.socialLinks.twitter}
+                    href={menteeData.socialLinks.twitter}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <i className="fa-brands fa-twitter"></i>
                   </a>
                   <a
-                    href={userMentor.socialLinks.github}
+                    href={menteeData.socialLinks.github}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <i className="fa-brands fa-github"></i>
                   </a>
                   <a
-                    href={userMentor.socialLinks.instagram}
+                    href={menteeData.socialLinks.instagram}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -154,41 +147,22 @@ const MentorProfile = () => {
                   </a>
                   <p>
                     <i className="fa-brands fa-whatsapp"></i>{" "}
-                    {userMentor.watNum}
+                    {menteeData.watNum}
                   </p>
                 </div>
               </div>
             )}
-            {followersTab && (
-              <div className={`${styles.followContainer} ${styles.tabs}`}>
-                {followers.map((follower) => (
-                  <Link
-                    to={`/mentees/${follower._id}`}
-                    style={{ textDecoration: "none", color: "black" }}
-                    key={uuid()}
-                  >
-                    <h4>
-                      <CloudinaryContext cloudName="dlgosw3g3">
-                        <div className={styles.followProfImg}>
-                          <Image publicId={follower.profileImg} width="50" />
-                        </div>
-                      </CloudinaryContext>{" "}
-                      {follower.name}
-                    </h4>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={styles.rightBox}>
-          <div className={styles.reqContainer}>
-            {followReqs.length > 0 &&
-              followReqs.map((follower) => <ReqCard follower={follower} />)}
+            {followersTab &&<div className={`${styles.followContainer} ${styles.tabs}`}>
+                            { following.map(follower => <Link to={`/browsementor/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
+                            <div className={styles.followProfImg}>
+                                <Image publicId={follower.profileImg} width="50"  />
+                            </div>
+                        </CloudinaryContext> {follower.name}</h4></Link>)}
+                        </div>}
           </div>
         </div>
       </div>
     );
 };
 
-export default MentorProfile;
+export default MenteeView;

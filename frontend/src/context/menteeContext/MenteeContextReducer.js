@@ -8,10 +8,15 @@ import {
   MENTEE_USER_PROFILE_SUCCESS,
   MENTEE_USER_REGISTER_FAIL,
   MENTEE_USER_REGISTER_SUCCESS,
+<<<<<<< HEAD
   MENTEE_USER_FOLLOW_SUCCESS,
   MENTEE_USER_FOLLOW_FAIL,
   MENTEE_USER_FOLLOWLIST_SUCCESS,
   MENTEE_USER_FOLLOWLIST_FAIL,
+=======
+  VIEW_MENTEE,
+  VIEW_MENTEE_FAIL,
+>>>>>>> different views
   REQUEST,
   SEARCH_MENTORS,
 } from "./menteeTypes";
@@ -54,11 +59,21 @@ export const menteeContextReducer = (state, action) => {
       newState = {
         ...state,
         loading: false,
-        userMentee: action.payload,
+        userMentee: action.payload.data,
+        following: action.payload.following,
       };
       return newState;
     
-    
+      case VIEW_MENTEE:
+        newState = {
+          ...state,
+          loading: false,
+          menteeData: action.payload,
+        };
+        return newState;
+        
+
+
     case MENTEE_USER_LOGOUT:
       return {
         ...state,
@@ -66,6 +81,7 @@ export const menteeContextReducer = (state, action) => {
         userMentee: null,
       };
 
+    case VIEW_MENTEE_FAIL:
     case MENTEE_USER_LOGIN_FAIL:
     case MENTEE_USER_REGISTER_FAIL:
     case MENTEE_USER_PROFILE_FAIL:
