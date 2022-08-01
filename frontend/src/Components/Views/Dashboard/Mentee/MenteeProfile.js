@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import ReqCard from "./ReqCard";
-import { MenteeContext } from "../../context/menteeContext/MenteeContext";
+import ReqCard from "../ReqCard";
+import { MenteeContext } from "../../../../context/menteeContext/MenteeContext";
 import { CloudinaryContext, Image } from "cloudinary-react";
-import styles from "./mentorProfile.module.css";
+import styles from "./menteeProfile.module.css";
 import { v1 as uuid } from "uuid";
-import { stringAvatar } from "../../utils/utils";
+import { stringAvatar } from "../../../../utils/utils";
 
 const MentorProfile = () => {
   const { getProfileMentee, menteeState } =

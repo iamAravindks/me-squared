@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { MentorContext } from '../../context/mentorContext/Context'
-import { MenteeContext } from '../../context/menteeContext/MenteeContext';
+import { MentorContext } from '../../../context/mentorContext/Context'
+import { MenteeContext } from '../../../context/menteeContext/MenteeContext';
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from './mentorView.module.css'
 import { v1 as uuid } from 'uuid'
-import {stringAvatar } from '../../utils/utils';
-import { ErrorContext } from '../../context/errorContext/errorContext';
-import Alert from '../Alert/Alert'
+import {stringAvatar } from '../../../utils/utils';
+import { ErrorContext } from '../../../context/errorContext/errorContext';
+import Alert from '../../Alert/Alert'
 const MentorView = () => {
     const { userID } = useParams()
     const { mentorsState, getMentor } = useContext(MentorContext)

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect } from 'react'
-import { MentorContext } from "../../context/mentorContext/Context"
-import { MenteeContext } from "../../context/menteeContext/MenteeContext"
-import MentorProfile from './MentorProfile'
-import MenteeProfile from './MenteeProfile'
+import { MentorContext } from "../../../context/mentorContext/Context"
+import { MenteeContext } from "../../../context/menteeContext/MenteeContext"
+import MentorProfile from './Mentor/MentorProfile'
+import MenteeProfile from './Mentee/MenteeProfile'
 import styles from './profile.module.css'
 const Profile = () => {
 
