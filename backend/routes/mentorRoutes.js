@@ -413,6 +413,8 @@ mentorRouter.get(
         data: {
           mentor: mentorWithID,
           followers: requests,
+          following: true, //added changes
+          pending: false,//added changes
         },
       });
     } else if (req.mentee) {
