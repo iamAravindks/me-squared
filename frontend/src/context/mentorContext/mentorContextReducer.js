@@ -65,7 +65,8 @@ const mentorContextReducer = (state, action) => {
       newState = {
         ...state,
         loading: false,
-        userMentor: action.payload,
+        userMentor: action.payload.mentor,
+        followers: action.payload.followers,
       };
       return newState;
 

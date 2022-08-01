@@ -12,6 +12,10 @@
   left: 0%;
 }
 
+.tabsContainer {
+  display: flex;
+}
+
 .menuBar {
   position: absolute;
   z-index: 5;
@@ -120,13 +124,8 @@
   object-fit: cover;
 }
 
-.aboutContainer {
-  margin-left: 300px;
-  position: relative;
-  z-index: 10;
-}
-
-.skillsContainer {
+.tabs {
+  width: 50rem;
   margin-left: 300px;
   margin-top: 150px;
   position: relative;
@@ -136,6 +135,10 @@
   flex-wrap: wrap;
 }
 
+.connectContainer {
+  gap: 20px;
+  flex-direction: column;
+}
 .skillsContainer h4 {
   border:solid #1266F1;
   color: #1266F1;
@@ -145,12 +148,6 @@
   min-width: 100px;
   margin: 10px;
   font-weight: 500;
-}
-
-.connectContainer {
-  margin-left: 300px;
-  position: relative;
-  z-index: 10;
 }
 
 .connectContainer a {
@@ -217,7 +214,13 @@
   object-fit: cover;
 }
 
+
+.rightBox {
+  position: relative;
+  z-index: 100;
+}
 .reqContainer {
+  margin-left: 10rem;
   padding-top: 10rem;
   display: flex;
   flex-direction: column;

@@ -10,6 +10,8 @@ import {
   MENTEE_USER_LOGOUT_FAIL,
   MENTEE_USER_REGISTER_FAIL,
   MENTEE_USER_REGISTER_SUCCESS,
+  MENTEE_USER_PROFILE_SUCCESS,
+  MENTEE_USER_PROFILE_FAIL,
   REQUEST,
 } from "./menteeTypes";
 
@@ -120,7 +122,30 @@ const Provider = ({ children }) => {
     };
   
   
-  
+  //profile Mentee
+  const getProfileMentee = async () => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      const { data } = await axios.get("/api/mentees/profile", config);
+      console.log(data);
+      dispatch({
+        type: MENTEE_USER_PROFILE_SUCCESS,
+        payload: data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: MENTEE_USER_PROFILE_FAIL,
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      console.log(err);
+      setError(err);
+    }
+  };
   
   
   //log out mentee
@@ -158,6 +183,7 @@ const Provider = ({ children }) => {
         menteeLogin,
         logoutMentee,
         menteeRegister,
+        getProfileMentee,
       }}
     >
       {children}
