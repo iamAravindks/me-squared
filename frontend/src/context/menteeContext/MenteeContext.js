@@ -12,6 +12,8 @@ import {
   MENTEE_USER_REGISTER_SUCCESS,
   MENTEE_USER_PROFILE_SUCCESS,
   MENTEE_USER_PROFILE_FAIL,
+  MENTEE_USER_FOLLOW_SUCCESS,
+  MENTEE_USER_FOLLOW_FAIL,
   REQUEST,
 } from "./menteeTypes";
 
@@ -120,6 +122,29 @@ const Provider = ({ children }) => {
         setError(err);
       }
     };
+
+    //follow a mentor
+    const followMentor = async (_id) => {
+      try {
+        dispatch({ type: REQUEST });
+        const { data } = await axios.post(`/api/mentees/follow-mentor/${_id}`, config)
+        console.log(data.data)
+        dispatch({
+          type: MENTEE_USER_FOLLOW_SUCCESS,
+          payload: data.data,
+        });
+      } catch(error) {
+        dispatch({
+          type: MENTEE_USER_FOLLOW_FAIL,
+        });
+        const err =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        console.log(err);
+        setError(err);
+      }
+    }
   
   
   //profile Mentee
@@ -184,6 +209,7 @@ const Provider = ({ children }) => {
         logoutMentee,
         menteeRegister,
         getProfileMentee,
+        followMentor,
       }}
     >
       {children}

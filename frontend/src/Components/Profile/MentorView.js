@@ -1,19 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { MentorContext } from '../../context/mentorContext/Context'
+import { MenteeContext } from '../../context/menteeContext/MenteeContext';
 import { CloudinaryContext, Image } from "cloudinary-react";
 import styles from './mentorView.module.css'
 import { v1 as uuid } from 'uuid'
 import {stringAvatar } from '../../utils/utils';
+import { ErrorContext } from '../../context/errorContext/errorContext';
+import Alert from '../Alert/Alert'
 const MentorView = () => {
     const { userID } = useParams()
     const { mentorsState, getMentor } = useContext(MentorContext)
+    const {error} = useContext(ErrorContext)
     const { mentorData } = mentorsState
     const { mentor } = mentorData
+    const { menteeState, followMentor } = useContext(MenteeContext)
+    const { userMentee  } = menteeState
+    console.log(userMentee)
     useEffect(() => {
         getMentor(userID)
+        
     },[])
-    
+    const [buttonStyle, setButtonStyle] = useState({
+        txtColor: "white",
+        bgColor: "#1266F1"
+    })
+
     const [tab,setTab]=useState({
         about:true,
         skills:false,
@@ -57,10 +69,22 @@ const MentorView = () => {
         })
     }
 
+    const followStatus =(e) => {
+        e.preventDefault()
+        followMentor(userID)
+        setButtonStyle({
+            txtColor: "black",
+            bgColor: "white"
+        })
+    }
+
+
+    const { txtColor, bgColor } = buttonStyle
     const { about, skills, connect, followersTab } = tab
     if(mentor)
     return (
         <div className={styles.viewContainer}>
+            {error && <Alert severity={"error"} message={error}/>}
             <div className={styles.backgroundColor}></div>
             { mentorData && mentorData.following ?
                 <>
@@ -79,7 +103,7 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followers.length !== 1 ? `${mentorData.followers.length} Followers` :  '1 Follower'}</p>
-                        <button className={styles.following}>Following</button>
+                        {userMentee != null && <button className={styles.following}>Following</button>}
                     </div>
                         <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
@@ -119,7 +143,7 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followersCount !== 1 ? `${mentorData.followersCount} Followers` :  '1 Follower'}</p>
-                        <button className={styles.follow}>Follow</button>
+                        <button onClick={followStatus} style={{ color: txtColor, backgroundColor: bgColor }}>{menteeState.mentor.following ? "Following" : "Follow"}</button>
                     </div>
                         <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>

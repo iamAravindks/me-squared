@@ -8,6 +8,10 @@ import {
   MENTEE_USER_PROFILE_SUCCESS,
   MENTEE_USER_REGISTER_FAIL,
   MENTEE_USER_REGISTER_SUCCESS,
+  MENTEE_USER_FOLLOW_SUCCESS,
+  MENTEE_USER_FOLLOW_FAIL,
+  MENTEE_USER_FOLLOWLIST_SUCCESS,
+  MENTEE_USER_FOLLOWLIST_FAIL,
   REQUEST,
   SEARCH_MENTORS,
 } from "./menteeTypes";
@@ -73,6 +77,35 @@ export const menteeContextReducer = (state, action) => {
 
     case MENTEE_USER_LOGOUT_FAIL:
       return state;
+
+    case MENTEE_USER_FOLLOW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mentor:{
+          ...state.mentor,
+          following:action.payload.following
+        }
+      }
+    
+    case MENTEE_USER_FOLLOW_FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    // case MENTEE_USER_FOLLOWLIST_SUCCESS:
+    //   return {
+    //     ...state,
+    //     loading: false
+    //   }
+
+    // case MENTEE_USER_FOLLOWLIST_FAIL:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //   };
+
     default:
       return state;
   }
