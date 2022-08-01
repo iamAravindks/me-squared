@@ -83,7 +83,7 @@ menteeRoute.get(
 
     const followings = menteeWithId.following;
 
-    const followingsList = await Mentors.aggregate([
+    let followingsList = await Mentors.aggregate([
       {
         $match: {
           _id: {
@@ -93,6 +93,24 @@ menteeRoute.get(
       },
       { $project: { name: 1, profileImg: 1 } },
     ]);
+
+ const pendingFollowing = (followingArray) => {
+          const promises = followingArray.map(async (mentor) => {
+            let pending = false;
+            let pendingReq = await Mentors.find({
+              _id: mentor._id,
+              followers: { $in: req.mentee.id },
+            });
+
+            if (pendingReq.length <= 0) pending = true;
+
+            return { ...mentor, pending };
+          });
+
+          return Promise.all(promises);
+ };
+    
+    followingsList = await pendingFollowing(followingsList);
 
     res.json({
       data: menteeWithId,
