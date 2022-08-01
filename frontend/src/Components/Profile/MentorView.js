@@ -14,13 +14,14 @@ const MentorView = () => {
     const {error} = useContext(ErrorContext)
     const { mentorData } = mentorsState
     const { mentor } = mentorData
-    const { menteeState, followMentor } = useContext(MenteeContext)
+    const { menteeState, followMentor, getProfileMentee } = useContext(MenteeContext)
     const { userMentee  } = menteeState
     console.log(userMentee)
     useEffect(() => {
         getMentor(userID)
-        
+        getProfileMentee()
     },[])
+    let isFollowing = userMentee.following?.includes(userID)
     const [buttonStyle, setButtonStyle] = useState({
         txtColor: "white",
         bgColor: "#1266F1"
@@ -72,6 +73,8 @@ const MentorView = () => {
     const followStatus =(e) => {
         e.preventDefault()
         followMentor(userID)
+        isFollowing = true
+        // console.log(isFollowing)
         setButtonStyle({
             txtColor: "black",
             bgColor: "white"
@@ -81,6 +84,7 @@ const MentorView = () => {
 
     const { txtColor, bgColor } = buttonStyle
     const { about, skills, connect, followersTab } = tab
+    // console.log(userMentee.following)
     if(mentor)
     return (
         <div className={styles.viewContainer}>
@@ -143,7 +147,7 @@ const MentorView = () => {
                         <h3>{mentor.name}</h3>
                         <h4>{mentor.designation}</h4>
                         <p><i className="fa-solid fa-users"></i> {mentorData.followersCount !== 1 ? `${mentorData.followersCount} Followers` :  '1 Follower'}</p>
-                        <button onClick={followStatus} style={{ color: txtColor, backgroundColor: bgColor }}>{menteeState.mentor.following ? "Following" : "Follow"}</button>
+                        <button onClick={followStatus} style={{ color: txtColor, backgroundColor: bgColor }}>{userMentee.following?.includes(userID) ? "Following" : "Follow"}</button>
                     </div>
                         <div className={styles.skillsContainer}>{skills && mentor.tags.map(tag => <h4 style={{ borderColor: stringAvatar(tag), color: stringAvatar(tag)}} key={uuid()}>{tag}</h4>)}</div>
                         <div className={styles.aboutContainer}>
