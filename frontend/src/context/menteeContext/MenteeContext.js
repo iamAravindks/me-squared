@@ -128,11 +128,11 @@ const Provider = ({ children }) => {
       try {
         dispatch({ type: REQUEST });
         const { data } = await axios.post(`/api/mentees/follow-mentor/${_id}`, config)
-        console.log(data.data)
         dispatch({
           type: MENTEE_USER_FOLLOW_SUCCESS,
           payload: data.data,
         });
+        console.log(data)
       } catch(error) {
         dispatch({
           type: MENTEE_USER_FOLLOW_FAIL,

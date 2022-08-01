@@ -36,13 +36,11 @@ const mentorContextReducer = (state, action) => {
       return newState;
 
     case SEARCH_MENTOR:
-      console.log(action.payload)
       newState = {
         ...state,
         loading: false,
         mentorData: action.payload,
       };
-      console.log(newState)
       return newState;
 
     case CLEAR_MENTORS:
