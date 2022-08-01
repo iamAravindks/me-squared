@@ -25,7 +25,7 @@ const ReqCard = ({ follower }) => {
                 <Image publicId={follower.profileImg} width="50" />
               </div>
             </CloudinaryContext>
-            <p>{follower.name}</p>
+            <div className={styles.flwrName}><p>{follower.name}</p></div>
           </div>
         </Link>
         <div className={styles.actionArea}>
