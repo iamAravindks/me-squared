@@ -11,6 +11,7 @@
   background: transparent;
   z-index: 10000;
   transition: all 200ms ease-in;
+background-color: rgba(103, 128, 177, 0.25); 
 }
 .topBarContainer.setNavbar {
   height: 85px;

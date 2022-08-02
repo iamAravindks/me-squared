@@ -38,9 +38,9 @@ or
 
 ### mvp
 - [x] login/sign up for both mentor and mentee
-- [ ] mentor/mentee profile page for him/her self
+- [x] mentor/mentee profile page for him/her self
 - [x] mentee can search the mentors on the basis of tags
-- [ ]  mentor can view the follow requests/followers
-- [ ] mentor can accept or reject requests
-- [ ] mentee can view the profile iff mentor accept his follow request
+- [x]  mentor can view the follow requests/followers
+- [x] mentor can accept or reject requests
+- [x] mentee can view the profile iff mentor accept his follow request
 - [ ] mentee can chat on whatsapp iff mentee is a follower of mentor

@@ -29,11 +29,8 @@ const Hero = () => {
       </h1>
       <p>
         {" "}
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis
-        dolor magnam quos commodi officiis laudantium! Laborum eveniet deleniti
-        incidunt corporis, officia neque, perspiciatis et quaerat, modi aut
-        libero doloremque enim ratione alias molestias ex blanditiis nobis sed
-        nesciunt iure! Nisi.
+        If you are looking for a mentor, and you're just not sure about how this works out - this should be !!<br />
+        It's easy and we mean it. Search, choose, click, request and you're in! 
       </p>
       <SearchBar />
       <Categories />

@@ -8,5 +8,7 @@
 
 body{
   overflow-x: hidden;
-  background: linear-gradient(90deg, rgba(232,250,251,1) 0%, rgba(100,180,255,1) 0%); 
+  /* background: linear-gradient(90deg, rgba(232,250,251,1) 0%, rgba(100,180,255,1) 0%);  */
+   background: rgb(63,125,251);
+background: linear-gradient(90deg, rgba(63,125,251,1) 0%, rgba(70,127,252,0.7917367630646008) 100%); 
 }
