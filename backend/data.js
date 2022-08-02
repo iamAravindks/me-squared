@@ -3,8 +3,7 @@ import bcrypt from "bcryptjs";
 const mentors = [
   {
     name: "sumit kapoor",
-    designation:
-      "Senior Member of Technical Staff @ Oracle Cloud Infrastructure",
+    designation: "frontend intern at frappe",
     yearNdClass: "3rd year cse",
     respondIn: "Usually responds in half a day ",
     about: `Sumit Kapoor is currently working as a Member of Technical Staff(IC-2) at Oracle Cloud where his day-to-day responsibilities are to work as a full-stack developer in oracle cloud. He has over 4 plus years of experience where he has worked on building products from scratch and has seen them scale from 1 user to a million users.
@@ -34,7 +33,7 @@ Currently helping mentees in react and nodejs express framework and helping them
   },
   {
     name: "jane doe",
-    designation: "senior architect @Google.inc",
+    designation: "community manager @xyz",
     yearNdClass: "3rd year cse",
     respondIn: "Usually responds in half a day ",
     about: `Jane doe is currently working as a senior architect @Google.inc .She helps peoples to direct into a better carrer in architect.
@@ -54,7 +53,7 @@ Currently helping mentees in react and nodejs express framework and helping them
   },
   {
     name: "John Doe",
-    designation: "SDA 3 @amazon.in",
+    designation: "SDE intern @amazon.in",
     yearNdClass: "3rd year cse",
     respondIn: "Usually responds in half a day ",
     about: `John Doe is currently working as SDA 3 @amazon.in where his day-to-day responsibilities are to work as a full-stack developer in oracle cloud. He has over 4 plus years of experience where he has worked on building products from scratch and has seen them scale from 1 user to a million users.
@@ -84,7 +83,7 @@ Currently helping mentees in react and nodejs express framework and helping them
   },
   {
     name: "Keerthi malik",
-    designation: "Senior cloud enginner @Google Cloud Infrastructure",
+    designation: "cloud engineer intern at deloitte",
     yearNdClass: "3rd year cse",
 
     respondIn: "Usually responds in half a day ",
