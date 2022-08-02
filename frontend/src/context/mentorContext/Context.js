@@ -86,7 +86,6 @@ const Provider = ({ children }) => {
         type: SEARCH_MENTOR,
         payload: data.data,
       });
-      console.log(data.data)
     } catch (error)
     {
       dispatch({
@@ -248,7 +247,6 @@ const Provider = ({ children }) => {
         type: REQUEST,
       });
       const {data} = await axios.put(`/api/mentors/accept-mentee/${_id}`, config);
-      console.log(data);
       dispatch({
         type: MENTOR_ACCEPT_FOLLOW_REQUEST,
         payload: data.data,
@@ -271,7 +269,6 @@ const Provider = ({ children }) => {
         type: REQUEST,
       });
       const {data} = await axios.delete(`/api/mentors/reject-mentee/${_id}`, config);
-      console.log(data);
       dispatch({
         type: MENTOR_REJECT_FOLLOW_REQUEST,
         payload: data.data,

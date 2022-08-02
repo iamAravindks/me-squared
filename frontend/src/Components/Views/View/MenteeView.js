@@ -9,7 +9,6 @@ import { stringAvatar } from "../../../utils/utils";
 
 const MenteeView = () => {
   const {userID} = useParams();
-console.log(userID);
   const { getMenteeView, menteeState } =
     useContext(MenteeContext);
 

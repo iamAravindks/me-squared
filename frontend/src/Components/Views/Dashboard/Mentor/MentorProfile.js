@@ -12,7 +12,6 @@ const MentorProfile = () => {
     useContext(MentorContext);
 
   const { userMentor, followReqs, followers } = mentorsState;
-  console.log(followReqs);
   useEffect(() => {
     getProfileMentor();
     getFollowRequests();

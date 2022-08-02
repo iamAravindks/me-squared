@@ -36,7 +36,6 @@ const MentorView = () => {
             text: "Follow"
         })
     },[mentorData.pending])
-    console.log(mentorData)
     
     // let isFollowing = userMentee.following?.includes(userID)
     // const isFollowMentor = (id) => userMentee?.following?.includes(id)
@@ -139,7 +138,7 @@ const MentorView = () => {
                             </div>
                         }
                         <div className={styles.followContainer}>
-                            {followersTab && mentorData.followers.map(follower => <Link to={`/browsementor/${userID}/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
+                            {followersTab && mentorData.followers.map(follower => <Link to={`/mentees/${follower._id}`} style={{ textDecoration: "none", color: "black" }} key={uuid()}><h4><CloudinaryContext cloudName="dlgosw3g3">
                             <div className={styles.followProfImg}>
                                 <Image publicId={follower.profileImg} width="50"  />
                             </div>
