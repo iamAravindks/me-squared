@@ -15,6 +15,7 @@ import Signupmentor from "./Components/Signup/Signupmentor";
 import PrivateRouteWrapper from "./Components/PrivateRoute";
 import Profile from "./Components/Views/Dashboard/Profile";
 import BrowseMentor from "./Components/BrowseMentor/BrowseMentor";
+import MenteeView from "./Components/Views/View/MenteeView";
 import Loader from "./Components/Loader/Loader";
 import MentorView from "./Components/Views/View/MentorView"
 import Aos from "aos";
@@ -49,6 +50,7 @@ const App = () =>
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/browsementor" element={<BrowseMentor />} />
               <Route path="/browsementor/:userID" element={<MentorView />} />
+              <Route path="/mentees/:userID" element={<MenteeView />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
